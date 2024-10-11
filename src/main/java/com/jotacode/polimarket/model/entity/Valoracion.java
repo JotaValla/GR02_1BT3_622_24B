@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Valoracion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id_Valoracion")
     private Long idvaloracion;
     private Integer estrellas;
     private String comentario;
@@ -21,5 +21,9 @@ public class Valoracion {
     @ManyToOne(targetEntity = Anuncio.class, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "anuncio_id")
     private Anuncio anuncio;
+
+    @ManyToOne(targetEntity = Usuario.class, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 }

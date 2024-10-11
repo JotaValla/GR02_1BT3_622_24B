@@ -1,4 +1,4 @@
-package com.jotacode.polimarket.dao;
+package com.jotacode.polimarket.model.dao;
 
 import com.jotacode.polimarket.model.entity.Usuario;
 import jakarta.persistence.EntityManager;
@@ -10,10 +10,6 @@ import java.util.List;
 public class UsuarioDAO {
 
     private EntityManagerFactory emf;
-
-    public UsuarioDAO(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
 
     public UsuarioDAO() {
         emf = Persistence.createEntityManagerFactory("PolimarketPU");

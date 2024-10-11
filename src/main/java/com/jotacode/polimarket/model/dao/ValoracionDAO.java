@@ -1,4 +1,4 @@
-package com.jotacode.polimarket.dao;
+package com.jotacode.polimarket.model.dao;
 
 import com.jotacode.polimarket.model.entity.Valoracion;
 import jakarta.persistence.EntityManager;
@@ -11,9 +11,7 @@ public class ValoracionDAO {
 
     private EntityManagerFactory emf;
 
-    public ValoracionDAO(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+
 
     public ValoracionDAO() {
         this.emf = Persistence.createEntityManagerFactory("PolimarketPU");

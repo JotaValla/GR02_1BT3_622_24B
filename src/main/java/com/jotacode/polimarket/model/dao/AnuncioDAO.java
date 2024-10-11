@@ -1,4 +1,4 @@
-package com.jotacode.polimarket.dao;
+package com.jotacode.polimarket.model.dao;
 
 
 import com.jotacode.polimarket.model.entity.Anuncio;
@@ -6,15 +6,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+
 import java.util.List;
 
 public class AnuncioDAO {
 
     private EntityManagerFactory emf;
 
-    public AnuncioDAO(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+
 
     public AnuncioDAO() {
         this.emf = Persistence.createEntityManagerFactory("PolimarketPU");
@@ -32,8 +31,14 @@ public class AnuncioDAO {
     //Obtener la lista de anuncios
     public List<Anuncio> getAnuncios() {
         EntityManager em = emf.createEntityManager();
-        List<Anuncio> anuncios = em.createQuery("SELECT a FROM Anuncio a", Anuncio.class).getResultList();
-        em.close();
+        List<Anuncio> anuncios = null;
+        try {
+            em.getTransaction().begin();
+            anuncios = em.createQuery("FROM Anuncio a JOIN FETCH a.usuario", Anuncio.class).getResultList();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
         return anuncios;
     }
 

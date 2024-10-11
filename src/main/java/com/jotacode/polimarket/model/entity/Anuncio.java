@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "Anuncio")
 @Data
@@ -15,16 +17,12 @@ public class Anuncio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id_Anuncio")
     private Long idAnuncio;
     private String titulo;
     private String descripcion;
     private String imagen;
-    private String precio;
-
-    @ManyToOne(targetEntity = Categoria.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    private BigDecimal precio;
 
     @ManyToOne(targetEntity = Usuario.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")

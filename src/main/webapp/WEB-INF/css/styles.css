@@ -1,0 +1,132 @@
+/* styles.css */
+
+/* Variables de color */
+:root {
+    --primary-color: #007bff; /* Azul */
+    --secondary-color: #dc3545; /* Rojo */
+    --background-color: #ffffff; /* Blanco */
+    --text-color: #333333;
+    --header-background: var(--primary-color);
+    --header-text: var(--background-color);
+    --button-primary: var(--primary-color);
+    --button-secondary: var(--secondary-color);
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Encabezado */
+header {
+    background-color: var(--header-background);
+    color: var(--header-text);
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Contenedor principal */
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Formularios */
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+form input[type="submit"],
+form button {
+    background-color: var(--button-primary);
+    color: var(--background-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover,
+form button:hover {
+
+}
+
+/* Listados de anuncios */
+.anuncio {
+    border: 1px solid #dddddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fdfdfd;
+}
+
+.anuncio h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.anuncio p {
+    margin: 5px 0;
+}
+
+.anuncio a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.anuncio a:hover {
+    text-decoration: underline;
+}
+
+/* Botones secundarios */
+.btn-secondary {
+    background-color: var(--button-secondary);
+    color: var(--background-color);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+
+}
+
+/* Mensajes de error */
+.error {
+    color: var(--secondary-color);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
