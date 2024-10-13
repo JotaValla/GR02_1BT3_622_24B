@@ -2,8 +2,10 @@ package com.jotacode.polimarket.controllers;
 
 import com.jotacode.polimarket.model.dao.AnuncioDAO;
 import com.jotacode.polimarket.model.dao.UsuarioDAO;
+import com.jotacode.polimarket.model.dao.ValoracionDAO;
 import com.jotacode.polimarket.model.entity.Anuncio;
 import com.jotacode.polimarket.model.entity.Usuario;
+import com.jotacode.polimarket.model.entity.Valoracion;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,31 +13,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.List;
 
-@WebServlet("/publicarAnuncio")
-public class PublicarAnuncioServlet extends HttpServlet {
+@WebServlet("/publicarValoracion")
+public class PublicarValoracionServlet extends HttpServlet {
+    private ValoracionDAO valoracionDAO;
     private AnuncioDAO anuncioDAO;
     private UsuarioDAO usuarioDAO;
 
     @Override
     public void init() {
+        valoracionDAO = new ValoracionDAO();
         anuncioDAO = new AnuncioDAO();
         usuarioDAO = new UsuarioDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
+        List<Anuncio> anuncios = anuncioDAO.findAnuncioEntities();
+        request.setAttribute("anuncios", anuncios);
+        request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String titulo = request.getParameter("titulo");
-        String descripcion = request.getParameter("descripcion");
-        String imagen = request.getParameter("imagen");
-        String categoria = request.getParameter("categoria");
-        BigDecimal precio = new BigDecimal(request.getParameter("precio"));
+        Integer estrellas = Integer.parseInt(request.getParameter("estrellas"));
+        String comentario = request.getParameter("comentario");
+        Long anuncioId = Long.parseLong(request.getParameter("anuncioId"));
 
         // Usuario information
         String username = request.getParameter("username");
@@ -50,15 +54,15 @@ public class PublicarAnuncioServlet extends HttpServlet {
         usuario.setEmail(email);
         usuarioDAO.create(usuario);
 
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(titulo);
-        anuncio.setDescripcion(descripcion);
-        anuncio.setImagen(imagen);
-        anuncio.setPrecio(precio);
-        anuncio.setCategoria(categoria);
-        anuncio.setUsuAnuncio(usuario);
+        Anuncio anuncio = anuncioDAO.findAnuncio(anuncioId);
 
-        anuncioDAO.create(anuncio);
+        Valoracion valoracion = new Valoracion();
+        valoracion.setEstrellas(estrellas);
+        valoracion.setComentario(comentario);
+        valoracion.setAnun(anuncio);
+        valoracion.setUsuValoracion(usuario);
+
+        valoracionDAO.create(valoracion);
 
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }

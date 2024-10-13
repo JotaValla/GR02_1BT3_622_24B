@@ -1,41 +1,42 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: djimm
-  Date: 10/10/2024
-  Time: 20:58
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="com.jotacode.polimarket.model.entity.Anuncio" %>
+<%@page import="java.util.List" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Anuncios Disponibles</title>
+        <title>Ver Anuncios</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+
     </head>
     <body>
-        <header>
-            <h1>Anuncios Disponibles</h1>
-        </header>
         <div class="container">
-            <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary">Publicar Nuevo Anuncio</a>
-            <a href="${pageContext.request.contextPath}/filtrarAnuncios" class="btn-secondary">Filtrar Anuncios</a>
-            <br><br>
-            <c:if test="${empty anuncios}">
-                <p>No hay anuncios disponibles.</p>
-            </c:if>
-            <c:if test="${not empty anuncios}">
-                <c:forEach var="anuncio" items="${anuncios}">
-                    <div class="anuncio">
-                        <h2>${anuncio.titulo}</h2>
-                        <p>${anuncio.descripcion}</p>
-                        <p>Precio: $${anuncio.precio}</p>
-                        <p>Publicado por: ${anuncio.usuario.username} (${anuncio.usuario.email})</p>
-                        <a href="${pageContext.request.contextPath}/verAnuncio?id=${anuncio.idAnuncio}">Ver Detalles</a>
-                    </div>
-                </c:forEach>
-            </c:if>
+            <h1>Anuncios</h1>
+            <%
+                List<Anuncio> anuncios = (List<Anuncio>) request.getAttribute("anuncios");
+                if (anuncios != null && !anuncios.isEmpty()) {
+                    for (Anuncio anuncio : anuncios) {
+            %>
+            <div class="anuncio">
+                <h2><%=anuncio.getTitulo()%>
+                </h2>
+                <img src="<%=anuncio.getImagen()%>" alt="<%=anuncio.getTitulo()%>">
+                <p><%=anuncio.getDescripcion()%>
+                </p>
+                <p>Precio: $<%=anuncio.getPrecio()%>
+                </p>
+                <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%>
+                </p>
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <p>No hay anuncios disponibles.</p>
+            <%
+                }
+            %>
+            <br>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
         </div>
     </body>
 </html>
-

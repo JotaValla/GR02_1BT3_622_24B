@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <title>Polimarket - Inicio</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+
     </head>
     <body>
         <header>

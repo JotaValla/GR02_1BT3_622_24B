@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/verAnuncios")
-public class VerAnunciosServlet extends HttpServlet {
+@WebServlet("/filtrarAnuncios")
+public class FiltrarAnunciosServlet extends HttpServlet {
     private AnuncioDAO anuncioDAO;
 
     @Override
@@ -22,8 +22,19 @@ public class VerAnunciosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Anuncio> anuncios = anuncioDAO.findAnuncioEntities();
-        request.setAttribute("anuncios", anuncios);
+        request.getRequestDispatcher("/WEB-INF/views/filtrarAnuncios.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String categoria = request.getParameter("categoria");
+        if (categoria == null || categoria.trim().isEmpty()) {
+            categoria = "todos"; // Valor por defecto si no se proporciona ninguna categoría
+        }
+
+        List<Anuncio> anunciosFiltrados = anuncioDAO.findAnunciosByCategoria(categoria);
+
+        request.setAttribute("anuncios", anunciosFiltrados);
         request.getRequestDispatcher("/WEB-INF/views/verAnuncios.jsp").forward(request, response);
     }
 }
