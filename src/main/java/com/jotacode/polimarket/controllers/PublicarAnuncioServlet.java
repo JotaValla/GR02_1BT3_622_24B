@@ -20,8 +20,8 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
     @Override
     public void init() {
-        anuncioDAO = new AnuncioDAO();
-        usuarioDAO = new UsuarioDAO();
+        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
+        usuarioDAO = new UsuarioDAO(null, Usuario.class);
     }
 
     @Override

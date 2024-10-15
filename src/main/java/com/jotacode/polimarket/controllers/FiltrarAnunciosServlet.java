@@ -17,7 +17,7 @@ public class FiltrarAnunciosServlet extends HttpServlet {
 
     @Override
     public void init() {
-        anuncioDAO = new AnuncioDAO();
+        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
     }
 
     @Override

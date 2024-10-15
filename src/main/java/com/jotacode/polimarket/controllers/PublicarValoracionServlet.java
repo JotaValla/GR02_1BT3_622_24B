@@ -23,14 +23,14 @@ public class PublicarValoracionServlet extends HttpServlet {
 
     @Override
     public void init() {
-        valoracionDAO = new ValoracionDAO();
-        anuncioDAO = new AnuncioDAO();
-        usuarioDAO = new UsuarioDAO();
+        valoracionDAO = new ValoracionDAO(null, Valoracion.class);
+        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
+        usuarioDAO = new UsuarioDAO(null, Usuario.class);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Anuncio> anuncios = anuncioDAO.findAnuncioEntities();
+        List<Anuncio> anuncios = anuncioDAO.findAll();
         request.setAttribute("anuncios", anuncios);
         request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
@@ -54,7 +54,7 @@ public class PublicarValoracionServlet extends HttpServlet {
         usuario.setEmail(email);
         usuarioDAO.create(usuario);
 
-        Anuncio anuncio = anuncioDAO.findAnuncio(anuncioId);
+        Anuncio anuncio = anuncioDAO.find(anuncioId);
 
         Valoracion valoracion = new Valoracion();
         valoracion.setEstrellas(estrellas);

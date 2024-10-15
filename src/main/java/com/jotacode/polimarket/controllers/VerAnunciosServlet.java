@@ -17,12 +17,12 @@ public class VerAnunciosServlet extends HttpServlet {
 
     @Override
     public void init() {
-        anuncioDAO = new AnuncioDAO();
+        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Anuncio> anuncios = anuncioDAO.findAnuncioEntities();
+        List<Anuncio> anuncios = anuncioDAO.findAll();
         request.setAttribute("anuncios", anuncios);
         request.getRequestDispatcher("/WEB-INF/views/verAnuncios.jsp").forward(request, response);
     }
