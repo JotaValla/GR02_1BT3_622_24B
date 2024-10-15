@@ -31,13 +31,16 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String titulo = request.getParameter("titulo");
-        String descripcion = request.getParameter("descripcion");
-        String imagen = request.getParameter("imagen");
-        String categoria = request.getParameter("categoria");
-        BigDecimal precio = new BigDecimal(request.getParameter("precio"));
+        Usuario usuario = createUserFromRequest(request);
+        usuarioDAO.create(usuario);
 
-        // Usuario information
+        Anuncio anuncio = createAnuncioFromRequest(request, usuario);
+        anuncioDAO.create(anuncio);
+
+        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+    }
+
+    private Usuario createUserFromRequest(HttpServletRequest request) {
         String username = request.getParameter("username");
         String foto = request.getParameter("foto");
         String telefono = request.getParameter("telefono");
@@ -48,7 +51,15 @@ public class PublicarAnuncioServlet extends HttpServlet {
         usuario.setFoto(foto);
         usuario.setTelefono(telefono);
         usuario.setEmail(email);
-        usuarioDAO.create(usuario);
+        return usuario;
+    }
+
+    private Anuncio createAnuncioFromRequest(HttpServletRequest request, Usuario usuario) {
+        String titulo = request.getParameter("titulo");
+        String descripcion = request.getParameter("descripcion");
+        String imagen = request.getParameter("imagen");
+        String categoria = request.getParameter("categoria");
+        BigDecimal precio = new BigDecimal(request.getParameter("precio"));
 
         Anuncio anuncio = new Anuncio();
         anuncio.setTitulo(titulo);
@@ -57,9 +68,7 @@ public class PublicarAnuncioServlet extends HttpServlet {
         anuncio.setPrecio(precio);
         anuncio.setCategoria(categoria);
         anuncio.setUsuAnuncio(usuario);
-
-        anuncioDAO.create(anuncio);
-
-        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+        return anuncio;
     }
+
 }

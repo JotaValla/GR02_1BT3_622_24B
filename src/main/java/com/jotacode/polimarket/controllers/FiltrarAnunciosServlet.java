@@ -27,14 +27,20 @@ public class FiltrarAnunciosServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String categoria = request.getParameter("categoria");
-        if (categoria == null || categoria.trim().isEmpty()) {
-            categoria = "todos"; // Valor por defecto si no se proporciona ninguna categoría
-        }
+        String categoria = getCategoriaFromRequest(request);
 
         List<Anuncio> anunciosFiltrados = anuncioDAO.findAnunciosByCategoria(categoria);
 
         request.setAttribute("anuncios", anunciosFiltrados);
         request.getRequestDispatcher("/WEB-INF/views/verAnuncios.jsp").forward(request, response);
     }
+
+    private String getCategoriaFromRequest(HttpServletRequest request) {
+        String categoria = request.getParameter("categoria");
+        if (categoria == null || categoria.trim().isEmpty()) {
+            categoria = "todos"; // Valor por defecto si no se proporciona ninguna categoría
+        }
+        return categoria;
+    }
+
 }

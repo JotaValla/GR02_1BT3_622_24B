@@ -41,7 +41,18 @@ public class PublicarValoracionServlet extends HttpServlet {
         String comentario = request.getParameter("comentario");
         Long anuncioId = Long.parseLong(request.getParameter("anuncioId"));
 
-        // Usuario information
+        Usuario usuario = createUserFromRequest(request);
+        usuarioDAO.create(usuario);
+
+        Anuncio anuncio = anuncioDAO.find(anuncioId);
+
+        Valoracion valoracion = createValoracion(estrellas, comentario, anuncio, usuario);
+        valoracionDAO.create(valoracion);
+
+        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+    }
+
+    private Usuario createUserFromRequest(HttpServletRequest request) {
         String username = request.getParameter("username");
         String foto = request.getParameter("foto");
         String telefono = request.getParameter("telefono");
@@ -52,18 +63,16 @@ public class PublicarValoracionServlet extends HttpServlet {
         usuario.setFoto(foto);
         usuario.setTelefono(telefono);
         usuario.setEmail(email);
-        usuarioDAO.create(usuario);
+        return usuario;
+    }
 
-        Anuncio anuncio = anuncioDAO.find(anuncioId);
-
+    private Valoracion createValoracion(Integer estrellas, String comentario, Anuncio anuncio, Usuario usuario) {
         Valoracion valoracion = new Valoracion();
         valoracion.setEstrellas(estrellas);
         valoracion.setComentario(comentario);
         valoracion.setAnun(anuncio);
         valoracion.setUsuValoracion(usuario);
-
-        valoracionDAO.create(valoracion);
-
-        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+        return valoracion;
     }
+
 }
