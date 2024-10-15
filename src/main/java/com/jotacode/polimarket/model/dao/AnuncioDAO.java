@@ -21,16 +21,13 @@ public class AnuncioDAO extends AbstractDAO<Anuncio> {
     public List<Anuncio> findAnunciosByCategoria(String categoria) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Anuncio> query;
             if (categoria.equalsIgnoreCase("todos")) {
-                // Si la categoría es "todos", retornar todos los anuncios
-                query = em.createQuery("SELECT a FROM Anuncio a", Anuncio.class);
+                return em.createQuery("SELECT a FROM Anuncio a", Anuncio.class).getResultList();
             } else {
-                // Filtrar por categoría
-                query = em.createQuery("SELECT a FROM Anuncio a WHERE LOWER(a.categoria) = LOWER(:categoria)", Anuncio.class);
-                query.setParameter("categoria", categoria);
+                return em.createQuery("SELECT a FROM Anuncio a WHERE LOWER(a.categoria) = LOWER(:categoria)", Anuncio.class)
+                        .setParameter("categoria", categoria)
+                        .getResultList();
             }
-            return query.getResultList();
         } finally {
             em.close();
         }

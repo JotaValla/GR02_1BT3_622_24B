@@ -1,13 +1,11 @@
 package com.jotacode.polimarket.model.dao;
 
 import com.jotacode.polimarket.model.dao.exceptions.NonexistentEntityException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaQuery;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
@@ -15,21 +13,27 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
     private Class<T> entityClass;
 
     public AbstractDAO(EntityManagerFactory emf, Class<T> entityClass) {
-        this.emf = emf != null ? emf : Persistence.createEntityManagerFactory("PolimarketPU");
+        this.emf = getEntityManagerFactory(emf);
         this.entityClass = entityClass;
+    }
+
+    private EntityManagerFactory getEntityManagerFactory(EntityManagerFactory emf) {
+        return emf != null ? emf : Persistence.createEntityManagerFactory("PolimarketPU");
     }
 
     protected EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    @Override
-    public void create(T entity) {
+    protected void executeInTransaction(Consumer<EntityManager> action) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(entity);
+            action.accept(em);
             em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
         } finally {
             if (em != null) {
                 em.close();
@@ -38,41 +42,30 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void edit(T entity) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            if (em.find(entityClass, getEntityId(entity)) == null) {
-                throw new NonexistentEntityException("La entidad con id no existe.");
+    public void create(T entity) {
+        executeInTransaction(em -> em.persist(entity));
+    }
+
+    @Override
+    public void edit(T entity) throws NonexistentEntityException {
+        executeInTransaction(em -> {
+            try {
+                if (em.find(entityClass, getEntityId(entity)) == null) {
+                    throw new NonexistentEntityException("La entidad con id no existe.");
+                }
+                em.merge(entity);
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
-            em.merge(entity);
-            em.getTransaction().commit();
-        } catch (EntityNotFoundException ex) {
-            throw new NonexistentEntityException("Error al editar: la entidad no existe.", ex);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        });
     }
 
     @Override
     public void destroy(Long id) throws NonexistentEntityException {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
+        executeInTransaction(em -> {
             T entity = em.getReference(entityClass, id);
-            try {
-                em.remove(entity);
-            } catch (EntityNotFoundException ex) {
-                throw new NonexistentEntityException("La entidad con id: " + id + " no existe.", ex);
-            }
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+            em.remove(entity);
+        });
     }
 
     @Override
@@ -102,11 +95,14 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         try {
             CriteriaQuery<T> cq = em.getCriteriaBuilder().createQuery(entityClass);
             cq.select(cq.from(entityClass));
-            var query = em.createQuery(cq);
-            if (!all) {
+            TypedQuery<T> query = em.createQuery(cq);
+
+            boolean hasLimits = !all && maxResults >= 0 && firstResult >= 0;
+            if (hasLimits) {
                 query.setMaxResults(maxResults);
                 query.setFirstResult(firstResult);
             }
+
             return query.getResultList();
         } finally {
             if (em != null) {
