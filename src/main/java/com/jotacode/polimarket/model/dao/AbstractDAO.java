@@ -129,6 +129,5 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         }
     }
 
-    // Método abstracto para obtener el ID de la entidad
     protected abstract Object getEntityId(T entity);
 }
