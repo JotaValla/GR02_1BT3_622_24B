@@ -13,6 +13,11 @@ public class AnuncioDAO extends AbstractDAO<Anuncio> {
         super(emf, entityClass);
     }
 
+    @Override
+    protected Object getEntityId(Anuncio entity) {
+        return entity.getIdAnuncio();
+    }
+
     public List<Anuncio> findAnunciosByCategoria(String categoria) {
         EntityManager em = getEntityManager();
         try {

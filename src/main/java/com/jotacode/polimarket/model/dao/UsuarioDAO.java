@@ -9,4 +9,9 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
         super(emf, entityClass);
     }
 
+    @Override
+    protected Object getEntityId(Usuario entity) {
+        return entity.getIdUsuario();
+    }
+
 }

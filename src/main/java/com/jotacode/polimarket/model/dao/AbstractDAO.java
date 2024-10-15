@@ -1,7 +1,9 @@
 package com.jotacode.polimarket.model.dao;
 
+import com.jotacode.polimarket.model.dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaQuery;
 
@@ -36,12 +38,17 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void edit(T entity) throws Exception {
+    public void edit(T entity) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
+            if (em.find(entityClass, getEntityId(entity)) == null) {
+                throw new NonexistentEntityException("La entidad con id no existe.");
+            }
             em.merge(entity);
             em.getTransaction().commit();
+        } catch (EntityNotFoundException ex) {
+            throw new NonexistentEntityException("Error al editar: la entidad no existe.", ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -50,12 +57,16 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void destroy(Long id) throws Exception {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             T entity = em.getReference(entityClass, id);
-            em.remove(entity);
+            try {
+                em.remove(entity);
+            } catch (EntityNotFoundException ex) {
+                throw new NonexistentEntityException("La entidad con id: " + id + " no existe.", ex);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -117,4 +128,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
             }
         }
     }
+
+    // Método abstracto para obtener el ID de la entidad
+    protected abstract Object getEntityId(T entity);
 }
