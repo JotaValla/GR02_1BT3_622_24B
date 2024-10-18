@@ -32,4 +32,15 @@ public class AnuncioDAO extends AbstractDAO<Anuncio> {
         }
     }
 
+    public List<Anuncio> findAnunciosByUsuario(Long usuarioId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT a FROM Anuncio a WHERE a.usuAnuncio.id = :usuarioId", Anuncio.class)
+                    .setParameter("usuarioId", usuarioId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
 }

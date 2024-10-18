@@ -45,4 +45,7 @@ public class UsuarioService {
         return anuncioService.findAllAnuncios();
     }
 
+    public List<Usuario> findAllUsuarios() {
+        return usuarioDAO.findAll();
+    }
 }

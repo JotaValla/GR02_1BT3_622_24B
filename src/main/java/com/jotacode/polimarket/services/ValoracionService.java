@@ -6,6 +6,8 @@ import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.models.entity.Valoracion;
 
+import java.util.List;
+
 public class ValoracionService {
 
     private ValoracionDAO valoracionDAO;
@@ -27,5 +29,7 @@ public class ValoracionService {
         valoracionDAO.create(valoracion);
     }
 
-
+    public List<Valoracion> findValoracionesByAnuncio(Long anuncioId) {
+        return valoracionDAO.findValoracionesByAnuncio(anuncioId);
+    }
 }

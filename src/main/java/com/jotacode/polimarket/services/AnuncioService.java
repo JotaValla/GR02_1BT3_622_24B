@@ -42,4 +42,7 @@ public class AnuncioService {
         return anuncioDAO.find(id);
     }
 
+    public List<Anuncio> findAnunciosByUsuario(long idUsuario) {
+        return anuncioDAO.findAnunciosByUsuario(idUsuario);
+    }
 }
