@@ -1,7 +1,6 @@
-package com.jotacode.polimarket.model.entity;
+package com.jotacode.polimarket.models.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

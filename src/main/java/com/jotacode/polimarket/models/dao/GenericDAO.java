@@ -1,4 +1,4 @@
-package com.jotacode.polimarket.model.dao;
+package com.jotacode.polimarket.models.dao;
 
 import java.util.List;
 

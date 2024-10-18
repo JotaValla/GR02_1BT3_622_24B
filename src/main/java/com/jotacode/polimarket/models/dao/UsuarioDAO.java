@@ -1,6 +1,6 @@
-package com.jotacode.polimarket.model.dao;
+package com.jotacode.polimarket.models.dao;
 
-import com.jotacode.polimarket.model.entity.Usuario;
+import com.jotacode.polimarket.models.entity.Usuario;
 import jakarta.persistence.EntityManagerFactory;
 
 public class UsuarioDAO extends AbstractDAO<Usuario> {

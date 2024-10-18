@@ -1,5 +1,5 @@
 <!-- /WEB-INF/views/publicarValoracion.jsp -->
-<%@page import="com.jotacode.polimarket.model.entity.Anuncio" %>
+<%@page import="com.jotacode.polimarket.models.entity.Anuncio" %>
 <%@page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>

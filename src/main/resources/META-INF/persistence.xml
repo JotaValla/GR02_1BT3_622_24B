@@ -5,9 +5,9 @@
              version="3.0">
     <persistence-unit name="PolimarketPU">
 
-        <class>com.jotacode.polimarket.model.entity.Usuario</class>
-        <class>com.jotacode.polimarket.model.entity.Anuncio</class>
-        <class>com.jotacode.polimarket.model.entity.Valoracion</class>
+        <class>com.jotacode.polimarket.models.entity.Usuario</class>
+        <class>com.jotacode.polimarket.models.entity.Anuncio</class>
+        <class>com.jotacode.polimarket.models.entity.Valoracion</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/polimarket"/>

@@ -1,4 +1,4 @@
-package com.jotacode.polimarket.model.entity;
+package com.jotacode.polimarket.models.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

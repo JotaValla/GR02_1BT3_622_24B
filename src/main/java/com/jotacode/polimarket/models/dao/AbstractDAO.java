@@ -1,6 +1,6 @@
-package com.jotacode.polimarket.model.dao;
+package com.jotacode.polimarket.models.dao;
 
-import com.jotacode.polimarket.model.dao.exceptions.NonexistentEntityException;
+import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaQuery;
 

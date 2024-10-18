@@ -1,9 +1,11 @@
 package com.jotacode.polimarket.controllers;
 
-import com.jotacode.polimarket.model.dao.AnuncioDAO;
-import com.jotacode.polimarket.model.dao.UsuarioDAO;
-import com.jotacode.polimarket.model.entity.Anuncio;
-import com.jotacode.polimarket.model.entity.Usuario;
+import com.jotacode.polimarket.models.dao.AnuncioDAO;
+import com.jotacode.polimarket.models.dao.UsuarioDAO;
+import com.jotacode.polimarket.models.entity.Anuncio;
+import com.jotacode.polimarket.models.entity.Usuario;
+import com.jotacode.polimarket.services.AnuncioService;
+import com.jotacode.polimarket.services.UsuarioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,13 +17,13 @@ import java.math.BigDecimal;
 
 @WebServlet("/publicarAnuncio")
 public class PublicarAnuncioServlet extends HttpServlet {
-    private AnuncioDAO anuncioDAO;
-    private UsuarioDAO usuarioDAO;
 
-    @Override
-    public void init() {
-        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
-        usuarioDAO = new UsuarioDAO(null, Usuario.class);
+    private UsuarioService usuarioService;
+    private AnuncioService anuncioService;
+
+    public PublicarAnuncioServlet() {
+        this.usuarioService = new UsuarioService();
+        this.anuncioService = new AnuncioService();
     }
 
     @Override
@@ -31,11 +33,11 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Usuario usuario = createUserFromRequest(request);
-        usuarioDAO.create(usuario);
 
-        Anuncio anuncio = createAnuncioFromRequest(request, usuario);
-        anuncioDAO.create(anuncio);
+        Usuario usuario = createUserFromRequest(request);
+        Anuncio anuncio = createAnuncioFromRequest(request);
+
+        usuarioService.publicarAnuncio(anuncio, usuario);
 
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }
@@ -45,30 +47,16 @@ public class PublicarAnuncioServlet extends HttpServlet {
         String foto = request.getParameter("foto");
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
-
-        Usuario usuario = new Usuario();
-        usuario.setUsername(username);
-        usuario.setFoto(foto);
-        usuario.setTelefono(telefono);
-        usuario.setEmail(email);
-        return usuario;
+        return usuarioService.crearUsuario(username, foto, telefono, email);
     }
 
-    private Anuncio createAnuncioFromRequest(HttpServletRequest request, Usuario usuario) {
+    private Anuncio createAnuncioFromRequest(HttpServletRequest request) {
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
         String imagen = request.getParameter("imagen");
         String categoria = request.getParameter("categoria");
         BigDecimal precio = new BigDecimal(request.getParameter("precio"));
-
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(titulo);
-        anuncio.setDescripcion(descripcion);
-        anuncio.setImagen(imagen);
-        anuncio.setPrecio(precio);
-        anuncio.setCategoria(categoria);
-        anuncio.setUsuAnuncio(usuario);
-        return anuncio;
+        return anuncioService.crearAnuncio(titulo, descripcion, imagen, categoria, precio);
     }
 
 }

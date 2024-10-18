@@ -1,7 +1,8 @@
 package com.jotacode.polimarket.controllers;
 
-import com.jotacode.polimarket.model.dao.AnuncioDAO;
-import com.jotacode.polimarket.model.entity.Anuncio;
+import com.jotacode.polimarket.models.dao.AnuncioDAO;
+import com.jotacode.polimarket.models.entity.Anuncio;
+import com.jotacode.polimarket.services.AnuncioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,11 +14,11 @@ import java.util.List;
 
 @WebServlet("/filtrarAnuncios")
 public class FiltrarAnunciosServlet extends HttpServlet {
-    private AnuncioDAO anuncioDAO;
 
-    @Override
-    public void init() {
-        anuncioDAO = new AnuncioDAO(null, Anuncio.class);
+    private AnuncioService anuncioService;
+
+    public FiltrarAnunciosServlet() {
+        this.anuncioService = new AnuncioService();
     }
 
     @Override
@@ -29,7 +30,7 @@ public class FiltrarAnunciosServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String categoria = getCategoriaFromRequest(request);
 
-        List<Anuncio> anunciosFiltrados = anuncioDAO.findAnunciosByCategoria(categoria);
+        List<Anuncio> anunciosFiltrados = anuncioService.findAnunciosByCategoria(categoria);
 
         request.setAttribute("anuncios", anunciosFiltrados);
         request.getRequestDispatcher("/WEB-INF/views/verAnuncios.jsp").forward(request, response);
@@ -38,7 +39,7 @@ public class FiltrarAnunciosServlet extends HttpServlet {
     private String getCategoriaFromRequest(HttpServletRequest request) {
         String categoria = request.getParameter("categoria");
         if (categoria == null || categoria.trim().isEmpty()) {
-            categoria = "todos"; // Valor por defecto si no se proporciona ninguna categoría
+            categoria = "todos";
         }
         return categoria;
     }

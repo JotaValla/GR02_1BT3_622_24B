@@ -1,9 +1,8 @@
-package com.jotacode.polimarket.model.dao;
+package com.jotacode.polimarket.models.dao;
 
-import com.jotacode.polimarket.model.entity.Anuncio;
+import com.jotacode.polimarket.models.entity.Anuncio;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
