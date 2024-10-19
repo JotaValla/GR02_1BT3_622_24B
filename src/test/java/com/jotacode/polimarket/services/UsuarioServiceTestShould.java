@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UsuarioServiceTestShould {
 
     private UsuarioService usuarioService;
-
     @BeforeEach
     void setUp() {
         usuarioService = new UsuarioService();

@@ -27,6 +27,9 @@ public class UsuarioService {
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("El email proporcionado no es válido.");
         }
+        if(!isValidUsername(username)){
+            throw new IllegalArgumentException("El username proporcionado no es válido.");
+        }
         Usuario usuario = new Usuario();
         usuario.setUsername(username);
         usuario.setFoto(foto);
@@ -40,7 +43,10 @@ public class UsuarioService {
         String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Un regex simple para validación
         return email.matches(regex);
     }
-
+    public boolean isValidUsername(String username) {
+        String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
+        return username != null && username.matches(regex);
+    }
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {
         anuncioService.vincularAnuncioConUsuario(anuncio, usuario);
         System.out.println("Anuncio publicado");
