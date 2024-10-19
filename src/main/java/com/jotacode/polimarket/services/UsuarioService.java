@@ -8,6 +8,7 @@ import com.jotacode.polimarket.models.entity.Valoracion;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UsuarioService {
 
@@ -22,6 +23,10 @@ public class UsuarioService {
     }
 
     public Usuario crearUsuario(String username, String foto, String telefono, String email) {
+        // Validar el email antes de crear el usuario
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("El email proporcionado no es válido.");
+        }
         Usuario usuario = new Usuario();
         usuario.setUsername(username);
         usuario.setFoto(foto);
@@ -29,6 +34,11 @@ public class UsuarioService {
         usuario.setEmail(email);
         usuarioDAO.create(usuario);
         return usuario;
+    }
+
+    public boolean isValidEmail(String email) {
+        String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Un regex simple para validación
+        return email.matches(regex);
     }
 
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {

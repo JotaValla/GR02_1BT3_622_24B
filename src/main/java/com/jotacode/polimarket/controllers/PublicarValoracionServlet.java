@@ -53,7 +53,6 @@ public class PublicarValoracionServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }
 
-
     private Usuario createUserFromRequest(HttpServletRequest request) {
         String username = request.getParameter("username");
         String foto = request.getParameter("foto");

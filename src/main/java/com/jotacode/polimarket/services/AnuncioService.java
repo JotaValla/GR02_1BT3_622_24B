@@ -9,14 +9,17 @@ import java.util.List;
 
 public class AnuncioService {
 
-    private AnuncioDAO anuncioDAO;
+    public AnuncioDAO anuncioDAO;
 
     public AnuncioService() {
         this.anuncioDAO = new AnuncioDAO(null, Anuncio.class);
     }
 
-    public Anuncio crearAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio) {
+    public Anuncio crearAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio){
         Anuncio anuncio = new Anuncio();
+        if (titulo == null || descripcion == null || imagen == null || categoria == null || precio == null) {
+            throw new IllegalArgumentException("Todo los campos deben ser llenados");
+        }
         anuncio.setTitulo(titulo);
         anuncio.setDescripcion(descripcion);
         anuncio.setImagen(imagen);
@@ -25,7 +28,10 @@ public class AnuncioService {
         return anuncio;
     }
 
-    public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) {
+    public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
+        if (anuncio == null || usuario == null) {
+            throw new IllegalArgumentException("El anuncio y el usuario no pueden ser nulos");
+        }
         anuncio.setUsuAnuncio(usuario);
         anuncioDAO.create(anuncio);
     }
