@@ -5,9 +5,13 @@ import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +54,7 @@ public class AnuncioServiceShould {
         });
     }
 
-
+    //TEST CON MOCKITO
     @Test
     public void testFindAnunciosByCategoria() {
         // Mock del AnuncioDAO
@@ -59,7 +63,7 @@ public class AnuncioServiceShould {
         List<Anuncio> anunciosSimulados = Arrays.asList(new Anuncio(), new Anuncio());
 
         // Mockear el comportamiento del método findAnunciosByCategoria
-        when(anuncioDAOMock.findAnunciosByCategoria("Electronica")).thenReturn(anunciosSimulados);
+        Mockito.when(anuncioDAOMock.findAnunciosByCategoria("Electronica")).thenReturn(anunciosSimulados);
 
         // Reemplazar el anuncioDAO en el servicio con el mock
         anuncioService = new AnuncioService();
@@ -75,6 +79,7 @@ public class AnuncioServiceShould {
         assertEquals(anunciosSimulados, anuncios);
     }
 
+    //TEST CON MOCKITO
     @Test
     public void testFindById() {
         // Mock del AnuncioDAO
@@ -99,5 +104,62 @@ public class AnuncioServiceShould {
         assertEquals(anuncioSimulado, anuncio);
     }
 
+    // TEST PARAMETRIZADO PARA findAnunciosByCategoria
+    @ParameterizedTest
+    @CsvSource({
+            "Electronica, 3",
+            "Vehiculos, 2",
+            "Ropa, 1"
+    })
+    public void testFindAnunciosByCategoriaParametrized(String categoria, int expectedSize) {
+        // Mock del AnuncioDAO
+        AnuncioDAO anuncioDAOMock = mock(AnuncioDAO.class);
+
+        // Crear una lista simulada de anuncios de tamaño expectedSize
+        List<Anuncio> anunciosSimulados = new ArrayList<>();
+        for (int i = 0; i < expectedSize; i++) {
+            anunciosSimulados.add(new Anuncio());
+        }
+
+        // Mockear el comportamiento del método findAnunciosByCategoria
+        when(anuncioDAOMock.findAnunciosByCategoria(categoria)).thenReturn(anunciosSimulados);
+
+        // Reemplazar el DAO en el servicio con el mock
+        anuncioService.anuncioDAO = anuncioDAOMock;
+
+        // Llamar al método con el parámetro de categoría
+        List<Anuncio> anuncios = anuncioService.findAnunciosByCategoria(categoria);
+
+        // Verificar que el método fue llamado correctamente
+        verify(anuncioDAOMock, times(1)).findAnunciosByCategoria(categoria);
+
+        // Verificar que el tamaño de la lista sea el esperado
+        assertEquals(expectedSize, anuncios.size());
+    }
+
+    // TEST PARAMETRIZADO PARA findById
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    public void testFindByIdParametrized(Long id) {
+        // Mock del AnuncioDAO
+        AnuncioDAO anuncioDAOMock = mock(AnuncioDAO.class);
+        Anuncio anuncioSimulado = new Anuncio();
+        anuncioSimulado.setIdAnuncio(id);
+
+        // Mockear el comportamiento del método find
+        when(anuncioDAOMock.find(id)).thenReturn(anuncioSimulado);
+
+        // Reemplazar el DAO en el servicio con el mock
+        anuncioService.anuncioDAO = anuncioDAOMock;
+
+        // Llamar al método con el parámetro de ID
+        Anuncio anuncio = anuncioService.findById(id);
+
+        // Verificar que el método fue llamado correctamente
+        verify(anuncioDAOMock, times(1)).find(id);
+
+        // Verificar que el anuncio retornado es el correcto
+        assertEquals(id, anuncio.getIdAnuncio());
+    }
 
 }
