@@ -17,9 +17,7 @@ public class AnuncioService {
 
     public Anuncio crearAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio){
         Anuncio anuncio = new Anuncio();
-        if (titulo == null || descripcion == null || imagen == null || categoria == null || precio == null) {
-            throw new IllegalArgumentException("Todo los campos deben ser llenados");
-        }
+        validarCamposAnuncio(titulo, descripcion, imagen, categoria, precio);
         anuncio.setTitulo(titulo);
         anuncio.setDescripcion(descripcion);
         anuncio.setImagen(imagen);
@@ -28,12 +26,22 @@ public class AnuncioService {
         return anuncio;
     }
 
+    private static void validarCamposAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio) {
+        if (titulo == null || descripcion == null || imagen == null || categoria == null || precio == null) {
+            throw new IllegalArgumentException("Todo los campos deben ser llenados");
+        }
+    }
+
     public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
+        validarAnuncioyUsuario(anuncio, usuario);
+        anuncio.setUsuAnuncio(usuario);
+        anuncioDAO.create(anuncio);
+    }
+
+    private static void validarAnuncioyUsuario(Anuncio anuncio, Usuario usuario) {
         if (anuncio == null || usuario == null) {
             throw new IllegalArgumentException("El anuncio y el usuario no pueden ser nulos");
         }
-        anuncio.setUsuAnuncio(usuario);
-        anuncioDAO.create(anuncio);
     }
 
     public List<Anuncio> findAllAnuncios() {

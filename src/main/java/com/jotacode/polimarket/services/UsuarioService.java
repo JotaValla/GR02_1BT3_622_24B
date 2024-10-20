@@ -23,41 +23,50 @@ public class UsuarioService {
     }
 
     public Usuario crearUsuario(String username, String foto, String telefono, String email) {
-        // Validar el email antes de crear el usuario
-        if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("El email proporcionado no es válido.");
+        if (validarEmail(email) && validarUsername(username)) {
+            validarEmail(email);
+            validarUsername(username);
+
+            Usuario usuario = new Usuario();
+            usuario.setUsername(username);
+            usuario.setFoto(foto);
+            usuario.setTelefono(telefono);
+            usuario.setEmail(email);
+            usuarioDAO.create(usuario);
+            return usuario;
+        }else{
+            throw  new IllegalArgumentException("El email o el username proporcionado no es válido.");
         }
-        if(!isValidUsername(username)){
-            throw new IllegalArgumentException("El username proporcionado no es válido.");
-        }
-        Usuario usuario = new Usuario();
-        usuario.setUsername(username);
-        usuario.setFoto(foto);
-        usuario.setTelefono(telefono);
-        usuario.setEmail(email);
-        usuarioDAO.create(usuario);
-        return usuario;
+
     }
 
-    public boolean isValidEmail(String email) {
+    public boolean validarEmail(String email) {
         String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Un regex simple para validación
-        return email.matches(regex);
+        if (!email.matches(regex)) {
+            throw new IllegalArgumentException("El email proporcionado no es válido.");
+        }
+        return true;
     }
-    public boolean isValidUsername(String username) {
+
+    public boolean validarUsername(String username) {
         String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
-        return username != null && username.matches(regex);
+        if (username == null || !username.matches(regex)) {
+            throw new IllegalArgumentException("El username proporcionado no es válido.");
+        }
+        return true;
     }
+
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {
         anuncioService.vincularAnuncioConUsuario(anuncio, usuario);
         System.out.println("Anuncio publicado");
     }
 
-    public void publicarValoracion(Valoracion valoracion, Anuncio anuncio,Usuario usuario){
-        valoracionService.vincularValoracion(valoracion, anuncio,usuario);
+    public void publicarValoracion(Valoracion valoracion, Anuncio anuncio, Usuario usuario) {
+        valoracionService.vincularValoracion(valoracion, anuncio, usuario);
         System.out.println("Valoracion publicada");
     }
 
-    public List<Anuncio> verAnuncios(){
+    public List<Anuncio> verAnuncios() {
         return anuncioService.findAllAnuncios();
     }
 

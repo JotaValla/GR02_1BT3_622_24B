@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UsuarioServiceUsernameTest {
+public class UsuarioServiceParametersUsernameTest {
 
     private final UsuarioService usuarioService = new UsuarioService();
 
@@ -29,6 +29,6 @@ public class UsuarioServiceUsernameTest {
     @ParameterizedTest
     @MethodSource("parameters")
     public void validar_si_el_nombre_de_usuario_es_valido(String username, boolean resultadoEsperado) {
-        assertEquals(resultadoEsperado, usuarioService.isValidUsername(username));
+        assertEquals(resultadoEsperado, usuarioService.validarUsername(username));
     }
 }

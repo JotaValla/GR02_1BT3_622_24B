@@ -29,6 +29,6 @@ public class UsuarioServiceParametersTest {
     @ParameterizedTest
     @MethodSource("parameters")
     public void validar_si_el_correo_es_valido(String email, boolean resultadoEsperado) {
-        assertEquals(resultadoEsperado, usuarioService.isValidEmail(email));
+        assertEquals(resultadoEsperado, usuarioService.validarEmail(email));
     }
 }

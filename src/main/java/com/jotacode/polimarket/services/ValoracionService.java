@@ -17,25 +17,35 @@ public class ValoracionService {
     }
 
     public Valoracion crearValoracion(Integer estrellas, String comentario) {
+        validarParametrosValoracion(estrellas, comentario);
+
+        Valoracion valoracion = new Valoracion();
+        valoracion.setEstrellas(estrellas);
+        valoracion.setComentario(comentario);
+        return valoracion;
+    }
+
+    private void validarParametrosValoracion(Integer estrellas, String comentario) {
         if (estrellas == null || comentario == null) {
             throw new IllegalArgumentException("Los parámetros no pueden ser nulos");
-        } else if (estrellas <= 5) {
-            Valoracion valoracion = new Valoracion();
-            valoracion.setEstrellas(estrellas);
-            valoracion.setComentario(comentario);
-            return valoracion;
-        } else {
+        }
+        if (estrellas > 5) {
             throw new IllegalArgumentException("La calificación no puede ser mayor a 5");
         }
     }
 
     public void vincularValoracion(Valoracion valoracion, Anuncio anuncio, Usuario usuario) {
-        if (anuncio == null || usuario == null || valoracion == null) {
-            throw new IllegalArgumentException("El anuncio, usuario o valoracion no pueden ser nulos");
-        }
+        validarAnuncioUsuarioValoracion(anuncio, usuario, valoracion);
+
         valoracion.setAnun(anuncio);
         valoracion.setUsuValoracion(usuario);
         valoracionDAO.create(valoracion);
+    }
+
+    private void validarAnuncioUsuarioValoracion(Anuncio anuncio, Usuario usuario, Valoracion valoracion) {
+        if (anuncio == null || usuario == null || valoracion == null) {
+            throw new IllegalArgumentException("El anuncio, usuario o valoracion no pueden ser nulos");
+        }
     }
 
     public List<Valoracion> findValoracionesByAnuncio(Long anuncioId) {
