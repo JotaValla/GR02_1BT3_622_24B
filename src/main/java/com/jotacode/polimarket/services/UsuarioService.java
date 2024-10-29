@@ -43,7 +43,7 @@ public class UsuarioService {
     public boolean validarEmail(String email) {
         String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Un regex simple para validación
         if (!email.matches(regex)) {
-            throw new IllegalArgumentException("El email proporcionado no es válido.");
+            return false;
         }
         return true;
     }
@@ -51,7 +51,7 @@ public class UsuarioService {
     public boolean validarUsername(String username) {
         String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
         if (username == null || !username.matches(regex)) {
-            throw new IllegalArgumentException("El username proporcionado no es válido.");
+            return false;
         }
         return true;
     }
