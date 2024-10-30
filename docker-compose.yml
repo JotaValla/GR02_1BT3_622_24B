@@ -1,20 +1,22 @@
 version: '3.8'
 services:
-  database:
-    image: mysql:latest
-    container_name: database
+  db:
+    image: mysql:8.0
+    container_name: db
     environment:
-      MYSQL_DATABASE: polimarket  # Cambia el nombre de la base de datos según tus necesidades
-      MYSQL_ROOT_PASSWORD: P@ssw0rd  # Cambia esta contraseña según sea necesario
+      MYSQL_DATABASE: polimarket
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
     ports:
-      - "3306:3306"  # Puerto de la base de datos
+      - "3307:3307"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  webapp:
+  web:
     build:
       context: .
-      dockerfile: Dockerfile  # Especificamos el Dockerfile en la raíz del proyecto
-    container_name: webapp
+      dockerfile: Dockerfile
+    container_name: web
     ports:
-      - "8080:8080"  # Puerto de la aplicación
+      - "8080:8080"
     depends_on:
-      - database  # Asegura que la base de datos se inicie antes de la aplicación
+      - db

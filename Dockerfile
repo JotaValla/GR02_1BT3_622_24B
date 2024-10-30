@@ -1,22 +1,11 @@
-# Etapa de construcción
-FROM maven:3.8.5-openjdk-17-slim as build
-
-# Copia del código fuente al contenedor
+# Fase 1: Construcción del proyecto
+FROM maven:3.8.5-openjdk-18-slim AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
+RUN mvn clean install package -DskipTests
 
-# Construcción de la aplicación
-RUN mvn clean install
-RUN mvn package
-
-# Etapa de servidor
-FROM bitnami/tomcat:10.1.23 as server
-
-# Copia del archivo WAR generado en la etapa de construcción al contenedor Tomcat
-COPY --from=build /usr/src/app/target/tuarchivo.war /opt/bitnami/tomcat/webapps/
-
-# Exponer el puerto 8080 para la aplicación
+# Fase 2: Configuración del servidor Tomcat
+FROM tomcat:10.1.23-jdk17
+COPY --from=build /usr/src/app/target/PoliMarket-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/PoliMarket-1.0-SNAPSHOT.war
 EXPOSE 8080
-
-# Comando para iniciar Tomcat
 CMD ["catalina.sh", "run"]
