@@ -1,16 +1,5 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:8.0
-    container_name: db
-    environment:
-      MYSQL_DATABASE: polimarket
-      MYSQL_ROOT_PASSWORD: P@ssw0rd
-    ports:
-      - "3307:3307"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
   web:
     build:
       context: .
@@ -18,5 +7,5 @@ services:
     container_name: web
     ports:
       - "8080:8080"
-    depends_on:
-      - db
+    volumes:
+      - ./db:/usr/local/tomcat/db

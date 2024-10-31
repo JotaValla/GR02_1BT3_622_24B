@@ -1,0 +1,114 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #00203E; /* Azul oscuro */
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #A60000; /* Rojo */
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    background-color: #00203E; /* Azul oscuro */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: #A60000; /* Rojo */
+}
+
+button {
+    background-color: #A60000; /* Rojo */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00203E; /* Azul oscuro */
+}
+
+label {
+    font-weight: bold;
+    color: #00203E; /* Azul oscuro */
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"], button {
+    width: auto;
+    padding: 10px 20px;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Card style for announcements */
+.anuncio {
+    background-color: #FFFFFF; /* Blanco */
+    border: 2px solid #00203E; /* Azul oscuro */
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.anuncio img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.anuncio h2 {
+    color: #00203E; /* Azul oscuro */
+}
+
+.anuncio p {
+    color: #333;
+}
+
+.anuncio p strong {
+    color: #A60000; /* Rojo */
+}
+
+/* Form and button styles */
+form {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input[type="submit"] {
+    background-color: #A60000; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #00203E; /* Azul oscuro */
+}
