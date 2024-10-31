@@ -11,7 +11,7 @@
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:/usr/local/tomcat/db/polimarketDB;create=true"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:C:/Users/djimm/OneDrive - Escuela Politécnica Nacional/VISEMESTREV2.0/METODOLOGIAS/PoliMarket/polimarketDB;create=true"/>
             <property name="javax.persistence.jdbc.user" value=""/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>

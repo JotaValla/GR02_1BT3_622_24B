@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: web
+    container_name: polimarket-web
     ports:
       - "8080:8080"
     volumes:

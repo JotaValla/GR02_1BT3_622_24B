@@ -1,3 +1,6 @@
+CREATE SCHEMA IF NOT EXISTS polimarketDB;
+SET SCHEMA polimarketDB;
+
 -- Creación de la tabla 'usuarios'
 CREATE TABLE usuarios (
                           id_usuario BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

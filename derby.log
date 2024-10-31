@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Wed Oct 30 21:38:29 ECT 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-0192-e070-4f76-00000e724fc0 
+Wed Oct 30 23:57:52 ECT 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0192-e0ef-e8af-00000e6a2dc0 
 on database directory C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\polimarketDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
-Loaded from file:/C:/Users/djimm/.m2/repository/org/apache/derby/derby/10.17.1.0/derby-10.17.1.0.jar
+Loaded from file:/C:/Users/djimm/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=22.0.1+8-16
 user.dir=C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket
