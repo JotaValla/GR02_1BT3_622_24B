@@ -1,3 +1,9 @@
+# Fase 1: Construcción del proyecto
+FROM maven:3.8.5-openjdk-18-slim AS build
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+RUN mvn clean install package -DskipTests
+
 # Usa una imagen base de Tomcat
 FROM tomcat:10.1.8-jdk17
 
