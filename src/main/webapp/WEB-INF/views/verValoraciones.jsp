@@ -17,11 +17,17 @@
                 if (anuncio != null) {
             %>
             <div class="anuncio-info">
-                <h2><%=anuncio.getTitulo()%></h2>
-                <img src="<%=anuncio.getImagen()%>" alt="<%=anuncio.getTitulo()%>">
-                <p><%=anuncio.getDescripcion()%></p>
-                <p>Precio: $<%=anuncio.getPrecio()%></p>
-                <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%></p>
+                <h2><%=anuncio.getTitulo()%>
+                </h2>
+                <!-- Mostrar la imagen del anuncio -->
+                <img src="${pageContext.request.contextPath}/uploads/<%= anuncio.getImagen().substring(anuncio.getImagen().lastIndexOf("/") + 1) %>"
+                     alt="<%= anuncio.getTitulo() %>">
+                <p><%=anuncio.getDescripcion()%>
+                </p>
+                <p>Precio: $<%=anuncio.getPrecio()%>
+                </p>
+                <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%>
+                </p>
             </div>
 
             <h3>Valoraciones:</h3>
@@ -31,9 +37,11 @@
                     for (Valoracion valoracion : valoraciones) {
             %>
             <div class="valoracion">
-                <p>Usuario: <%=valoracion.getUsuValoracion().getUsername()%></p>
+                <p>Usuario: <%=valoracion.getUsuValoracion().getUsername()%>
+                </p>
                 <p>Estrellas: <%=valoracion.getEstrellas()%> ⭐</p>
-                <p>Comentario: <%=valoracion.getComentario()%></p>
+                <p>Comentario: <%=valoracion.getComentario()%>
+                </p>
             </div>
             <%
                 }
@@ -50,7 +58,8 @@
             %>
 
             <br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
+            </button>
             <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
         </div>
     </body>

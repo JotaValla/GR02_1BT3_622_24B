@@ -37,7 +37,7 @@
             %>
             <div class="anuncio">
                 <h2><%=anuncio.getTitulo()%></h2>
-                <img src="<%=anuncio.getImagen()%>" alt="<%=anuncio.getTitulo()%>">
+                <img src="${pageContext.request.contextPath}/uploads/<%= anuncio.getImagen().substring(anuncio.getImagen().lastIndexOf("/") + 1) %>" alt="<%= anuncio.getTitulo() %>">
                 <p><%=anuncio.getDescripcion()%></p>
                 <p>Precio: $<%=anuncio.getPrecio()%></p>
                 <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%></p>
