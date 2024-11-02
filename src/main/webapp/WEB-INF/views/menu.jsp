@@ -20,6 +20,8 @@
             <h1>Menú Principal</h1>
             <h2>Bienvenido, <%= usuario.getNombre() %></h2>
         </header>
+
+        <!-- Contenedor principal con las opciones del menú -->
         <div class="container">
             <div style="text-align: center;">
                 <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary"
@@ -30,7 +32,18 @@
                    style="margin: 10px;">Filtrar Anuncios</a>
                 <a href="${pageContext.request.contextPath}/publicarValoracion" class="btn-secondary"
                    style="margin: 10px;">Publicar Valoración</a>
-                <button onclick="window.location.href='${pageContext.request.contextPath}/login'">Cerrar Sesión
+            </div>
+        </div>
+
+        <!-- Nuevo contenedor para gestionar cuenta -->
+        <div class="container cuenta-container">
+            <h3>Gestionar Cuenta</h3>
+            <div class="account-actions">
+                <button wonclick="window.location.href='${pageContext.request.contextPath}/actualizarContrasena'" class="btn-secondary">
+                    Actualizar Contraseña
+                </button>
+                <button onclick="window.location.href='${pageContext.request.contextPath}/login'" class="btn-secondary">
+                    Cerrar Sesión
                 </button>
             </div>
         </div>

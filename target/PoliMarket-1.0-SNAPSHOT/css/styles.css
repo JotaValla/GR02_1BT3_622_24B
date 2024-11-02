@@ -112,3 +112,41 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #00203E; /* Azul oscuro */
 }
+
+/* Contenedor de gestión de cuenta */
+.cuenta-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cuenta-container h3 {
+    color: #A60000; /* Rojo */
+    margin-bottom: 20px;
+}
+
+.account-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.account-actions .btn-secondary {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #00203E; /* Azul oscuro */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.account-actions .btn-secondary:hover {
+    background-color: #A60000; /* Rojo */
+}
+

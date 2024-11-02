@@ -1,6 +1,7 @@
 package com.jotacode.polimarket.services;
 
 import com.jotacode.polimarket.models.dao.CuentaDAO;
+import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Cuenta;
 
 public class CuentaService {
@@ -39,4 +40,16 @@ public class CuentaService {
         return cuentaDAO.findByUsernameAndPassword(username, password);
     }
 
+    public boolean validatePassword(Cuenta cuenta, String currentPassword) {
+        return cuenta.getPassword().equals(currentPassword);
+    }
+
+    public void updatePassword(Cuenta cuenta, String newPassword) {
+        try {
+            cuenta.setPassword(newPassword);
+            cuentaDAO.edit(cuenta);
+        } catch (NonexistentEntityException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
