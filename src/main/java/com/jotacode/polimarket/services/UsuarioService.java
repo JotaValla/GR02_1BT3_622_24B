@@ -1,15 +1,12 @@
 package com.jotacode.polimarket.services;
 
-import com.jotacode.polimarket.models.dao.AnuncioDAO;
 import com.jotacode.polimarket.models.dao.UsuarioDAO;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Cuenta;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.models.entity.Valoracion;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class UsuarioService {
 
@@ -23,7 +20,7 @@ public class UsuarioService {
         this.valoracionService = new ValoracionService();
     }
 
-    public Usuario crearUsuario(String nombre, String foto, String telefono, String email, Cuenta cuenta) {
+    public void crearUsuario(String nombre, String foto, String telefono, String email, Cuenta cuenta) {
         if (validarEmail(email) && validarNombre(nombre)) {
             validarEmail(email);
             validarNombre(nombre);
@@ -37,7 +34,6 @@ public class UsuarioService {
 
             usuarioDAO.create(usuario);
             System.out.println("Usuario creado en servicio");
-            return usuario;
         } else {
             throw new IllegalArgumentException("El email o el nombre proporcionado no es válido.");
         }
