@@ -21,7 +21,7 @@
                         if (usuarios != null) {
                             for (Usuario usuario : usuarios) {
                     %>
-                    <option value="<%= usuario.getIdUsuario() %>"><%= usuario.getUsername() %></option>
+                    <option value="<%= usuario.getIdUsuario() %>"><%= usuario.getNombre() %></option>
                     <%
                             }
                         }
@@ -40,7 +40,7 @@
                 <img src="${pageContext.request.contextPath}/uploads/<%= anuncio.getImagen().substring(anuncio.getImagen().lastIndexOf("/") + 1) %>" alt="<%= anuncio.getTitulo() %>">
                 <p><%=anuncio.getDescripcion()%></p>
                 <p>Precio: $<%=anuncio.getPrecio()%></p>
-                <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%></p>
+                <p>Publicado por: <%=anuncio.getUsuAnuncio().getNombre()%></p>
                 <form action="${pageContext.request.contextPath}/verValoraciones" method="get">
                     <input type="hidden" name="anuncioId" value="<%=anuncio.getIdAnuncio()%>">
                     <button type="submit">Ver valoraciones</button>
@@ -55,7 +55,8 @@
                 }
             %>
             <br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+
         </div>
     </body>
 </html>

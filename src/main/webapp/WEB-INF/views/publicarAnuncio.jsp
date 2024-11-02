@@ -1,10 +1,9 @@
-<!-- publicarAnuncio.jsp -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Publicar Anuncio</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
-
     </head>
     <body>
         <div class="container">
@@ -30,22 +29,10 @@
                     <option value="todos">Todos</option>
                 </select><br>
 
-                <h2>Información del Usuario</h2>
-                <label for="username">Nombre de usuario:</label>
-                <input type="text" id="username" name="username" required><br>
-
-                <label for="foto">URL de la foto de perfil:</label>
-                <input type="text" id="foto" name="foto" required><br>
-
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" required><br>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br>
-
                 <input type="submit" value="Publicar Anuncio">
                 <br>
-                <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
+                <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+
             </form>
         </div>
     </body>

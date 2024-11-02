@@ -1,5 +1,6 @@
 package com.jotacode.polimarket.models.dao;
 
+import com.jotacode.polimarket.models.entity.Cuenta;
 import com.jotacode.polimarket.models.entity.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -26,4 +27,14 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
         }
     }
 
+    public Usuario findByCuenta(Cuenta cuenta) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.cuenta = :cuenta", Usuario.class)
+                    .setParameter("cuenta", cuenta)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

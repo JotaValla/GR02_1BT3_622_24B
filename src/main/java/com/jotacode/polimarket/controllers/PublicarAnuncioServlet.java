@@ -1,17 +1,15 @@
 package com.jotacode.polimarket.controllers;
 
-import com.jotacode.polimarket.models.dao.AnuncioDAO;
-import com.jotacode.polimarket.models.dao.UsuarioDAO;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.AnuncioService;
-import com.jotacode.polimarket.services.UsuarioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import java.io.File;
@@ -29,15 +27,8 @@ import java.util.UUID;
 )
 public class PublicarAnuncioServlet extends HttpServlet {
 
-    // Definir la ruta fuera de `target` para mantener los archivos a salvo en recompilaciones
     private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
-    private UsuarioService usuarioService;
-    private AnuncioService anuncioService;
-
-    public PublicarAnuncioServlet() {
-        this.usuarioService = new UsuarioService();
-        this.anuncioService = new AnuncioService();
-    }
+    private AnuncioService anuncioService = new AnuncioService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,21 +37,18 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        Usuario usuario = createUserFromRequest(request);
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+
         Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
-
-        usuarioService.publicarAnuncio(anuncio, usuario);
+        anuncioService.vincularAnuncioConUsuario(anuncio, usuario);
 
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
-    }
-
-    private Usuario createUserFromRequest(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String foto = request.getParameter("foto");
-        String telefono = request.getParameter("telefono");
-        String email = request.getParameter("email");
-        return usuarioService.crearUsuario(username, foto, telefono, email);
     }
 
     private Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
@@ -88,5 +76,4 @@ public class PublicarAnuncioServlet extends HttpServlet {
         // Crear el anuncio
         return anuncioService.crearAnuncio(titulo, descripcion, imagenReferencia, categoria, precio);
     }
-
 }

@@ -8,15 +8,26 @@
         <class>com.jotacode.polimarket.models.entity.Usuario</class>
         <class>com.jotacode.polimarket.models.entity.Anuncio</class>
         <class>com.jotacode.polimarket.models.entity.Valoracion</class>
+        <class>com.jotacode.polimarket.models.entity.Cuenta</class>
 
         <properties>
+            <!-- Configuración para MySQL -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/polimarket?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="P@ssw0rd"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- Configuración para Derby (comentar esta sección para usar MySQL y descomentar para usar Derby) -->
+            <!--
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:derby:C:/Users/djimm/OneDrive - Escuela Politécnica Nacional/VISEMESTREV2.0/METODOLOGIAS/PoliMarket/polimarketDB;create=true"/>-->
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:${user.dir}/polimarketDB;create=true"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:${user.home}/polimarketDB;create=true"/>
             <property name="javax.persistence.jdbc.user" value=""/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- o create si quieres reiniciar la base de datos -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            -->
         </properties>
 
 

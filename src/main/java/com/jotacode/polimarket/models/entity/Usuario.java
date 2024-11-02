@@ -18,7 +18,7 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Long idUsuario;
 
-    private String username;
+    private String nombre;
     private String foto;
     private String telefono;
     private String email;
@@ -28,5 +28,9 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuValoracion")
     private List<Valoracion> valoraciones;
+
+    @OneToOne
+    @JoinColumn(name = "cuenta_id", referencedColumnName = "id_cuenta")
+    private Cuenta cuenta;
 
 }

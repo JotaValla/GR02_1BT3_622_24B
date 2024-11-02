@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Thu Oct 31 18:48:25 ECT 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0192-e4fa-f534-00000e4206f0 
-on database directory C:\Users\Michael\Documents\GitHub\GR02_1BT3_622_24B\polimarketDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
-Loaded from file:/C:/Users/Michael/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
-java.vendor=Oracle Corporation
-java.runtime.version=22+36-2370
-user.dir=C:\Users\Michael\Documents\GitHub\GR02_1BT3_622_24B
+Fri Nov 01 21:32:08 UTC 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0192-e9a4-8e58-0000073894a0 
+on database directory C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\polimarketDB with class loader com.intellij.database.remote.jdbc.impl.JdbcClassLoader$JdbcClassLoaderImpl@7c75222b 
+Loaded from file:/C:/Users/djimm/AppData/Roaming/JetBrains/IntelliJIdea2024.1/jdbc-drivers/Apache%20Derby/10.16.1.1/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=JetBrains s.r.o.
+java.runtime.version=17.0.11+1-b1207.30
+user.dir=C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket
 os.name=Windows 11
 os.arch=amd64
 os.version=10.0

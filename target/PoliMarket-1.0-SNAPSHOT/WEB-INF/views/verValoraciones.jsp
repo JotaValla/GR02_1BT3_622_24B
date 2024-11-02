@@ -26,7 +26,7 @@
                 </p>
                 <p>Precio: $<%=anuncio.getPrecio()%>
                 </p>
-                <p>Publicado por: <%=anuncio.getUsuAnuncio().getUsername()%>
+                <p>Publicado por: <%=anuncio.getUsuAnuncio().getNombre()%>
                 </p>
             </div>
 
@@ -37,7 +37,7 @@
                     for (Valoracion valoracion : valoraciones) {
             %>
             <div class="valoracion">
-                <p>Usuario: <%=valoracion.getUsuValoracion().getUsername()%>
+                <p>Usuario: <%=valoracion.getUsuValoracion().getNombre()%>
                 </p>
                 <p>Estrellas: <%=valoracion.getEstrellas()%> ⭐</p>
                 <p>Comentario: <%=valoracion.getComentario()%>
@@ -60,7 +60,8 @@
             <br>
             <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
             </button>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+
         </div>
     </body>
 </html>

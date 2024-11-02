@@ -22,7 +22,8 @@
                 <input type="submit" value="Filtrar">
             </form>
             <br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/'">Volver al Inicio</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+
         </div>
     </body>
 </html>

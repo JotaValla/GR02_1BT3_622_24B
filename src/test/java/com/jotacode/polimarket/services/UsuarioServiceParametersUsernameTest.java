@@ -29,6 +29,6 @@ public class UsuarioServiceParametersUsernameTest {
     @ParameterizedTest
     @MethodSource("parameters")
     public void validar_si_el_nombre_de_usuario_es_valido(String username, boolean resultadoEsperado) {
-        assertEquals(resultadoEsperado, usuarioService.validarUsername(username));
+        assertEquals(resultadoEsperado, usuarioService.validarNombre(username));
     }
 }

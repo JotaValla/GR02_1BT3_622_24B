@@ -3,6 +3,7 @@ package com.jotacode.polimarket.services;
 import com.jotacode.polimarket.models.dao.AnuncioDAO;
 import com.jotacode.polimarket.models.dao.UsuarioDAO;
 import com.jotacode.polimarket.models.entity.Anuncio;
+import com.jotacode.polimarket.models.entity.Cuenta;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.models.entity.Valoracion;
 
@@ -22,20 +23,23 @@ public class UsuarioService {
         this.valoracionService = new ValoracionService();
     }
 
-    public Usuario crearUsuario(String username, String foto, String telefono, String email) {
-        if (validarEmail(email) && validarUsername(username)) {
+    public Usuario crearUsuario(String nombre, String foto, String telefono, String email, Cuenta cuenta) {
+        if (validarEmail(email) && validarNombre(nombre)) {
             validarEmail(email);
-            validarUsername(username);
+            validarNombre(nombre);
 
             Usuario usuario = new Usuario();
-            usuario.setUsername(username);
+            usuario.setNombre(nombre);
             usuario.setFoto(foto);
             usuario.setTelefono(telefono);
             usuario.setEmail(email);
+            usuario.setCuenta(cuenta);
+
             usuarioDAO.create(usuario);
+            System.out.println("Usuario creado en servicio");
             return usuario;
-        }else{
-            throw  new IllegalArgumentException("El email o el username proporcionado no es válido.");
+        } else {
+            throw new IllegalArgumentException("El email o el nombre proporcionado no es válido.");
         }
 
     }
@@ -48,9 +52,9 @@ public class UsuarioService {
         return true;
     }
 
-    public boolean validarUsername(String username) {
+    public boolean validarNombre(String nombre) {
         String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
-        if (username == null || !username.matches(regex)) {
+        if (nombre == null || !nombre.matches(regex)) {
             return false;
         }
         return true;
@@ -72,5 +76,9 @@ public class UsuarioService {
 
     public List<Usuario> findAllUsuarios() {
         return usuarioDAO.findAll();
+    }
+
+    public Usuario findByCuenta(Cuenta cuenta) {
+        return usuarioDAO.findByCuenta(cuenta);
     }
 }
