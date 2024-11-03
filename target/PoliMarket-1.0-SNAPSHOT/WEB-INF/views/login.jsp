@@ -8,7 +8,8 @@
     <body>
         <div class="container">
             <h1>Iniciar Sesión</h1>
-            <!-- Mostrar mensaje de error si está presente -->
+
+            <!-- Para mostrar mensajes -->
             <c:if test="${not empty errorMessage}">
                 <div class="error">${errorMessage}</div>
             </c:if>
@@ -21,9 +22,7 @@
                 <input type="password" id="password" name="password" required><br>
 
                 <input type="submit" value="Iniciar Sesión">
-            </form>
-
-            <br>
+            </form><br>
             <button onclick="window.location.href='${pageContext.request.contextPath}/registro'">Registrarse</button>
         </div>
     </body>

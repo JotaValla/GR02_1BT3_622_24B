@@ -1,5 +1,6 @@
 com\jotacode\polimarket\services\UsuarioServiceParametersTest.class
 com\jotacode\polimarket\services\AnuncioServiceShould.class
+com\jotacode\polimarket\services\CuentaServiceShould.class
 com\jotacode\polimarket\services\ValoracionServiceShould.class
 com\jotacode\polimarket\services\UsuarioServiceParametersUsernameTest.class
 com\jotacode\polimarket\services\UsuarioServiceTestShould.class

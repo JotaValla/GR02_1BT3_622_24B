@@ -2,10 +2,12 @@ com\jotacode\polimarket\models\dao\CuentaDAO.class
 com\jotacode\polimarket\models\entity\Valoracion.class
 com\jotacode\polimarket\services\AnuncioService.class
 com\jotacode\polimarket\models\entity\Anuncio.class
+com\jotacode\polimarket\controllers\MenuServlet.class
 com\jotacode\polimarket\controllers\PublicarValoracionServlet.class
 com\jotacode\polimarket\services\UsuarioService.class
 com\jotacode\polimarket\models\entity\Usuario.class
 com\jotacode\polimarket\services\ValoracionService.class
+com\jotacode\polimarket\controllers\ActualizarContrasenaServlet.class
 com\jotacode\polimarket\models\dao\ValoracionDAO.class
 com\jotacode\polimarket\models\dao\exceptions\NonexistentEntityException.class
 com\jotacode\polimarket\services\CuentaService.class

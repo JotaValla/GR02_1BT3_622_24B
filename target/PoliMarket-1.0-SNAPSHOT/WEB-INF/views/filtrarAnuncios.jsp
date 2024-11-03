@@ -17,7 +17,6 @@
                     <option value="electronica">Electrónica</option>
                     <option value="libros">Libros</option>
                     <option value="ropa">Ropa</option>
-                    <!-- Agrega más categorías según sea necesario -->
                 </select>
                 <input type="submit" value="Filtrar">
             </form>
