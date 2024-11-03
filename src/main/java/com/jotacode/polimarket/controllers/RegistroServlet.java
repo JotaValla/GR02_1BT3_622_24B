@@ -27,23 +27,24 @@ public class RegistroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Datos de la cuenta
+        // Extraemos los parámetros de la solicitud
         String usernameCuenta = request.getParameter("usernameCuenta");
         String password = request.getParameter("password");
-
-        // Datos del usuario
         String nombre = request.getParameter("nombre");
         String foto = request.getParameter("foto");
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
 
-        // Crear cuenta
-        Cuenta cuenta = new Cuenta();
-        cuenta.setUsername(usernameCuenta);
-        cuenta.setPassword(password);
+        // Llamamos al nuevo método para crear cuenta y usuario
+        crearCuentaYUsuario(usernameCuenta, password, nombre, foto, telefono, email);
 
-        cuenta = cuentaService.crearCuenta(usernameCuenta, password);
-        usuarioService.crearUsuario(nombre, foto, telefono, email, cuenta);
+        // Redirigimos al login después de la creación
         response.sendRedirect(request.getContextPath() + "/login");
     }
+
+    private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String foto, String telefono, String email) {
+        Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
+        usuarioService.crearUsuario(nombre, foto, telefono, email, cuenta);
+    }
+
 }
