@@ -16,7 +16,7 @@
                 <textarea id="descripcion" name="descripcion" required></textarea><br>
 
                 <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*" required><br>
+                <input type="file" id="imagen" name="imagen" accept="image/*"><br>
 
                 <label for="precio">Precio:</label>
                 <input type="number" id="precio" name="precio" step="0.01" required><br>

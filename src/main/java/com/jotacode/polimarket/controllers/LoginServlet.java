@@ -5,6 +5,7 @@ import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.CuentaService;
 import com.jotacode.polimarket.services.UsuarioService;
 
+import jakarta.persistence.NoResultException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,7 +26,6 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -35,11 +35,20 @@ public class LoginServlet extends HttpServlet {
         if (cuenta != null) {
             Usuario usuario = usuarioService.findByCuenta(cuenta);
 
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", usuario);
+            if (usuario != null) {
+                // Iniciar sesión si las credenciales son correctas
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", usuario);
 
-            request.getRequestDispatcher("/WEB-INF/views/menu.jsp").forward(request, response);
+                // Redirigir al menú principal usando RequestDispatcher
+                request.getRequestDispatcher("/WEB-INF/views/menu.jsp").forward(request, response);
+            } else {
+                // Usuario no encontrado
+                request.setAttribute("errorMessage", "No se encontró el usuario.");
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            }
         } else {
+            // Si las credenciales son incorrectas
             request.setAttribute("errorMessage", "Nombre de usuario o contraseña incorrectos.");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
