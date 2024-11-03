@@ -8,6 +8,11 @@
     <body>
         <div class="container">
             <h1>Iniciar Sesión</h1>
+            <!-- Mostrar mensaje de error si está presente -->
+            <c:if test="${not empty errorMessage}">
+                <div class="error">${errorMessage}</div>
+            </c:if>
+
             <form action="${pageContext.request.contextPath}/login" method="post">
                 <label for="username">Nombre de usuario:</label>
                 <input type="text" id="username" name="username" required><br>

@@ -3,6 +3,7 @@ package com.jotacode.polimarket.services;
 import com.jotacode.polimarket.models.dao.CuentaDAO;
 import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Cuenta;
+import jakarta.persistence.NoResultException;
 
 public class CuentaService {
 
@@ -75,7 +76,11 @@ public class CuentaService {
     }
 
     public Cuenta findByUsernameAndPassword(String username, String password) {
-        return cuentaDAO.findByUsernameAndPassword(username.trim().toLowerCase(), password);
+        try {
+            return cuentaDAO.findByUsernameAndPassword(username.trim().toLowerCase(), password);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }

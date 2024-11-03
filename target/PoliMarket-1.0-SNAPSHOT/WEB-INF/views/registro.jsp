@@ -7,20 +7,6 @@
     <body>
         <div class="container">
             <h1>Registro de Usuario</h1>
-
-            <!-- Mostrar mensajes de éxito o error -->
-            <c:if test="${not empty mensajeExito}">
-                <div class="mensaje-exito">
-                        ${mensajeExito}
-                    <c:if test="${not empty redirectToLogin}">
-                        <!-- Formulario de redirección -->
-                        <form action="${pageContext.request.contextPath}/login" method="get">
-                            <input type="submit" value="Aceptar">
-                        </form>
-                    </c:if>
-                </div>
-            </c:if>
-
             <form action="${pageContext.request.contextPath}/registro" method="post">
 
                 <h2>Información de la Cuenta</h2>
