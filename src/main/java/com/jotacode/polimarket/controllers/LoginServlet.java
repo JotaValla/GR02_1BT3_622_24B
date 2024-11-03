@@ -30,27 +30,27 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Cuenta cuenta = cuentaService.findByUsernameAndPassword(username, password);
-
-        if (cuenta != null) {
-            Usuario usuario = usuarioService.findByCuenta(cuenta);
-
-            if (usuario != null) {
-                // Iniciar sesión si las credenciales son correctas
-                HttpSession session = request.getSession();
-                session.setAttribute("usuario", usuario);
-
-                // Redirigir al menú principal usando RequestDispatcher
-                request.getRequestDispatcher("/WEB-INF/views/menu.jsp").forward(request, response);
-            } else {
-                // Usuario no encontrado
-                request.setAttribute("errorMessage", "No se encontró el usuario.");
-                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-            }
+        // Verificar las credenciales de la cuenta
+        if (authenticateUser(request, username, password)) {
+            request.getRequestDispatcher("/WEB-INF/views/menu.jsp").forward(request, response);
         } else {
-            // Si las credenciales son incorrectas
             request.setAttribute("errorMessage", "Nombre de usuario o contraseña incorrectos.");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
+
     }
+
+    private boolean authenticateUser(HttpServletRequest request, String username, String password) {
+        Cuenta cuenta = cuentaService.findByUsernameAndPassword(username, password);
+        if (cuenta != null) {
+            Usuario usuario = usuarioService.findByCuenta(cuenta);
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuario);
+            return true;
+        }
+        return false;
+    }
+
+
+
 }

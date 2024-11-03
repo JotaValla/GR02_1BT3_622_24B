@@ -38,22 +38,27 @@ public class ActualizarContrasenaServlet extends HttpServlet {
 
         Cuenta cuenta = usuario.getCuenta();
 
-        // Verifica que la contraseña actual sea correcta
-        if (!cuentaService.validatePassword(cuenta, currentPassword)) {
+        if (!isCurrentPasswordCorrect(cuenta, currentPassword)) {
             request.setAttribute("errorMessage", "La contraseña actual es incorrecta.");
             request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
             return;
         }
 
-        // Verifica que la nueva contraseña coincida con la confirmación
-        if (!newPassword.equals(confirmPassword)) {
+        if (!isNewPasswordValid(newPassword, confirmPassword)) {
             request.setAttribute("errorMessage", "La nueva contraseña y la confirmación no coinciden.");
             request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
             return;
         }
 
-        // Actualiza la contraseña
         cuentaService.updatePassword(cuenta, newPassword);
         response.sendRedirect(request.getContextPath() + "/menu");
+    }
+
+    private boolean isCurrentPasswordCorrect(Cuenta cuenta, String currentPassword) {
+        return cuentaService.validatePassword(cuenta, currentPassword);
+    }
+
+    private boolean isNewPasswordValid(String newPassword, String confirmPassword) {
+        return newPassword.equals(confirmPassword);
     }
 }

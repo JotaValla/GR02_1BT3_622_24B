@@ -12,16 +12,34 @@ import java.io.IOException;
 @WebServlet("/menu")
 public class MenuServlet extends HttpServlet {
 
+    private static final String LOGIN_PAGE = "/login";
+    private static final String MENU_PAGE = "/WEB-INF/views/menu.jsp";
+    private static final String USUARIO_SESSION_ATTRIBUTE = "usuario";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Verificar si el usuario está autenticado
-        HttpSession session = request.getSession();
-        if (session.getAttribute("usuario") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+        if (!isUserAuthenticated(request.getSession())) {
+            redirectToLogin(request, response);
             return;
         }
 
         // Redirigir a menu.jsp
-        request.getRequestDispatcher("/WEB-INF/views/menu.jsp").forward(request, response);
+        forwardToMenu(request, response);
+    }
+
+    private boolean isUserAuthenticated(HttpSession session) {
+        return session.getAttribute(USUARIO_SESSION_ATTRIBUTE) != null;
+    }
+
+    private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
+    }
+
+    private void forwardToMenu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            request.getRequestDispatcher(MENU_PAGE).forward(request, response);
+        } catch (ServletException | IOException e) {
+            throw new ServletException("Error redirigiendo al menú.", e);
+        }
     }
 }
