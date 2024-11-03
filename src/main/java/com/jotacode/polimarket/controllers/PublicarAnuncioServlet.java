@@ -51,29 +51,35 @@ public class PublicarAnuncioServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }
 
-    private Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
+    public Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
         String categoria = request.getParameter("categoria");
         BigDecimal precio = new BigDecimal(request.getParameter("precio"));
 
-        // Generar un nombre único para la imagen
-        String imagenNombre = UUID.randomUUID().toString() + "_" + imagenPart.getSubmittedFileName();
+        String imagenReferencia = null; // Inicializar la referencia de imagen como null
 
-        // Verificar si el directorio de almacenamiento existe y crearlo si no
-        File uploadDir = new File(UPLOAD_DIRECTORY);
-        if (!uploadDir.exists()) {
-            Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
+        // Verifica si se ha subido una imagen
+        if (imagenPart != null && imagenPart.getSize() > 0) {
+            // Generar un nombre único para la imagen
+            String imagenNombre = UUID.randomUUID().toString() + "_" + imagenPart.getSubmittedFileName();
+
+            // Verificar si el directorio de almacenamiento existe y crearlo si no
+            File uploadDir = new File(UPLOAD_DIRECTORY);
+            if (!uploadDir.exists()) {
+                Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
+            }
+
+            // Guardar la imagen en el directorio
+            String uploadPath = UPLOAD_DIRECTORY + File.separator + imagenNombre;
+            imagenPart.write(uploadPath);
+
+            // Guardar solo la referencia de la imagen para almacenar en la base de datos
+            imagenReferencia = "/uploads/anuncios/" + imagenNombre;
         }
 
-        // Guardar la imagen en el directorio
-        String uploadPath = UPLOAD_DIRECTORY + File.separator + imagenNombre;
-        imagenPart.write(uploadPath);
-
-        // Guardar solo la referencia de la imagen para almacenar en la base de datos
-        String imagenReferencia = "/uploads/anuncios/" + imagenNombre;
-
-        // Crear el anuncio
+        // Crear el anuncio con o sin imagen
         return anuncioService.crearAnuncio(titulo, descripcion, imagenReferencia, categoria, precio);
     }
+
 }

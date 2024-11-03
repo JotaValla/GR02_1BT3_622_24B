@@ -27,7 +27,7 @@ public class AnuncioService {
     }
 
     private static void validarCamposAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio) {
-        if (titulo == null || descripcion == null || imagen == null || categoria == null || precio == null) {
+        if (titulo == null || descripcion == null || categoria == null || precio == null) {
             throw new IllegalArgumentException("Todo los campos deben ser llenados");
         }
     }
