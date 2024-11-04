@@ -1,34 +1,53 @@
-CREATE SCHEMA IF NOT EXISTS polimarketDB;
-SET SCHEMA polimarketDB;
+-- Conectar a la base de datos Derby
+CONNECT 'jdbc:derby:/usr/local/tomcat/data/polimarket;create=true';
 
--- Creación de la tabla 'usuarios'
-CREATE TABLE usuarios (
-                          id_usuario BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                          email VARCHAR(255),
-                          foto VARCHAR(255),
-                          telefono VARCHAR(255),
-                          username VARCHAR(255)
+-- Creación de la tabla CUENTAS
+CREATE TABLE CUENTAS (
+                         id_cuenta INT PRIMARY KEY,
+                         username VARCHAR(50) UNIQUE NOT NULL,
+                         password VARCHAR(50) NOT NULL
 );
 
--- Creación de la tabla 'anuncios'
-CREATE TABLE anuncios (
-                          id_anuncio BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                          categoria VARCHAR(255),
+-- Creación de la tabla USUARIOS
+CREATE TABLE USUARIOS (
+                          id_usuario INT PRIMARY KEY,
+                          nombre VARCHAR(100),
+                          foto VARCHAR(100),
+                          telefono VARCHAR(15),
+                          email VARCHAR(100),
+                          cuenta_id INT,
+                          FOREIGN KEY (cuenta_id) REFERENCES CUENTAS(id_cuenta)
+);
+
+-- Creación de la tabla ANUNCIOS
+CREATE TABLE ANUNCIOS (
+                          id_anuncio INT PRIMARY KEY,
+                          titulo VARCHAR(100),
                           descripcion VARCHAR(255),
-                          imagen VARCHAR(255),
-                          precio DECIMAL(38, 2),
-                          titulo VARCHAR(255),
-                          usuario_id BIGINT,
-                          CONSTRAINT FK_anuncios_usuarios FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario)
+                          imagen VARCHAR(100),
+                          categoria VARCHAR(50),
+                          precio DECIMAL(10, 2),
+                          usuario_id INT,
+                          FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id_usuario)
 );
 
--- Creación de la tabla 'valoraciones'
-CREATE TABLE valoraciones (
-                              id_valoracion BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                              comentario VARCHAR(255),
+-- Creación de la tabla VALORACIONES
+CREATE TABLE VALORACIONES (
+                              id_valoracion INT PRIMARY KEY,
                               estrellas INT,
-                              anuncio_id BIGINT,
-                              usuario_id BIGINT,
-                              CONSTRAINT FK_valoraciones_anuncios FOREIGN KEY (anuncio_id) REFERENCES anuncios (id_anuncio),
-                              CONSTRAINT FK_valoraciones_usuarios FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario)
+                              comentario VARCHAR(255),
+                              anuncio_id INT,
+                              usuario_id INT,
+                              FOREIGN KEY (anuncio_id) REFERENCES ANUNCIOS(id_anuncio),
+                              FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id_usuario)
 );
+
+-- Inserción de datos en la tabla CUENTAS
+INSERT INTO CUENTAS (id_cuenta, username, password) VALUES (1, 'johndoe', 'password123');
+INSERT INTO CUENTAS (id_cuenta, username, password) VALUES (2, 'janedoe', 'password456');
+
+-- Inserción de datos en la tabla USUARIOS
+INSERT INTO USUARIOS (id_usuario, nombre, foto, telefono, email, cuenta_id)
+VALUES (1, 'Juan Perez', 'foto1.jpg', '123456789', 'juan@example.com', 1);
+INSERT INTO USUARIOS (id_usuario, nombre, foto, telefono, email, cuenta_id)
+VALUES (2, 'Ana Gomez', 'foto2.jpg', '987654321', 'ana@example.com', 2);
