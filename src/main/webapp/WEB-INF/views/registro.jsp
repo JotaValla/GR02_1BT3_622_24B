@@ -60,6 +60,13 @@
             return false;
         }
 
+        // Verificación del nombre
+        var namePattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/;
+        if (!namePattern.test(name)) {
+            alert("El nombre solo debe contener letras y puede incluir espacios para separar nombres y apellidos.");
+            return false;
+        }
+
         return true;
     }
 </script>
