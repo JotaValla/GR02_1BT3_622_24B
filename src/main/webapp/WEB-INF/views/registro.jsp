@@ -53,6 +53,13 @@
             return false;
         }
 
+        // Verificación de la foto de perfil
+        var urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        if (!urlPattern.test(profileUrl)) {
+            alert("La URL de la foto de perfil no es válida.");
+            return false;
+        }
+
         return true;
     }
 </script>
