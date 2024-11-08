@@ -168,3 +168,13 @@ input[type="submit"]:hover {
     border: 1px solid #f5c6cb;
     border-radius: 4px;
 }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
