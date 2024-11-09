@@ -33,24 +33,22 @@
             %>
             <div class="anuncio">
                 <%
-                    String imagen = anuncio.getImagen(); // Obtener la imagen
+                    String imagen = anuncio.getImagen();
                     String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
                 %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>">
-                <h2><%= anuncio.getTitulo() %>
-                </h2>
-                <p>Precio: $<%= anuncio.getPrecio() %>
-                </p>
+                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="anuncio-img">
+                <h2><%= anuncio.getTitulo() %></h2>
+                <p>Precio: $<%= anuncio.getPrecio() %></p>
                 <form action="${pageContext.request.contextPath}/verValoraciones" method="get" style="display: inline;">
                     <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
                     <button type="submit">Ver valoraciones</button>
                 </form>
-                <form action="${pageContext.request.contextPath}/eliminarFavorito" method="post"
-                      style="display: inline;">
+                <form action="${pageContext.request.contextPath}/eliminarFavorito" method="post" style="display: inline;">
                     <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
                     <button type="submit">Eliminar de Favoritos</button>
                 </form>
             </div>
+
             <%
                 }
             } else {

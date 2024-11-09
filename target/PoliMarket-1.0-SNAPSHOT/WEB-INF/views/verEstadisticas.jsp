@@ -15,8 +15,10 @@
                 Double promedioValoraciones = (Double) request.getAttribute("promedioValoraciones");
                 if (anuncio != null) {
             %>
-            <h2><%= anuncio.getTitulo() %></h2>
-            <p>Vistas: <%= anuncio.getVistas() %></p>
+            <h2><%= anuncio.getTitulo() %>
+            </h2>
+            <p>Vistas: <%= anuncio.getVistas() %>
+            </p>
             <p>Promedio de Valoraciones: <%= String.format("%.2f", promedioValoraciones) %> estrellas</p>
             <%
             } else {

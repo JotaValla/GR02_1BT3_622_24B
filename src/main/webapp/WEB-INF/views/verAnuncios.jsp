@@ -41,14 +41,15 @@
                     String imagen = anuncio.getImagen();
                     String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
                 %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>">
+                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="anuncio-img">
                 <h2><%= anuncio.getTitulo() %></h2>
                 <p>Precio: $<%= anuncio.getPrecio() %></p>
                 <form action="${pageContext.request.contextPath}/verAnuncioCompleto" method="get">
                     <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
-                    <button type="submit">Ver Anuncio</button>
+                    <button type="submit" class="btn-primary">Ver Anuncio</button>
                 </form>
             </div>
+
             <%
                 }
             } else {

@@ -208,3 +208,26 @@ input[type="submit"]:hover {
     animation: fadeIn 0.5s ease-in-out;
 }
 
+.anuncio img {
+    width: 200px;  /* Ancho fijo */
+    height: 150px; /* Alto fijo */
+    object-fit: cover; /* Ajusta la imagen para que cubra el espacio sin distorsionarse */
+    border-radius: 8px; /* Esquinas redondeadas, opcional */
+    border: 1px solid #ddd; /* Borde alrededor de la imagen, opcional */
+    margin-bottom: 10px;
+}
+
+.imagen-original {
+    max-width: 100% !important;  /* La imagen puede ocupar hasta el 100% del ancho del contenedor */
+    max-height: 800px !important; /* Altura máxima para evitar que se alargue demasiado */
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd; /* Borde alrededor de la imagen */
+    border-radius: 8px;
+}
+
+
+
+

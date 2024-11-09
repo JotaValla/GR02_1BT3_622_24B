@@ -51,11 +51,9 @@
                     String imagen = anuncio.getImagen();
                     String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
                 %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>">
-                <h4><%= anuncio.getTitulo() %>
-                </h4>
-                <p>Precio: $<%= anuncio.getPrecio() %>
-                </p>
+                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="anuncio-img">
+                <h4><%= anuncio.getTitulo() %></h4>
+                <p>Precio: $<%= anuncio.getPrecio() %></p>
                 <form action="${pageContext.request.contextPath}/verEstadisticas" method="get">
                     <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
                     <button type="submit">Ver Estadísticas</button>
