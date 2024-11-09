@@ -33,14 +33,21 @@ public class PublicarValoracionServlet extends HttpServlet {
             return;
         }
 
-        // Filtrar anuncios para excluir los que pertenecen al usuario
-        List<Anuncio> anuncios = anuncioService.findAllAnuncios();
-        anuncios.removeIf(anuncio -> anuncio.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
+        String anuncioIdParam = request.getParameter("anuncioId");
+        if (anuncioIdParam != null) {
+            // Si el anuncio ya está seleccionado, solo pasamos el anuncio a la vista
+            Long anuncioId = Long.parseLong(anuncioIdParam);
+            Anuncio anuncio = anuncioService.findById(anuncioId);
+            request.setAttribute("anuncio", anuncio);
+        } else {
+            // Si no, mostramos todos los anuncios excluyendo los del usuario
+            List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+            anuncios.removeIf(anuncio -> anuncio.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
+            request.setAttribute("anuncios", anuncios);
+        }
 
-        request.setAttribute("anuncios", anuncios);
         request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,13 +67,12 @@ public class PublicarValoracionServlet extends HttpServlet {
         // Verificar si el usuario ya ha valorado este anuncio
         if (valoracionService.existeValoracionDeUsuarioParaAnuncio(usuario.getIdUsuario(), anuncioId)) {
             request.setAttribute("errorMessage", "Ya has valorado este anuncio.");
-            List<Anuncio> anuncios = anuncioService.findAllAnuncios();
-            anuncios.removeIf(a -> a.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
-            request.setAttribute("anuncios", anuncios);
+            request.setAttribute("anuncio", anuncio);  // Pasar el anuncio para mantener el contexto en la vista
             request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
             return;
         }
 
+        // Crear la nueva valoración si no existe una anterior
         Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
         usuarioService.publicarValoracion(valoracion, anuncio, usuario);
 
