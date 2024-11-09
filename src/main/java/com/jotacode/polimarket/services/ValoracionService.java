@@ -47,6 +47,26 @@ public class ValoracionService {
             throw new IllegalArgumentException("El anuncio, usuario o valoracion no pueden ser nulos");
         }
     }
+    // Método para actualizar una valoración
+    public void updateValoracion(Long valoracionId, Integer estrellas, String comentario) {
+        Valoracion valoracion = findById(valoracionId);
+        if (valoracion == null) {
+            throw new IllegalArgumentException("La valoración no existe");
+        }
+
+        // Actualiza los campos de la valoración
+        valoracion.setEstrellas(estrellas);
+        valoracion.setComentario(comentario);
+
+        // Llama al DAO para guardar los cambios
+        valoracionDAO.updateValoracion(valoracion);
+    }
+    public Valoracion findById(Long id) {
+        return valoracionDAO.findById(id);
+    }
+    public List<Valoracion> findValoracionesByUsuario(Long usuarioId) {
+        return valoracionDAO.findValoracionesByUsuario(usuarioId);
+    }
 
     public List<Valoracion> findValoracionesByAnuncio(Long anuncioId) {
         return valoracionDAO.findValoracionesByAnuncio(anuncioId);

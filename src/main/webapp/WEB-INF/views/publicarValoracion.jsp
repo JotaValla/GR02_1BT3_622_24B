@@ -22,6 +22,17 @@
             %>
 
             <form action="${pageContext.request.contextPath}/publicarValoracion" method="post">
+                <%
+                    String anuncioIdParam = request.getParameter("anuncioId");
+                    if (anuncioIdParam != null) {
+                        // Ocultamos el campo de selección de anuncio y usamos el anuncioId directamente
+                %>
+                <input type="hidden" name="anuncioId" value="<%= anuncioIdParam %>">
+
+                <%
+                    } else {
+                %>
+                <!-- Este bloque de código solo se mostrará si no se recibe un anuncioId -->
                 <label for="anuncioId">Seleccionar Anuncio:</label>
                 <select id="anuncioId" name="anuncioId" required>
                     <%
@@ -35,6 +46,9 @@
                         }
                     %>
                 </select><br>
+                <%
+                    }
+                %>
 
                 <label for="estrellas">Estrellas:</label>
                 <input type="number" id="estrellas" name="estrellas" min="1" max="5" required><br>
