@@ -32,3 +32,13 @@ build/
 
 ### Mac OS ###
 .DS_Store
+.smarttomcat/PoliMarket/conf/catalina.policy
+.smarttomcat/PoliMarket/conf/catalina.properties
+.smarttomcat/PoliMarket/conf/context.xml
+.smarttomcat/PoliMarket/conf/jaspic-providers.xml
+.smarttomcat/PoliMarket/conf/jaspic-providers.xsd
+.smarttomcat/PoliMarket/conf/logging.properties
+.smarttomcat/PoliMarket/conf/server.xml
+.smarttomcat/PoliMarket/conf/tomcat-users.xml
+.smarttomcat/PoliMarket/conf/tomcat-users.xsd
+.smarttomcat/PoliMarket/conf/web.xml
