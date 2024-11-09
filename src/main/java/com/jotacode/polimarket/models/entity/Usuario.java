@@ -33,4 +33,12 @@ public class Usuario {
     @JoinColumn(name = "cuenta_id", referencedColumnName = "id_cuenta")
     private Cuenta cuenta;
 
+    @ManyToMany
+    @JoinTable(
+            name = "USUARIO_FAVORITOS",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "anuncio_id")
+    )
+    private List<Anuncio> favoritos;
+
 }

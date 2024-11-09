@@ -3,6 +3,7 @@ package com.jotacode.polimarket.controllers;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.AnuncioService;
+import com.jotacode.polimarket.services.UsuarioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,6 +30,7 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
     private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
     private AnuncioService anuncioService = new AnuncioService();
+    private UsuarioService usuarioService = new UsuarioService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,8 +48,7 @@ public class PublicarAnuncioServlet extends HttpServlet {
         }
 
         Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
-        anuncioService.vincularAnuncioConUsuario(anuncio, usuario);
-
+        usuarioService.publicarAnuncio(anuncio, usuario);
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }
 

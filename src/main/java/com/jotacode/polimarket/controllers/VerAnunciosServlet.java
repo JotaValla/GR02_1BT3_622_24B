@@ -32,7 +32,7 @@ public class VerAnunciosServlet extends HttpServlet {
         if (usuarioId != null && !usuarioId.isEmpty()) {
             anuncios = anuncioService.findAnunciosByUsuario(Long.parseLong(usuarioId));
         } else {
-            anuncios = anuncioService.findAllAnuncios();
+            anuncios = usuarioService.verAnuncios();
         }
 
         List<Usuario> usuarios = usuarioService.findAllUsuarios();
