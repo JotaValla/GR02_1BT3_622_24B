@@ -4,6 +4,7 @@ import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.models.entity.Valoracion;
 import com.jotacode.polimarket.services.AnuncioService;
+import com.jotacode.polimarket.services.UsuarioService;
 import com.jotacode.polimarket.services.ValoracionService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ public class PublicarValoracionServlet extends HttpServlet {
 
     private AnuncioService anuncioService = new AnuncioService();
     private ValoracionService valoracionService = new ValoracionService();
+    private UsuarioService usuarioService = new UsuarioService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +46,7 @@ public class PublicarValoracionServlet extends HttpServlet {
         Anuncio anuncio = anuncioService.findById(anuncioId);
 
         Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
-        valoracionService.vincularValoracion(valoracion, anuncio, usuario);
+        usuarioService.publicarValoracion(valoracion, anuncio, usuario);
 
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }

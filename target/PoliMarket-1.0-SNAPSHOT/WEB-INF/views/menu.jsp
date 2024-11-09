@@ -24,14 +24,12 @@
         <!-- Contenedor principal con las opciones del menú -->
         <div class="container">
             <div style="text-align: center;">
-                <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary"
-                   style="margin: 10px;">Publicar Anuncio</a>
-                <a href="${pageContext.request.contextPath}/verAnuncios" class="btn-secondary" style="margin: 10px;">Ver
-                    Anuncios</a>
-                <a href="${pageContext.request.contextPath}/filtrarAnuncios" class="btn-secondary"
-                   style="margin: 10px;">Filtrar Anuncios</a>
-                <a href="${pageContext.request.contextPath}/publicarValoracion" class="btn-secondary"
-                   style="margin: 10px;">Publicar Valoración</a>
+                <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary" style="margin: 10px;">Publicar Anuncio</a>
+                <a href="${pageContext.request.contextPath}/verAnuncios" class="btn-secondary" style="margin: 10px;">Ver Anuncios</a>
+                <a href="${pageContext.request.contextPath}/filtrarAnuncios" class="btn-secondary" style="margin: 10px;">Filtrar Anuncios</a>
+                <a href="${pageContext.request.contextPath}/publicarValoracion" class="btn-secondary" style="margin: 10px;">Publicar Valoración</a>
+                <!-- Nuevo botón para ver favoritos -->
+                <a href="${pageContext.request.contextPath}/favoritos" class="btn-secondary" style="margin: 10px;">Ver Mis Favoritos</a>
             </div>
         </div>
 

@@ -1,9 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: Usuario
-<<<<<<< Updated upstream
-Build-Jdk: Amazon Corretto version 22.0.2
-=======
-Build-Jdk: Oracle OpenJDK version 21.0.1
->>>>>>> Stashed changes
+Built-By: djimm
+Build-Jdk: Oracle OpenJDK 22.0.1
 

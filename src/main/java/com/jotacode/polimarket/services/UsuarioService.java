@@ -1,6 +1,7 @@
 package com.jotacode.polimarket.services;
 
 import com.jotacode.polimarket.models.dao.UsuarioDAO;
+import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Cuenta;
 import com.jotacode.polimarket.models.entity.Usuario;
@@ -58,12 +59,10 @@ public class UsuarioService {
 
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {
         anuncioService.vincularAnuncioConUsuario(anuncio, usuario);
-        System.out.println("Anuncio publicado");
     }
 
     public void publicarValoracion(Valoracion valoracion, Anuncio anuncio, Usuario usuario) {
         valoracionService.vincularValoracion(valoracion, anuncio, usuario);
-        System.out.println("Valoracion publicada");
     }
 
     public List<Anuncio> verAnuncios() {
@@ -77,4 +76,24 @@ public class UsuarioService {
     public Usuario findByCuenta(Cuenta cuenta) {
         return usuarioDAO.findByCuenta(cuenta);
     }
+
+    public void agregarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
+        // Recarga el usuario desde la base de datos para obtener la colección favoritos inicializada
+        Usuario usuarioConFavoritos = usuarioDAO.findByIdWithFavoritos(usuario.getIdUsuario());
+
+        if (!usuarioConFavoritos.getFavoritos().contains(anuncio)) {
+            usuarioConFavoritos.getFavoritos().add(anuncio);
+            usuarioDAO.edit(usuarioConFavoritos); // Guarda los cambios en la base de datos
+        }
+    }
+
+
+    public List<Anuncio> verFavoritos(Usuario usuario) {
+        return usuario.getFavoritos();
+    }
+
+    public Usuario findById(Long id) {
+        return usuarioDAO.findByIdWithFavoritos(id); // Nuevo método que carga favoritos de forma anticipada
+    }
+
 }
