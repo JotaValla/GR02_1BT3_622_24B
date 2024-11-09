@@ -27,7 +27,6 @@ public class RegistroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Extraemos los parámetros de la solicitud
         String usernameCuenta = request.getParameter("usernameCuenta");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
@@ -35,11 +34,46 @@ public class RegistroServlet extends HttpServlet {
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
 
-        // Llamamos al nuevo método para crear cuenta y usuario
-        crearCuentaYUsuario(usernameCuenta, password, nombre, foto, telefono, email);
+        // Validaciones
+        if (!validarPassword(password)) {
+            mostrarError(request, response, "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula y un número");
+            return;
+        }
 
-        // Redirigimos al login después de la creación
+        if (!validarTelefono(telefono)) {
+            mostrarError(request, response, "El teléfono debe contener solo números");
+            return;
+        }
+
+        if (!validarNombre(nombre)) {
+            mostrarError(request, response, "El nombre solo debe contener letras, tildes y espacios");
+            return;
+        }
+
+        // Si todas las validaciones pasan, crear cuenta y usuario
+        crearCuentaYUsuario(usernameCuenta, password, nombre, foto, telefono, email);
         response.sendRedirect(request.getContextPath() + "/login");
+    }
+
+    private boolean validarPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,16}$";
+        return password.matches(passwordRegex);
+    }
+
+    private boolean validarTelefono(String telefono) {
+        String telefonoRegex = "^\\d+$";
+        return telefono.matches(telefonoRegex);
+    }
+
+    private boolean validarNombre(String nombre) {
+        String nombreRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$";
+        return nombre.matches(nombreRegex);
+    }
+
+    private void mostrarError(HttpServletRequest request, HttpServletResponse response, String mensaje) 
+            throws ServletException, IOException {
+        request.setAttribute("error", mensaje);
+        request.getRequestDispatcher("/WEB-INF/views/registro.jsp").forward(request, response);
     }
 
     private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String foto, String telefono, String email) {
