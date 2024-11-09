@@ -1,8 +1,10 @@
 package com.jotacode.polimarket.services;
 
 import com.jotacode.polimarket.models.dao.AnuncioDAO;
+import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
+import com.jotacode.polimarket.models.entity.Valoracion;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -59,4 +61,28 @@ public class AnuncioService {
     public List<Anuncio> findAnunciosByUsuario(long idUsuario) {
         return anuncioDAO.findAnunciosByUsuario(idUsuario);
     }
+
+    public double calcularPromedioValoraciones(Long anuncioId) {
+        Anuncio anuncio = anuncioDAO.findByIdWithValoraciones(anuncioId); // Cargar anuncio con valoraciones
+        List<Valoracion> valoraciones = anuncio.getValoraciones();
+
+        if (valoraciones.isEmpty()) {
+            return 0.0; // Si no hay valoraciones, el promedio es 0
+        }
+
+        double sumaEstrellas = 0.0;
+        for (Valoracion valoracion : valoraciones) {
+            sumaEstrellas += valoracion.getEstrellas();
+        }
+
+        return sumaEstrellas / valoraciones.size(); // Calcula el promedio
+    }
+
+
+
+    public void actualizarAnuncio(Anuncio anuncio) throws NonexistentEntityException {
+        anuncioDAO.edit(anuncio);
+    }
+
+
 }

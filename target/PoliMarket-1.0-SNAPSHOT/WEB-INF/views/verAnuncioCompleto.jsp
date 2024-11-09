@@ -8,6 +8,30 @@
     </head>
     <body>
         <div class="container">
+
+            <%
+                String successParam = request.getParameter("success");
+                boolean success = successParam != null && successParam.equals("true");
+                boolean duplicate = successParam != null && successParam.equals("false");
+            %>
+
+            <div class="container">
+                <!-- Mensaje de éxito al agregar a favoritos -->
+                <% if (success) { %>
+                <div class="mensaje-exito">
+                    ¡Anuncio agregado a favoritos con éxito!
+                </div>
+                <% } else if (duplicate) { %>
+                <!-- Mensaje de error si el anuncio ya está en favoritos -->
+                <div class="mensaje-error">
+                    No se puede añadir el mismo anuncio a tus favoritos dos veces.
+                </div>
+                <% } %>
+
+                <!-- Resto del contenido de verAnuncioCompleto.jsp -->
+            </div>
+
+
             <%
                 Anuncio anuncio = (Anuncio) request.getAttribute("anuncio");
                 if (anuncio != null) {
@@ -50,5 +74,17 @@
             <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
             </button>
         </div>
+
+        <!-- Script para ocultar el mensaje después de unos segundos -->
+        <script>
+            window.onload = function () {
+                const successAlert = document.querySelector('.alert-success');
+                if (successAlert) {
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000); // Oculta el mensaje después de 3 segundos
+                }
+            };
+        </script>
     </body>
 </html>

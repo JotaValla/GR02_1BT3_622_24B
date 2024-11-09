@@ -18,14 +18,14 @@
             <div class="container">
                 <!-- Mensaje de éxito al agregar a favoritos -->
                 <% if (success) { %>
-                    <div class="mensaje-exito">
-                        ¡Anuncio agregado a favoritos con éxito!
-                    </div>
+                <div class="mensaje-exito">
+                    ¡Anuncio agregado a favoritos con éxito!
+                </div>
                 <% } else if (duplicate) { %>
-                    <!-- Mensaje de error si el anuncio ya está en favoritos -->
-                    <div class="mensaje-error">
-                        No se puede añadir el mismo anuncio a tus favoritos dos veces.
-                    </div>
+                <!-- Mensaje de error si el anuncio ya está en favoritos -->
+                <div class="mensaje-error">
+                    No se puede añadir el mismo anuncio a tus favoritos dos veces.
+                </div>
                 <% } %>
 
                 <!-- Resto del contenido de verAnuncioCompleto.jsp -->
@@ -77,7 +77,7 @@
 
         <!-- Script para ocultar el mensaje después de unos segundos -->
         <script>
-            window.onload = function() {
+            window.onload = function () {
                 const successAlert = document.querySelector('.alert-success');
                 if (successAlert) {
                     setTimeout(() => {

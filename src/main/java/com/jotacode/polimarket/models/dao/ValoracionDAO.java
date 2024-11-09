@@ -4,6 +4,7 @@ package com.jotacode.polimarket.models.dao;
 import com.jotacode.polimarket.models.entity.Valoracion;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -29,4 +30,19 @@ public class ValoracionDAO extends AbstractDAO<Valoracion> {
             em.close();
         }
     }
+
+    public Valoracion findValoracionByUsuarioAndAnuncio(Long usuarioId, Long anuncioId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT v FROM Valoracion v WHERE v.usuValoracion.idUsuario = :usuarioId AND v.anun.idAnuncio = :anuncioId", Valoracion.class)
+                    .setParameter("usuarioId", usuarioId)
+                    .setParameter("anuncioId", anuncioId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // No hay valoración existente
+        } finally {
+            em.close();
+        }
+    }
+
 }

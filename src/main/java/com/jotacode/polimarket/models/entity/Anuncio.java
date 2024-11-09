@@ -26,6 +26,8 @@ public class Anuncio {
     private String imagen;
     private String categoria;
     private BigDecimal precio;
+    private int vistas = 0; // Inicializamos el conteo de vistas en 0
+
 
     @ManyToOne
     @JoinColumn(name="usuario_id")

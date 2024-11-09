@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="com.jotacode.polimarket.models.entity.Usuario" %>
+<%@ page import="com.jotacode.polimarket.models.entity.Anuncio" %>
 <%
     Usuario usuario = (Usuario) session.getAttribute("usuario");
 
@@ -21,19 +22,43 @@
             <h2>Bienvenido, <%= usuario.getNombre() %></h2>
         </header>
 
-        <!-- Contenedor principal con las opciones del menú -->
+        <!-- Opciones principales -->
         <div class="container">
             <div style="text-align: center;">
                 <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary" style="margin: 10px;">Publicar Anuncio</a>
                 <a href="${pageContext.request.contextPath}/verAnuncios" class="btn-secondary" style="margin: 10px;">Ver Anuncios</a>
                 <a href="${pageContext.request.contextPath}/filtrarAnuncios" class="btn-secondary" style="margin: 10px;">Filtrar Anuncios</a>
                 <a href="${pageContext.request.contextPath}/publicarValoracion" class="btn-secondary" style="margin: 10px;">Publicar Valoración</a>
-                <!-- Nuevo botón para ver favoritos -->
                 <a href="${pageContext.request.contextPath}/favoritos" class="btn-secondary" style="margin: 10px;">Ver Mis Favoritos</a>
             </div>
         </div>
 
-        <!-- Nuevo contenedor para gestionar cuenta -->
+        <!-- Mostrar los anuncios del usuario con opción de ver estadísticas -->
+        <div class="container">
+            <h3>Mis Anuncios</h3>
+            <%
+                if (usuario.getAnuncios() != null && !usuario.getAnuncios().isEmpty()) {
+                    for (Anuncio anuncio : usuario.getAnuncios()) {
+            %>
+            <div class="anuncio">
+                <h4><%= anuncio.getTitulo() %></h4>
+                <p>Precio: $<%= anuncio.getPrecio() %></p>
+                <form action="${pageContext.request.contextPath}/verEstadisticas" method="get">
+                    <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
+                    <button type="submit">Ver Estadísticas</button>
+                </form>
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <p>No has publicado anuncios.</p>
+            <%
+                }
+            %>
+        </div>
+
+        <!-- Gestión de cuenta -->
         <div class="container cuenta-container">
             <h3>Gestionar Cuenta</h3>
             <div class="account-actions">

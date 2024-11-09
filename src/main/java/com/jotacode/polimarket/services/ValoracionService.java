@@ -51,4 +51,9 @@ public class ValoracionService {
     public List<Valoracion> findValoracionesByAnuncio(Long anuncioId) {
         return valoracionDAO.findValoracionesByAnuncio(anuncioId);
     }
+
+    public boolean existeValoracionDeUsuarioParaAnuncio(Long usuarioId, Long anuncioId) {
+        return valoracionDAO.findValoracionByUsuarioAndAnuncio(usuarioId, anuncioId) != null;
+    }
+
 }

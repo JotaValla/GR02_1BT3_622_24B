@@ -25,10 +25,22 @@ public class PublicarValoracionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Filtrar anuncios para excluir los que pertenecen al usuario
         List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+        anuncios.removeIf(anuncio -> anuncio.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
+
         request.setAttribute("anuncios", anuncios);
         request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,9 +57,20 @@ public class PublicarValoracionServlet extends HttpServlet {
         Long anuncioId = Long.parseLong(request.getParameter("anuncioId"));
         Anuncio anuncio = anuncioService.findById(anuncioId);
 
+        // Verificar si el usuario ya ha valorado este anuncio
+        if (valoracionService.existeValoracionDeUsuarioParaAnuncio(usuario.getIdUsuario(), anuncioId)) {
+            request.setAttribute("errorMessage", "Ya has valorado este anuncio.");
+            List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+            anuncios.removeIf(a -> a.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
+            request.setAttribute("anuncios", anuncios);
+            request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
+            return;
+        }
+
         Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
         usuarioService.publicarValoracion(valoracion, anuncio, usuario);
 
         response.sendRedirect(request.getContextPath() + "/verAnuncios");
     }
+
 }

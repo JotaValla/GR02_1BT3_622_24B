@@ -106,4 +106,11 @@ public class UsuarioService {
         return usuarioDAO.findByIdWithFavoritos(id); // Nuevo método que carga favoritos de forma anticipada
     }
 
+    public Usuario findUsuarioConAnuncios(Cuenta cuenta) {
+        Usuario usuario = usuarioDAO.findByCuenta(cuenta); // Primero obtienes el usuario por su cuenta
+        return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
+    }
+
+
+
 }

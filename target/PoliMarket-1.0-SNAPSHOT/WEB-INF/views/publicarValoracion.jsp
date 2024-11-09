@@ -10,6 +10,17 @@
     <body>
         <div class="container">
             <h1>Publicar Valoración</h1>
+
+            <!-- Mostrar mensaje de error si existe -->
+            <%
+                String errorMessage = (String) request.getAttribute("errorMessage");
+                if (errorMessage != null) {
+            %>
+            <div class="mensaje-error"><%= errorMessage %></div>
+            <%
+                }
+            %>
+
             <form action="${pageContext.request.contextPath}/publicarValoracion" method="post">
                 <label for="anuncioId">Seleccionar Anuncio:</label>
                 <select id="anuncioId" name="anuncioId" required>
@@ -35,7 +46,6 @@
             </form>
             <br>
             <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
-
         </div>
     </body>
 </html>
