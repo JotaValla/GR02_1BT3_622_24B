@@ -50,7 +50,10 @@ public class GuardarAnuncioServlet extends HttpServlet {
             }
 
             // Agrega el anuncio a los favoritos del usuario
-            usuarioService.agregarFavorito(usuario, anuncio);
+            if (!usuarioService.agregarFavorito(usuario, anuncio)) {
+                response.sendRedirect("verAnuncioCompleto?anuncioId=" + anuncioId + "&success=false");
+                return;
+            }
 
             // Recarga el usuario actualizado desde la base de datos para obtener los cambios en favoritos
             Usuario usuarioActualizado = usuarioService.findById(usuario.getIdUsuario());

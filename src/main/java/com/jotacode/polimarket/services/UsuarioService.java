@@ -77,15 +77,19 @@ public class UsuarioService {
         return usuarioDAO.findByCuenta(cuenta);
     }
 
-    public void agregarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
-        // Recarga el usuario desde la base de datos para obtener la colección favoritos inicializada
+    public boolean agregarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
         Usuario usuarioConFavoritos = usuarioDAO.findByIdWithFavoritos(usuario.getIdUsuario());
 
-        if (!usuarioConFavoritos.getFavoritos().contains(anuncio)) {
+        // Verifica que el anuncio no esté ya en favoritos para evitar duplicados
+        if (usuarioConFavoritos.getFavoritos().stream().noneMatch(f -> f.getIdAnuncio().equals(anuncio.getIdAnuncio()))) {
             usuarioConFavoritos.getFavoritos().add(anuncio);
-            usuarioDAO.edit(usuarioConFavoritos); // Guarda los cambios en la base de datos
+            usuarioDAO.edit(usuarioConFavoritos);
+            return true; // Anuncio agregado exitosamente
         }
+        return false; // El anuncio ya estaba en favoritos
     }
+
+
 
 
     public List<Anuncio> verFavoritos(Usuario usuario) {

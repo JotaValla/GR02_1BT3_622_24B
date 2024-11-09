@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ANUNCIOS")
@@ -33,4 +34,16 @@ public class Anuncio {
     @OneToMany(mappedBy = "anun")
     private List<Valoracion> valoraciones;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Anuncio anuncio = (Anuncio) o;
+        return Objects.equals(idAnuncio, anuncio.idAnuncio);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idAnuncio);
+    }
 }

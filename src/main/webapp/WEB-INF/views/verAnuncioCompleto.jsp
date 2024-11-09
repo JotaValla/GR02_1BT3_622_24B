@@ -10,16 +10,27 @@
         <div class="container">
 
             <%
-                // Mostrar mensaje de éxito si el anuncio fue guardado correctamente
                 String successParam = request.getParameter("success");
-                if ("true".equals(successParam)) {
+                boolean success = successParam != null && successParam.equals("true");
+                boolean duplicate = successParam != null && successParam.equals("false");
             %>
-                <div class="mensaje-exito">
-                    ¡El anuncio se ha guardado exitosamente!
-                </div>
-            <%
-                }
-            %>
+
+            <div class="container">
+                <!-- Mensaje de éxito al agregar a favoritos -->
+                <% if (success) { %>
+                    <div class="mensaje-exito">
+                        ¡Anuncio agregado a favoritos con éxito!
+                    </div>
+                <% } else if (duplicate) { %>
+                    <!-- Mensaje de error si el anuncio ya está en favoritos -->
+                    <div class="mensaje-error">
+                        No se puede añadir el mismo anuncio a tus favoritos dos veces.
+                    </div>
+                <% } %>
+
+                <!-- Resto del contenido de verAnuncioCompleto.jsp -->
+            </div>
+
 
             <%
                 Anuncio anuncio = (Anuncio) request.getAttribute("anuncio");
