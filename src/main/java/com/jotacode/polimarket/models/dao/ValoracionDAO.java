@@ -30,7 +30,35 @@ public class ValoracionDAO extends AbstractDAO<Valoracion> {
             em.close();
         }
     }
-
+    public List<Valoracion> findValoracionesByUsuario(Long usuarioId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery(
+                            "SELECT v FROM Valoracion v WHERE v.usuValoracion.idUsuario = :usuarioId", Valoracion.class)
+                    .setParameter("usuarioId", usuarioId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    public void updateValoracion(Valoracion valoracion) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(valoracion);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+    public Valoracion findById(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Valoracion.class, id);
+        } finally {
+            em.close();
+        }
+    }
     public Valoracion findValoracionByUsuarioAndAnuncio(Long usuarioId, Long anuncioId) {
         EntityManager em = getEntityManager();
         try {
@@ -44,5 +72,6 @@ public class ValoracionDAO extends AbstractDAO<Valoracion> {
             em.close();
         }
     }
+
 
 }
