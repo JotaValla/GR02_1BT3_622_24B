@@ -8,6 +8,19 @@
     </head>
     <body>
         <div class="container">
+
+            <%
+                // Mostrar mensaje de éxito si el anuncio fue guardado correctamente
+                String successParam = request.getParameter("success");
+                if ("true".equals(successParam)) {
+            %>
+                <div class="mensaje-exito">
+                    ¡El anuncio se ha guardado exitosamente!
+                </div>
+            <%
+                }
+            %>
+
             <%
                 Anuncio anuncio = (Anuncio) request.getAttribute("anuncio");
                 if (anuncio != null) {
@@ -50,5 +63,17 @@
             <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
             </button>
         </div>
+
+        <!-- Script para ocultar el mensaje después de unos segundos -->
+        <script>
+            window.onload = function() {
+                const successAlert = document.querySelector('.alert-success');
+                if (successAlert) {
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000); // Oculta el mensaje después de 3 segundos
+                }
+            };
+        </script>
     </body>
 </html>

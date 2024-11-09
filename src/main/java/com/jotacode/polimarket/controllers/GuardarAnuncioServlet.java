@@ -56,8 +56,9 @@ public class GuardarAnuncioServlet extends HttpServlet {
             Usuario usuarioActualizado = usuarioService.findById(usuario.getIdUsuario());
             request.getSession().setAttribute("usuario", usuarioActualizado);
 
-            // Redirige nuevamente a la página de detalles del anuncio
-            response.sendRedirect("verAnuncioCompleto?anuncioId=" + anuncioId);
+            // Redirige a la página de detalles del anuncio con un parámetro que indique éxito
+            response.sendRedirect("verAnuncioCompleto?anuncioId=" + anuncioId + "&success=true");
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("verAnuncios");

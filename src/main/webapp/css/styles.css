@@ -168,3 +168,43 @@ input[type="submit"]:hover {
     border: 1px solid #f5c6cb;
     border-radius: 4px;
 }
+
+/* Estilo del mensaje de éxito */
+.mensaje-exito {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb; /* Borde verde suave */
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Icono opcional para el mensaje de éxito */
+.mensaje-exito::before {
+    content: "✔️";
+    font-size: 1.2em;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Animación de aparición suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mensaje-exito {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
