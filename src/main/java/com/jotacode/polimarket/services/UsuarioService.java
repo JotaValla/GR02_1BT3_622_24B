@@ -88,9 +88,15 @@ public class UsuarioService {
         }
         return false; // El anuncio ya estaba en favoritos
     }
+    public void eliminarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
+        // Recarga el usuario con la colección de favoritos inicializada
+        Usuario usuarioConFavoritos = usuarioDAO.findByIdWithFavoritos(usuario.getIdUsuario());
 
-
-
+        if (usuarioConFavoritos.getFavoritos().contains(anuncio)) {
+            usuarioConFavoritos.getFavoritos().remove(anuncio);
+            usuarioDAO.edit(usuarioConFavoritos);  // Guarda los cambios en la base de datos
+        }
+    }
 
     public List<Anuncio> verFavoritos(Usuario usuario) {
         return usuario.getFavoritos();
