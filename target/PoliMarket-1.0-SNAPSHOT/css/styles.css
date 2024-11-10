@@ -7,6 +7,37 @@ body {
     padding: 0;
 }
 
+.main-container {
+    display: flex;
+    height: 100vh;
+}
+.left-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+.right-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.right-side .container {
+    text-align: center;
+    margin-top: 0;
+}
+.left-side img {
+    max-width: 80%;
+    height: auto;
+}
+
+
+
+
 h1, h2 {
     color: #A60000; /* Rojo */
 }

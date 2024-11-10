@@ -7,13 +7,23 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
     <body>
-        <div> <img src="images/Logo_polimarket.png" alt="Logo Polimarket"> </div>
-        <div class="container" style="text-align: center; margin-top: 50px;">
-            <h1>Bienvenido a Polimarket</h1>
-            <p>Por favor, inicia sesión para acceder al sistema.</p>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/login'">Iniciar Sesión</button>
-            <br><br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/registro'">Registrarse</button>
+    <!-- Contenedor principal para dividir en dos columnas -->
+    <div class="main-container">
+        <!-- Contenedor para la parte izquierda (logo) -->
+        <div class="left-side">
+            <img src="images/Logo_polimarket.png" alt="Logo Polimarket">
         </div>
+
+        <!-- Contenedor para la parte derecha (formulario) -->
+        <div class="right-side">
+            <div class="container">
+                <h1>Bienvenido a Polimarket</h1>
+                <p>Por favor, inicia sesión para acceder al sistema.</p>
+                <button onclick="window.location.href='${pageContext.request.contextPath}/login'">Iniciar Sesión</button>
+                <br><br>
+                <button onclick="window.location.href='${pageContext.request.contextPath}/registro'">Registrarse</button>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
