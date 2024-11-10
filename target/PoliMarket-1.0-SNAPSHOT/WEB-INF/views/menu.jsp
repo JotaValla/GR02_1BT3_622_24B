@@ -16,7 +16,7 @@
         <title>Polimarket - Menú Principal</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
-    <body>
+    <body  class = "login-page">
         <header>
             <h1>Menú Principal</h1>
             <h2>Bienvenido, <%= usuario.getNombre() %>
