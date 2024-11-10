@@ -70,16 +70,12 @@ public class AnuncioService {
         Anuncio anuncio = anuncioDAO.findByIdWithValoraciones(anuncioId); // Cargar anuncio con valoraciones
         List<Valoracion> valoraciones = anuncio.getValoraciones();
 
-        if (valoraciones.isEmpty()) {
-            return 0.0; // Si no hay valoraciones, el promedio es 0
-        }
-
-        double sumaEstrellas = 0.0;
-        for (Valoracion valoracion : valoraciones) {
-            sumaEstrellas += valoracion.getEstrellas();
-        }
-
-        return sumaEstrellas / valoraciones.size(); // Calcula el promedio
+        // Si no hay valoraciones, el promedio es 0.0
+        return valoraciones.isEmpty() ? 0.0 :
+                valoraciones.stream()
+                        .mapToDouble(Valoracion::getEstrellas)
+                        .average()
+                        .orElse(0.0); // En caso improbable de error en el cálculo, retorna 0.0
     }
 
     public void actualizarAnuncio(Anuncio anuncio) throws NonexistentEntityException {
