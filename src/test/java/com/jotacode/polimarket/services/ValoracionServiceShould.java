@@ -1,11 +1,8 @@
 package com.jotacode.polimarket.services;
 
-import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.models.entity.Valoracion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +15,7 @@ public class ValoracionServiceShould {
         valoracionService = new ValoracionService();
     }
 
+    //Pruebas unitarias
     @Test
     public void aceptar_la_creacion_de_una_valoracion_con_todos_sus_parametros() {
         Valoracion valoracion = valoracionService.crearValoracion(4, "me gusto mucho la comida de este lugar, bastante fresco y menu bariado");
@@ -47,4 +45,30 @@ public class ValoracionServiceShould {
             valoracionService.vincularValoracion(valoracion, null, null);
         });
     }
+
+    @Test
+    public void no_permitir_comentario_nulo_en_valoracion() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            valoracionService.crearValoracion(3, null);
+        }, "Debería lanzar una excepción si el comentario es nulo.");
+    }
+
+    @Test
+    public void no_permitir_valoracion_con_estrellas_invalidas() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            valoracionService.crearValoracion(6, "Excesivo puntaje");
+        }, "No debería permitir calificación mayor a 5.");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            valoracionService.crearValoracion(-1, "Puntaje negativo");
+        }, "No debería permitir calificación negativa.");
+    }
+
+    @Test
+    public void crear_valoracion_dentro_de_rango_valido() {
+        Valoracion valoracion = valoracionService.crearValoracion(4, "Buen servicio");
+        assertEquals(4, valoracion.getEstrellas(), "La valoración debería ser de 4 estrellas.");
+    }
+
+
 }

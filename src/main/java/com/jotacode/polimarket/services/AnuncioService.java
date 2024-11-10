@@ -30,9 +30,13 @@ public class AnuncioService {
 
     private static void validarCamposAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio) {
         if (titulo == null || descripcion == null || categoria == null || precio == null) {
-            throw new IllegalArgumentException("Todo los campos deben ser llenados");
+            throw new IllegalArgumentException("Todos los campos deben ser llenados");
+        }
+        if (precio.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         }
     }
+
 
     public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
         validarAnuncioyUsuario(anuncio, usuario);

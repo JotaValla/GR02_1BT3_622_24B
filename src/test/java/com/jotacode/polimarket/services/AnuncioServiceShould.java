@@ -3,6 +3,7 @@ package com.jotacode.polimarket.services;
 import com.jotacode.polimarket.models.dao.AnuncioDAO;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
+import com.jotacode.polimarket.models.entity.Valoracion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,12 +22,15 @@ import static org.mockito.Mockito.*;
 public class AnuncioServiceShould {
 
     private AnuncioService anuncioService;
+    private UsuarioService usuarioService;
 
     @BeforeEach
     public void setUp() {
         anuncioService = new AnuncioService();
+        usuarioService = new UsuarioService();
     }
 
+    //Tests unitarios
     @Test
     public void aceptar_la_creacion_de_un_anuncio_con_todos_sus_parametros() {
         Anuncio anuncio = anuncioService.crearAnuncio("Laptop", "Laptop en buen estado", "laptop.jpg", "Electronica", new BigDecimal("1000"));
@@ -53,6 +57,15 @@ public class AnuncioServiceShould {
             anuncioService.vincularAnuncioConUsuario(anuncio, null);
         });
     }
+
+    //Iteracion 4 tests
+    @Test
+    public void lanzar_excepcion_si_el_precio_es_negativo() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            anuncioService.crearAnuncio("Producto", "Descripcion", "imagen.jpg", "Categoria", new BigDecimal("-10"));
+        });
+    }
+
 
     //TEST CON MOCKITO
     @Test

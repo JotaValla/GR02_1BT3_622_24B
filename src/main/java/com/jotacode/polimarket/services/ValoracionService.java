@@ -29,8 +29,8 @@ public class ValoracionService {
         if (estrellas == null || comentario == null) {
             throw new IllegalArgumentException("Los parámetros no pueden ser nulos");
         }
-        if (estrellas > 5) {
-            throw new IllegalArgumentException("La calificación no puede ser mayor a 5");
+        if (estrellas < 1 || estrellas > 5) {  // Validación de rango
+            throw new IllegalArgumentException("La calificación debe estar entre 1 y 5");
         }
     }
 

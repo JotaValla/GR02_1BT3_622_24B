@@ -43,10 +43,11 @@ public class UsuarioService {
         if (email == null || email.trim().isEmpty()) {
             return false;
         }
-        // Expresión regular simplificada para email
-        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        // Expresión regular mejorada para email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         return email.matches(regex);
     }
+
 
     public boolean validarNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
