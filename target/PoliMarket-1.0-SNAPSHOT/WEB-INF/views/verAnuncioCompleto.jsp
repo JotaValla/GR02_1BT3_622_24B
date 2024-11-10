@@ -39,6 +39,7 @@
                 <h2><%= anuncio.getTitulo() %></h2>
                 <p>Descripción: <%= anuncio.getDescripcion() %></p>
                 <p>Precio: $<%= anuncio.getPrecio() %></p>
+                <p>Categoria: <%= anuncio.getCategoria() %></p>
                 <p>Publicado por: <%= anuncio.getUsuAnuncio().getNombre() %></p>
 
                 <!-- Botones adicionales -->

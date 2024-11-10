@@ -42,7 +42,7 @@
 
                 <label for="categoria">Categoría:</label>
                 <select id="categoria" name="categoria" required>
-                    <option value="electronica">Tecnología</option>
+                    <option value="electronica">Electronica</option>
                     <option value="libros">Libros</option>
                     <option value="ropa">Ropa</option>
                     <option value="todos">Todos</option>

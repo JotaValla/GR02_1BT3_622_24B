@@ -78,11 +78,14 @@ public class AnuncioService {
         return sumaEstrellas / valoraciones.size(); // Calcula el promedio
     }
 
-
-
     public void actualizarAnuncio(Anuncio anuncio) throws NonexistentEntityException {
         anuncioDAO.edit(anuncio);
     }
+
+    public List<Anuncio> findAnunciosByUsuarioAndCategoria(Long usuarioId, String categoria) {
+        return anuncioDAO.findAnunciosByUsuarioAndCategoria(usuarioId, categoria);
+    }
+
 
 
 }
