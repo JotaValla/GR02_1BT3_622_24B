@@ -11,7 +11,7 @@
     <div class="main-container">
         <!-- Contenedor para la parte izquierda (logo) -->
         <div class="left-side">
-            <img src="images/Logo_polimarket.png" alt="Logo Polimarket">
+            <img src="images/Logo_fondo_polimarket.png" alt="Logo Polimarket">
         </div>
 
         <!-- Contenedor para la parte derecha (formulario) -->

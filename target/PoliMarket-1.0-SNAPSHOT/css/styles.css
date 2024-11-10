@@ -1,23 +1,28 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     color: #00203E; /* Azul oscuro */
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 .main-container {
     display: flex;
     height: 100vh;
+    background-image: url('../images/fondo_index.png'); /* Ruta de la imagen */
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center; /* Centra la imagen */
 }
+
 .left-side {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    /* Elimina el fondo de color aquí */
 }
+
 .right-side {
     flex: 1;
     display: flex;
@@ -25,11 +30,11 @@ body {
     justify-content: center;
     flex-direction: column;
 }
-
 .right-side .container {
     text-align: center;
     margin-top: 0;
 }
+
 .left-side img {
     max-width: 80%;
     height: auto;
@@ -61,6 +66,8 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: inline-block; /* Asegura que los botones se centren */
+    margin: 5px; /* Espaciado entre botones */
 }
 
 button:hover {
@@ -205,14 +212,14 @@ input[type="submit"]:hover {
     background-color: #d4edda; /* Verde claro */
     color: #155724; /* Verde oscuro */
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border: 1px solid #c3e6cb; /* Borde verde suave */
     border-radius: 8px;
     font-weight: bold;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     max-width: 800px;
-    margin: 20px auto;
+    margin: 14px autos;
 }
 
 /* Icono opcional para el mensaje de éxito */
