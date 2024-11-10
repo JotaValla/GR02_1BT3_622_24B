@@ -20,7 +20,7 @@
 
             <h2>Información de la Cuenta</h2>
             <label for="usernameCuenta">Nombre de usuario (Cuenta):</label>
-            <input type="text" id="usernameCuenta" name="usernameCuenta" maxlength="10" value="${param.usernameCuenta}"
+            <input type="text" id="usernameCuenta" name="usernameCuenta" maxlength="15" value="${param.usernameCuenta}"
                 required><br>
 
             <label for="password">Contraseña:</label>

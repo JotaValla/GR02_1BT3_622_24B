@@ -20,4 +20,16 @@ public class CuentaDAO extends  AbstractDAO<Cuenta> {
                 .setParameter("password", password)
                 .getSingleResult();
     }
+
+    public boolean existsUsername(String username) {
+        try {
+            Long count = (Long) getEntityManager()
+                .createQuery("SELECT COUNT(c) FROM Cuenta c WHERE c.username = :username")
+                .setParameter("username", username)
+                .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

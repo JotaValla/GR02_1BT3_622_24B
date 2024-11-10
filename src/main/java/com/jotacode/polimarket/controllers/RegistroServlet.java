@@ -55,9 +55,13 @@ public class RegistroServlet extends HttpServlet {
             return;
         }
 
-        // Si todas las validaciones pasan, crear cuenta y usuario
-        crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
-        response.sendRedirect(request.getContextPath() + "/login");
+        try {
+            // Si todas las validaciones pasan, crear cuenta y usuario
+            crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
+            response.sendRedirect(request.getContextPath() + "/login");
+        } catch (IllegalArgumentException e) {
+            mostrarError(request, response, e.getMessage());
+        }
     }
 
     private boolean validarPassword(String password) {
@@ -71,7 +75,7 @@ public class RegistroServlet extends HttpServlet {
     }
 
     private boolean validarFormatoUsername(String username) {
-        String usernameRegex = "^[a-zA-Z0-9]{3,15}$";
+        String usernameRegex = "^[a-zA-Z0-9]{3,}$";
         return username.matches(usernameRegex);
     }
 
@@ -83,8 +87,12 @@ public class RegistroServlet extends HttpServlet {
 
     private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String telefono,
             String email) {
-        Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
-        usuarioService.crearUsuario(nombre, telefono, email, cuenta);
+        try {
+            Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
+            usuarioService.crearUsuario(nombre, telefono, email, cuenta);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al crear la cuenta: " + e.getMessage());
+        }
     }
 
 }

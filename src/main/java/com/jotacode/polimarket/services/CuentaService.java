@@ -13,9 +13,18 @@ public class CuentaService {
         this.cuentaDAO = new CuentaDAO(null, Cuenta.class);
     }
 
+    public boolean existsUsername(String username) {
+        return cuentaDAO.existsUsername(username.trim().toLowerCase());
+    }
+
     public Cuenta crearCuenta(String username, String password) {
         validarCamposCuenta(username, password);
         validarFormatoUsername(username);
+        
+        if (existsUsername(username)) {
+            throw new IllegalArgumentException("El nombre de usuario ya existe");
+        }
+
         Cuenta cuenta = new Cuenta();
         cuenta.setUsername(username.trim().toLowerCase());
         cuenta.setPassword(password);
@@ -39,7 +48,7 @@ public class CuentaService {
     }
 
     private static void validarFormatoUsername(String username) {
-        if (!username.matches("[a-zA-Z0-9]+")) {
+        if (!username.matches("^[a-zA-Z0-9]{3,}$")) {
             throw new IllegalArgumentException("El nombre de usuario debe contener solo caracteres alfanuméricos");
         }
     }

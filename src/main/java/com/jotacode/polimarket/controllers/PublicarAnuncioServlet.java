@@ -47,11 +47,22 @@ public class PublicarAnuncioServlet extends HttpServlet {
             return;
         }
 
+        String titulo = request.getParameter("titulo");
+        if (!validarTitulo(titulo)) {
+            request.setAttribute("errorMessage", "El título solo puede contener letras, números, espacios, comas, puntos y tildes");
+            request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
+            return;
+        }
+
         Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
         usuarioService.publicarAnuncio(anuncio, usuario);
-
-        // Redirige con un mensaje de éxito
         response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
+    }
+
+    private boolean validarTitulo(String titulo) {
+        // Permite letras (incluyendo tildes), números, espacios, comas y puntos
+        String tituloRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\\s,\\.]+$";
+        return titulo != null && titulo.matches(tituloRegex);
     }
 
     public Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
