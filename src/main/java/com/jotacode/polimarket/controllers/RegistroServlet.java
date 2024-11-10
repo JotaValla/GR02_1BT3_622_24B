@@ -31,20 +31,19 @@ public class RegistroServlet extends HttpServlet {
         String usernameCuenta = request.getParameter("usernameCuenta");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
-        String foto = request.getParameter("foto");
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
 
         // Llamamos al nuevo método para crear cuenta y usuario
-        crearCuentaYUsuario(usernameCuenta, password, nombre, foto, telefono, email);
+        crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
 
         // Redirigimos al login después de la creación
         response.sendRedirect(request.getContextPath() + "/login");
     }
 
-    private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String foto, String telefono, String email) {
+    private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String telefono, String email) {
         Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
-        usuarioService.crearUsuario(nombre, foto, telefono, email, cuenta);
+        usuarioService.crearUsuario(nombre, telefono, email, cuenta);
     }
 
 }

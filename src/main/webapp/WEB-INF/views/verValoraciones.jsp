@@ -65,18 +65,21 @@
             <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
             </button>
             <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+
             <%
                 Usuario usuarioLogueado = (Usuario) session.getAttribute("usuario");
                 boolean esPropietario = anuncio.getUsuAnuncio().getIdUsuario().equals(usuarioLogueado.getIdUsuario());
+                Boolean haValorado = (Boolean) request.getAttribute("haValorado");
             %>
 
-            <!-- Solo mostrar el botón si el usuario actual NO es el propietario del anuncio -->
-            <% if (!esPropietario) { %>
+            <!-- Mostrar el botón solo si el usuario NO es el propietario y NO ha valorado -->
+            <% if (!esPropietario && (haValorado == null || !haValorado)) { %>
                 <button onclick="window.location.href='${pageContext.request.contextPath}/publicarValoracion?anuncioId=<%= anuncio.getIdAnuncio() %>'">
                     Publicar Nueva Valoración
                 </button>
+            <% } else if (haValorado != null && haValorado) { %>
+                <p>Ya has valorado este anuncio.</p>
             <% } %>
-
         </div>
     </body>
 </html>

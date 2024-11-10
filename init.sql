@@ -12,7 +12,6 @@ CREATE TABLE CUENTAS (
 CREATE TABLE USUARIOS (
                           id_usuario INT PRIMARY KEY,
                           nombre VARCHAR(100),
-                          foto VARCHAR(100),
                           telefono VARCHAR(15),
                           email VARCHAR(100),
                           cuenta_id INT,
@@ -47,7 +46,7 @@ INSERT INTO CUENTAS (id_cuenta, username, password) VALUES (1, 'johndoe', 'passw
 INSERT INTO CUENTAS (id_cuenta, username, password) VALUES (2, 'janedoe', 'password456');
 
 -- Inserción de datos en la tabla USUARIOS
-INSERT INTO USUARIOS (id_usuario, nombre, foto, telefono, email, cuenta_id)
-VALUES (1, 'Juan Perez', 'foto1.jpg', '123456789', 'juan@example.com', 1);
-INSERT INTO USUARIOS (id_usuario, nombre, foto, telefono, email, cuenta_id)
-VALUES (2, 'Ana Gomez', 'foto2.jpg', '987654321', 'ana@example.com', 2);
+INSERT INTO USUARIOS (id_usuario, nombre, telefono, email, cuenta_id)
+VALUES (1, 'Juan Perez', '123456789', 'juan@example.com', 1);
+INSERT INTO USUARIOS (id_usuario, nombre, telefono, email, cuenta_id)
+VALUES (2, 'Ana Gomez', '987654321', 'ana@example.com', 2);
