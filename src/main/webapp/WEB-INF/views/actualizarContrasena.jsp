@@ -18,6 +18,23 @@
     <body>
         <div class="container cuenta-container">
             <h3>Actualizar Contraseña</h3>
+
+            <!-- Mostrar mensajes de éxito o error -->
+            <%
+                String successMessage = (String) request.getAttribute("successMessage");
+                String errorMessage = (String) request.getAttribute("errorMessage");
+
+                if (successMessage != null) {
+            %>
+            <div class="mensaje-exito"><%= successMessage %></div>
+            <%
+            } else if (errorMessage != null) {
+            %>
+            <div class="mensaje-error"><%= errorMessage %></div>
+            <%
+                }
+            %>
+
             <form action="${pageContext.request.contextPath}/actualizarContrasena" method="post">
                 <label for="currentPassword">Contraseña Actual:</label>
                 <input type="password" id="currentPassword" name="currentPassword" required><br>

@@ -38,27 +38,37 @@ public class ActualizarContrasenaServlet extends HttpServlet {
 
         Cuenta cuenta = usuario.getCuenta();
 
-        if (!isCurrentPasswordCorrect(cuenta, currentPassword)) {
+        // Validar contraseña actual
+        if (!cuentaService.validatePassword(cuenta, currentPassword)) {
             request.setAttribute("errorMessage", "La contraseña actual es incorrecta.");
             request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
             return;
         }
 
-        if (!isNewPasswordValid(newPassword, confirmPassword)) {
+        // Validar nueva contraseña y confirmación
+        if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("errorMessage", "La nueva contraseña y la confirmación no coinciden.");
             request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
             return;
         }
 
+        // Validar requisitos de complejidad y coincidencia con la antigua contraseña
+        if (!CuentaService.isValidPassword(newPassword)) {
+            request.setAttribute("errorMessage", "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.");
+            request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
+            return;
+        }
+
+        if (newPassword.equals(currentPassword)) {
+            request.setAttribute("errorMessage", "La nueva contraseña no puede ser igual a la anterior.");
+            request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
+            return;
+        }
+
+        // Actualizar contraseña y mostrar mensaje de éxito
         cuentaService.updatePassword(cuenta, newPassword);
-        response.sendRedirect(request.getContextPath() + "/menu");
+        request.setAttribute("successMessage", "La contraseña se ha actualizado exitosamente.");
+        request.getRequestDispatcher("/WEB-INF/views/actualizarContrasena.jsp").forward(request, response);
     }
 
-    private boolean isCurrentPasswordCorrect(Cuenta cuenta, String currentPassword) {
-        return cuentaService.validatePassword(cuenta, currentPassword);
-    }
-
-    private boolean isNewPasswordValid(String newPassword, String confirmPassword) {
-        return newPassword.equals(confirmPassword);
-    }
 }
