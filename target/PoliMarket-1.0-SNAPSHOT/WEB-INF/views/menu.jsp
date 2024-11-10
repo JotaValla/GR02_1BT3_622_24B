@@ -18,8 +18,8 @@
     </head>
     <body  class = "login-page">
         <header>
-            <h1>Menú Principal</h1>
-            <h2>Bienvenido, <%= usuario.getNombre() %>
+            <h1>MENÚ PRINCIPAL</h1>
+            <h2>Bienvenid@, <%= usuario.getNombre() %>
             </h2>
         </header>
 

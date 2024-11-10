@@ -6,6 +6,15 @@ body {
     margin: 0;
 }
 
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(244, 244, 244, 0.3);
+}
+
+
+
+
 .login-page {
     background-image: url('../images/fondo_inicio.png');
     background-size: cover;
@@ -53,7 +62,12 @@ body {
 
 
 h1, h2 {
-    color: #00203e; /* Rojo */
+    color: #00203e;
+    margin: 0;
+}
+
+h2 {
+    margin-top: 10px;
 }
 
 a {
