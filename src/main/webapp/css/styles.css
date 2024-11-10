@@ -211,7 +211,7 @@ input[type="submit"]:hover {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     max-width: 800px;
-    margin: 20px auto;
+    margin: 14px autos;
 }
 
 /* Icono opcional para el mensaje de éxito */
