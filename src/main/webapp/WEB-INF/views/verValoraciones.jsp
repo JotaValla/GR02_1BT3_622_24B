@@ -22,13 +22,14 @@
                     String imagen = anuncio.getImagen();
                     String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
                 %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="anuncio-img">
+                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="imagen-original">
                 <h2><%= anuncio.getTitulo() %>
                 </h2>
                 <p><%= anuncio.getDescripcion() %>
                 </p>
                 <p>Precio: $<%= anuncio.getPrecio() %>
                 </p>
+                <p>Categoria: <%= anuncio.getCategoria() %></p>
                 <p>Publicado por: <%= anuncio.getUsuAnuncio().getNombre() %>
                 </p>
             </div>
@@ -74,11 +75,11 @@
 
             <!-- Mostrar el botón solo si el usuario NO es el propietario y NO ha valorado -->
             <% if (!esPropietario && (haValorado == null || !haValorado)) { %>
-                <button onclick="window.location.href='${pageContext.request.contextPath}/publicarValoracion?anuncioId=<%= anuncio.getIdAnuncio() %>'">
-                    Publicar Nueva Valoración
-                </button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/publicarValoracion?anuncioId=<%= anuncio.getIdAnuncio() %>'">
+                Publicar Nueva Valoración
+            </button>
             <% } else if (haValorado != null && haValorado) { %>
-                <p>Ya has valorado este anuncio.</p>
+            <p>Ya has valorado este anuncio.</p>
             <% } %>
         </div>
     </body>

@@ -110,6 +110,4 @@ public class UsuarioService {
         return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
     }
 
-
-
 }

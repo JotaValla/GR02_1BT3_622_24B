@@ -28,8 +28,8 @@
             <div style="text-align: center;">
                 <a href="${pageContext.request.contextPath}/publicarAnuncio" class="btn-secondary" style="margin: 10px;">Publicar Anuncio</a>
                 <a href="${pageContext.request.contextPath}/verAnuncios" class="btn-secondary" style="margin: 10px;">Ver Anuncios</a>
-                <a href="${pageContext.request.contextPath}/misValoraciones" class="btn-secondary" style="margin: 10px;">mis Valoraciones</a>
-                <a href="${pageContext.request.contextPath}/favoritos" class="btn-secondary" style="margin: 10px;">Ver Mis Favoritos</a>
+                <a href="${pageContext.request.contextPath}/misValoraciones" class="btn-secondary" style="margin: 10px;">Mis Valoraciones</a>
+                <a href="${pageContext.request.contextPath}/favoritos" class="btn-secondary" style="margin: 10px;">Mis Favoritos</a>
             </div>
         </div>
 

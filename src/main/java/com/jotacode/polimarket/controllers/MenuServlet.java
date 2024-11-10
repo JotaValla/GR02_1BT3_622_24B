@@ -1,5 +1,7 @@
 package com.jotacode.polimarket.controllers;
 
+import com.jotacode.polimarket.models.entity.Usuario;
+import com.jotacode.polimarket.services.UsuarioService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,20 +17,26 @@ public class MenuServlet extends HttpServlet {
     private static final String LOGIN_PAGE = "/login";
     private static final String MENU_PAGE = "/WEB-INF/views/menu.jsp";
     private static final String USUARIO_SESSION_ATTRIBUTE = "usuario";
+
+    private UsuarioService usuarioService = new UsuarioService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Verificar si el usuario está autenticado
-        if (!isUserAuthenticated(request.getSession())) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute(USUARIO_SESSION_ATTRIBUTE);
+
+        if (usuario == null) {
             redirectToLogin(request, response);
             return;
         }
 
+        // Recargar el usuario desde la base de datos para obtener los anuncios actualizados
+        Usuario usuarioActualizado = usuarioService.findById(usuario.getIdUsuario());
+        session.setAttribute(USUARIO_SESSION_ATTRIBUTE, usuarioActualizado);
+
         // Redirigir a menu.jsp
         forwardToMenu(request, response);
-    }
-
-    private boolean isUserAuthenticated(HttpSession session) {
-        return session.getAttribute(USUARIO_SESSION_ATTRIBUTE) != null;
     }
 
     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
