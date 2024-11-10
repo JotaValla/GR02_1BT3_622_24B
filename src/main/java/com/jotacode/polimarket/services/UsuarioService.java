@@ -49,7 +49,7 @@ public class UsuarioService {
     }
 
     public boolean validarNombre(String nombre) {
-        String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
+        String regex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,}(\\\\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$"; // Solo letras y números, longitud mínima de 3 caracteres
         if (nombre == null || !nombre.matches(regex)) {
             return false;
         }

@@ -34,7 +34,7 @@ public class CuentaService {
             throw new IllegalArgumentException("El nombre de usuario debe tener entre 3 y 15 caracteres");
         }
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número");
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número" + password);
         }
     }
 
@@ -45,7 +45,8 @@ public class CuentaService {
     }
 
     private static boolean isValidPassword(String password) {
-        return password.length() >= 6 && password.matches(".*[A-Z].*") && password.matches(".*\\d.*");
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{6,16}$";
+        return password.matches(passwordRegex);
     }
 
     private static void validarCuenta(Cuenta cuenta) {
