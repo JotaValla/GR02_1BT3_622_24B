@@ -17,7 +17,7 @@
         <!-- Contenedor para la parte derecha (formulario) -->
         <div class="right-side">
             <div class="container">
-                <h1>Bienvenido a Polimarket</h1>
+                <h1>BIENVENID@</h1>
                 <p>Por favor, inicia sesión para acceder al sistema.</p>
                 <button onclick="window.location.href='${pageContext.request.contextPath}/login'">Iniciar Sesión</button>
                 <br><br>
