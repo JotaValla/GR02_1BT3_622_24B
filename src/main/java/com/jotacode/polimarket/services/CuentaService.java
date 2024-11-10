@@ -53,7 +53,7 @@ public class CuentaService {
         }
     }
 
-    private static boolean isValidPassword(String password) {
+    public static boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{6,16}$";
         return password.matches(passwordRegex);
     }
