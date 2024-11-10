@@ -9,18 +9,15 @@
         <div class="container">
             <h1>Publicar Anuncio</h1>
 
-            <!-- Mostrar mensaje de éxito si el anuncio se publicó correctamente -->
+            <!-- Mostrar mensaje de éxito o error -->
             <%
-                String success = request.getParameter("success");
-                if ("true".equals(success)) {
-            %>
-            <div class="mensaje-exito">El anuncio se ha publicado correctamente.</div>
-            <%
-                }
-
-                // Mostrar mensaje de error si hay algún problema con la imagen
+                String successMessage = (String) request.getAttribute("successMessage");
                 String errorMessage = (String) request.getAttribute("errorMessage");
-                if (errorMessage != null) {
+                if (successMessage != null) {
+            %>
+            <div class="mensaje-exito"><%= successMessage %></div>
+            <%
+            } else if (errorMessage != null) {
             %>
             <div class="mensaje-error"><%= errorMessage %></div>
             <%
@@ -42,7 +39,7 @@
 
                 <label for="categoria">Categoría:</label>
                 <select id="categoria" name="categoria" required>
-                    <option value="electronica">Electronica</option>
+                    <option value="electronica">Electrónica</option>
                     <option value="libros">Libros</option>
                     <option value="ropa">Ropa</option>
                     <option value="todos">Todos</option>

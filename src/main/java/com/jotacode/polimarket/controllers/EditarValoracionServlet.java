@@ -52,7 +52,19 @@ public class EditarValoracionServlet extends HttpServlet {
         Integer estrellas = Integer.parseInt(request.getParameter("estrellas"));
         String comentario = request.getParameter("comentario");
 
-        valoracionService.updateValoracion(valoracionId, estrellas, comentario);
-        response.sendRedirect(request.getContextPath() + "/misValoraciones");
+        try {
+            valoracionService.updateValoracion(valoracionId, estrellas, comentario);
+            request.setAttribute("successMessage", "Valoración actualizada exitosamente.");
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "Error al actualizar la valoración.");
+        }
+
+        // Recargar la valoración actualizada para mostrar en el formulario
+        valoracion = valoracionService.findById(valoracionId);
+        request.setAttribute("valoracion", valoracion);
+
+        // Volver a la página de edición con el mensaje correspondiente
+        request.getRequestDispatcher("/WEB-INF/views/editarValoracion.jsp").forward(request, response);
     }
+
 }

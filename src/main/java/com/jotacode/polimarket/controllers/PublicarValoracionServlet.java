@@ -67,16 +67,26 @@ public class PublicarValoracionServlet extends HttpServlet {
         // Verificar si el usuario ya ha valorado este anuncio
         if (valoracionService.existeValoracionDeUsuarioParaAnuncio(usuario.getIdUsuario(), anuncioId)) {
             request.setAttribute("errorMessage", "Ya has valorado este anuncio.");
-            request.setAttribute("anuncio", anuncio);  // Pasar el anuncio para mantener el contexto en la vista
-            request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
-            return;
+        } else {
+            try {
+                // Crear la nueva valoración si no existe una anterior
+                Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
+                usuarioService.publicarValoracion(valoracion, anuncio, usuario);
+                request.setAttribute("successMessage", "Valoración publicada correctamente.");
+            } catch (Exception e) {
+                request.setAttribute("errorMessage", "Error al ingresar la valoración.");
+            }
         }
 
-        // Crear la nueva valoración si no existe una anterior
-        Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
-        usuarioService.publicarValoracion(valoracion, anuncio, usuario);
+        // Recargar los datos del anuncio para el formulario
+        List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+        anuncios.removeIf(an -> an.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario())); // Excluir anuncios del usuario
+        request.setAttribute("anuncios", anuncios);
+        request.setAttribute("anuncio", anuncio);
 
-        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+        // Volver a la página de publicar valoración con el mensaje correspondiente
+        request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
+
 
 }

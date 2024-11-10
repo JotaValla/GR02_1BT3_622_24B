@@ -47,12 +47,19 @@ public class PublicarAnuncioServlet extends HttpServlet {
             return;
         }
 
-        Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
-        usuarioService.publicarAnuncio(anuncio, usuario);
+        try {
+            // Crear el anuncio a partir de los datos del formulario
+            Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
+            usuarioService.publicarAnuncio(anuncio, usuario);
+            request.setAttribute("successMessage", "El anuncio se ha publicado correctamente.");
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "Error al publicar el anuncio. Inténtelo nuevamente.");
+        }
 
-        // Redirige con un mensaje de éxito
-        response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
+        // Reenviar a la misma página JSP con el mensaje de éxito o error
+        request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
     }
+
 
     public Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
         String titulo = request.getParameter("titulo");

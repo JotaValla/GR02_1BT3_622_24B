@@ -218,8 +218,8 @@ input[type="submit"]:hover {
 }
 
 .imagen-original {
-    max-width: 100% !important;  /* La imagen puede ocupar hasta el 100% del ancho del contenedor */
-    max-height: 800px !important; /* Altura máxima para evitar que se alargue demasiado */
+    max-width: 70% !important;  /* La imagen puede ocupar hasta el 100% del ancho del contenedor */
+    max-height: 600px !important; /* Altura máxima para evitar que se alargue demasiado */
     width: auto !important;
     height: auto !important;
     display: block;

@@ -11,10 +11,15 @@
         <div class="container">
             <h1>Publicar Valoración</h1>
 
-            <!-- Mostrar mensaje de error si existe -->
+            <!-- Mostrar mensaje de éxito o error si existe -->
             <%
+                String successMessage = (String) request.getAttribute("successMessage");
                 String errorMessage = (String) request.getAttribute("errorMessage");
-                if (errorMessage != null) {
+                if (successMessage != null) {
+            %>
+            <div class="mensaje-exito"><%= successMessage %></div>
+            <%
+            } else if (errorMessage != null) {
             %>
             <div class="mensaje-error"><%= errorMessage %></div>
             <%
@@ -30,7 +35,7 @@
                 <input type="hidden" name="anuncioId" value="<%= anuncioIdParam %>">
 
                 <%
-                    } else {
+                } else {
                 %>
                 <!-- Este bloque de código solo se mostrará si no se recibe un anuncioId -->
                 <label for="anuncioId">Seleccionar Anuncio:</label>

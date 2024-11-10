@@ -10,6 +10,21 @@
         <div class="container">
             <h1>Editar Valoración</h1>
 
+            <!-- Mostrar mensaje de éxito o error -->
+            <%
+                String successMessage = (String) request.getAttribute("successMessage");
+                String errorMessage = (String) request.getAttribute("errorMessage");
+                if (successMessage != null) {
+            %>
+            <div class="mensaje-exito"><%= successMessage %></div>
+            <%
+            } else if (errorMessage != null) {
+            %>
+            <div class="mensaje-error"><%= errorMessage %></div>
+            <%
+                }
+            %>
+
             <%
                 Valoracion valoracion = (Valoracion) request.getAttribute("valoracion");
             %>
@@ -26,7 +41,7 @@
                 <input type="submit" value="Guardar Cambios">
             </form>
             <br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/misValoraciones'">Cancelar</button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/misValoraciones'">Volver</button>
         </div>
     </body>
 </html>
