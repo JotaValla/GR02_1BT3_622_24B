@@ -21,29 +21,78 @@ public class RegistroServlet extends HttpServlet {
     private UsuarioService usuarioService = new UsuarioService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/registro.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Extraemos los parámetros de la solicitud
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String usernameCuenta = request.getParameter("usernameCuenta");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
+
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
 
-        // Llamamos al nuevo método para crear cuenta y usuario
-        crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
+        // Validaciones
+        if (!validarPassword(password)) {
+            mostrarError(request, response,
+                    "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula y un número");
+            return;
+        }
 
-        // Redirigimos al login después de la creación
-        response.sendRedirect(request.getContextPath() + "/login");
+        if (!validarNombre(nombre)) {
+            mostrarError(request, response,
+                    "El nombre debe tener mínimo 3 caracteres y solo contener letras, tildes y espacios");
+            return;
+        }
+
+        if (!validarFormatoUsername(usernameCuenta)) {
+            mostrarError(request, response, "El nombre de usuario debe tener entre 3 y 15 caracteres. Solo puede contener letras y números");
+            return;
+        }
+
+        try {
+            // Si todas las validaciones pasan, crear cuenta y usuario
+            crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
+            response.sendRedirect(request.getContextPath() + "/login");
+        } catch (IllegalArgumentException e) {
+            mostrarError(request, response, e.getMessage());
+        }
     }
 
-    private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String telefono, String email) {
-        Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
-        usuarioService.crearUsuario(nombre, telefono, email, cuenta);
+    private boolean validarPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{6,16}$";
+        return password.matches(passwordRegex);
+    }
+
+    private boolean validarNombre(String nombre) {
+        String nombreRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,}(\\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$";
+        return nombre.matches(nombreRegex);
+    }
+
+    private boolean validarFormatoUsername(String username) {
+        String usernameRegex = "^[a-zA-Z0-9]{3,}$";
+        return username.matches(usernameRegex);
+    }
+
+    private void mostrarError(HttpServletRequest request, HttpServletResponse response, String mensaje)
+            throws ServletException, IOException {
+        request.setAttribute("error", mensaje);
+        request.getRequestDispatcher("/WEB-INF/views/registro.jsp").forward(request, response);
+    }
+
+    private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String telefono,
+            String email) {
+        try {
+            Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
+            usuarioService.crearUsuario(nombre, telefono, email, cuenta);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al crear la cuenta: " + e.getMessage());
+        }
     }
 
 }

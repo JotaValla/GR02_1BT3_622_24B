@@ -22,38 +22,39 @@ public class UsuarioService {
     }
 
     public void crearUsuario(String nombre, String telefono, String email, Cuenta cuenta) {
-        if (validarEmail(email) && validarNombre(nombre)) {
-            validarEmail(email);
-            validarNombre(nombre);
-
-            Usuario usuario = new Usuario();
-            usuario.setNombre(nombre);
-            usuario.setTelefono(telefono);
-            usuario.setEmail(email);
-            usuario.setCuenta(cuenta);
-
-            usuarioDAO.create(usuario);
-            System.out.println("Usuario creado en servicio");
-        } else {
-            throw new IllegalArgumentException("El email o el nombre proporcionado no es válido.");
+        // Validar todos los campos primero
+        if (!validarEmail(email)) {
+            throw new IllegalArgumentException("El formato del email no es válido");
+        }
+        if (!validarNombre(nombre)) {
+            throw new IllegalArgumentException("El formato del nombre no es válido");
         }
 
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setTelefono(telefono);
+        usuario.setEmail(email);
+        usuario.setCuenta(cuenta);
+
+        usuarioDAO.create(usuario);
     }
 
     public boolean validarEmail(String email) {
-        String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"; // Un regex simple para validación
-        if (!email.matches(regex)) {
+        if (email == null || email.trim().isEmpty()) {
             return false;
         }
-        return true;
+        // Expresión regular simplificada para email
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(regex);
     }
 
     public boolean validarNombre(String nombre) {
-        String regex = "^[a-zA-Z0-9]{3,}$"; // Solo letras y números, longitud mínima de 3 caracteres
-        if (nombre == null || !nombre.matches(regex)) {
+        if (nombre == null || nombre.trim().isEmpty()) {
             return false;
         }
-        return true;
+        // Expresión regular corregida para nombres con espacios y tildes
+        String regex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]{3,}$";
+        return nombre.matches(regex);
     }
 
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {

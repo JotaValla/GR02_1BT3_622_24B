@@ -13,9 +13,18 @@ public class CuentaService {
         this.cuentaDAO = new CuentaDAO(null, Cuenta.class);
     }
 
+    public boolean existsUsername(String username) {
+        return cuentaDAO.existsUsername(username.trim().toLowerCase());
+    }
+
     public Cuenta crearCuenta(String username, String password) {
         validarCamposCuenta(username, password);
         validarFormatoUsername(username);
+        
+        if (existsUsername(username)) {
+            throw new IllegalArgumentException("El nombre de usuario ya existe");
+        }
+
         Cuenta cuenta = new Cuenta();
         cuenta.setUsername(username.trim().toLowerCase());
         cuenta.setPassword(password);
@@ -30,22 +39,23 @@ public class CuentaService {
         if (username.trim().isEmpty() || password.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de usuario y la contraseña no pueden estar vacíos");
         }
-        if (username.length() < 3 || username.length() > 15) {
-            throw new IllegalArgumentException("El nombre de usuario debe tener entre 3 y 15 caracteres");
+        if (username.length() < 3) {
+            throw new IllegalArgumentException("El nombre de usuario debe tener minimo 3 caracteres");
         }
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número");
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número" + password);
         }
     }
 
     private static void validarFormatoUsername(String username) {
-        if (!username.matches("[a-zA-Z0-9]+")) {
+        if (!username.matches("^[a-zA-Z0-9]{3,}$")) {
             throw new IllegalArgumentException("El nombre de usuario debe contener solo caracteres alfanuméricos");
         }
     }
 
-    public static boolean isValidPassword(String password) {
-        return password.length() >= 6 && password.matches(".*[A-Z].*") && password.matches(".*\\d.*");
+    private static boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{6,16}$";
+        return password.matches(passwordRegex);
     }
 
     private static void validarCuenta(Cuenta cuenta) {
