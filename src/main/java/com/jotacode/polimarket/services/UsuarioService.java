@@ -21,14 +21,13 @@ public class UsuarioService {
         this.valoracionService = new ValoracionService();
     }
 
-    public void crearUsuario(String nombre, String foto, String telefono, String email, Cuenta cuenta) {
+    public void crearUsuario(String nombre, String telefono, String email, Cuenta cuenta) {
         if (validarEmail(email) && validarNombre(nombre)) {
             validarEmail(email);
             validarNombre(nombre);
 
             Usuario usuario = new Usuario();
             usuario.setNombre(nombre);
-            usuario.setFoto(foto);
             usuario.setTelefono(telefono);
             usuario.setEmail(email);
             usuario.setCuenta(cuenta);

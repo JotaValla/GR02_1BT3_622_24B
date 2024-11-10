@@ -20,8 +20,6 @@
                 <label for="nombre">Nombre completo:</label>
                 <input type="text" id="nombre" name="nombre" required><br>
 
-                <label for="foto">URL de la foto de perfil:</label>
-                <input type="text" id="foto" name="foto"><br>
 
                 <label for="telefono">Teléfono:</label>
                 <input type="tel" id="telefono" name="telefono" required><br>
