@@ -11,9 +11,9 @@ import java.util.List;
 
 public class UsuarioService {
 
-    private UsuarioDAO usuarioDAO;
+    public UsuarioDAO usuarioDAO;
     private AnuncioService anuncioService;
-    private ValoracionService valoracionService;
+    public ValoracionService valoracionService;
 
     public UsuarioService() {
         this.usuarioDAO = new UsuarioDAO(null, Usuario.class);
