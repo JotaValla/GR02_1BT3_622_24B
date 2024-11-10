@@ -13,7 +13,10 @@ import java.io.IOException;
 @WebServlet("/verEstadisticas")
 public class VerEstadisticasServlet extends HttpServlet {
 
-    private AnuncioService anuncioService;
+    private static final String MENU_PAGE = "menu";
+    private static final String ESTADISTICAS_VIEW = "/WEB-INF/views/verEstadisticas.jsp";
+
+    private final AnuncioService anuncioService;
 
     public VerEstadisticasServlet() {
         this.anuncioService = new AnuncioService();
@@ -21,29 +24,39 @@ public class VerEstadisticasServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String anuncioIdParam = request.getParameter("anuncioId");
+        Long anuncioId = obtenerAnuncioId(request, response);
+        if (anuncioId == null) return;
 
+        Anuncio anuncio = obtenerAnuncio(anuncioId, response);
+        if (anuncio == null) return;
+
+        double promedioValoraciones = anuncioService.calcularPromedioValoraciones(anuncioId);
+
+        request.setAttribute("anuncio", anuncio);
+        request.setAttribute("promedioValoraciones", promedioValoraciones);
+        request.getRequestDispatcher(ESTADISTICAS_VIEW).forward(request, response);
+    }
+
+    private Long obtenerAnuncioId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String anuncioIdParam = request.getParameter("anuncioId");
         if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
-            response.sendRedirect("menu");
-            return;
+            response.sendRedirect(MENU_PAGE);
+            return null;
         }
 
         try {
-            Long anuncioId = Long.parseLong(anuncioIdParam);
-            Anuncio anuncio = anuncioService.findById(anuncioId);
-            if (anuncio == null) {
-                response.sendRedirect("menu");
-                return;
-            }
-
-            // Obtener el promedio de valoraciones
-            double promedioValoraciones = anuncioService.calcularPromedioValoraciones(anuncioId);
-
-            request.setAttribute("anuncio", anuncio);
-            request.setAttribute("promedioValoraciones", promedioValoraciones);
-            request.getRequestDispatcher("/WEB-INF/views/verEstadisticas.jsp").forward(request, response);
+            return Long.parseLong(anuncioIdParam);
         } catch (NumberFormatException e) {
-            response.sendRedirect("menu");
+            response.sendRedirect(MENU_PAGE);
+            return null;
         }
+    }
+
+    private Anuncio obtenerAnuncio(Long anuncioId, HttpServletResponse response) throws IOException {
+        Anuncio anuncio = anuncioService.findById(anuncioId);
+        if (anuncio == null) {
+            response.sendRedirect(MENU_PAGE);
+        }
+        return anuncio;
     }
 }
