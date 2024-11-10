@@ -39,8 +39,8 @@ public class CuentaService {
         if (username.trim().isEmpty() || password.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de usuario y la contraseña no pueden estar vacíos");
         }
-        if (username.length() < 3 || username.length() > 15) {
-            throw new IllegalArgumentException("El nombre de usuario debe tener entre 3 y 15 caracteres");
+        if (username.length() < 3) {
+            throw new IllegalArgumentException("El nombre de usuario debe tener minimo 3 caracteres");
         }
         if (!isValidPassword(password)) {
             throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número" + password);
