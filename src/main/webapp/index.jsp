@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
     <body>
+        <div> <img src="images/Logo_polimarket.png" alt="Logo Polimarket"> </div>
         <div class="container" style="text-align: center; margin-top: 50px;">
             <h1>Bienvenido a Polimarket</h1>
             <p>Por favor, inicia sesión para acceder al sistema.</p>
