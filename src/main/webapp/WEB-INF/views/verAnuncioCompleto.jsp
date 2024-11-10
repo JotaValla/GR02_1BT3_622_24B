@@ -1,6 +1,4 @@
 <%@page import="com.jotacode.polimarket.models.entity.Anuncio" %>
-<%@page import="com.jotacode.polimarket.models.entity.Valoracion" %>
-<%@page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -54,25 +52,7 @@
                     <button type="submit">Guardar Anuncio</button>
                 </form>
             </div>
-
-            <h3>Valoraciones:</h3>
             <%
-                List<Valoracion> valoraciones = (List<Valoracion>) request.getAttribute("valoraciones");
-                if (valoraciones != null && !valoraciones.isEmpty()) {
-                    for (Valoracion valoracion : valoraciones) {
-            %>
-            <div class="valoracion">
-                <p>Usuario: <%= valoracion.getUsuValoracion().getNombre() %></p>
-                <p>Estrellas: <%= valoracion.getEstrellas() %> ⭐</p>
-                <p>Comentario: <%= valoracion.getComentario() %></p>
-            </div>
-            <%
-                }
-            } else {
-            %>
-            <p>No hay valoraciones para este anuncio.</p>
-            <%
-                }
             } else {
             %>
             <p>No se encontró el anuncio.</p>

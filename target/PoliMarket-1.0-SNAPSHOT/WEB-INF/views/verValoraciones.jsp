@@ -1,5 +1,6 @@
 <%@page import="com.jotacode.polimarket.models.entity.Anuncio" %>
 <%@page import="com.jotacode.polimarket.models.entity.Valoracion" %>
+<%@page import="com.jotacode.polimarket.models.entity.Usuario" %>
 <%@page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -64,6 +65,17 @@
             <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
             </button>
             <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>
+            <%
+                Usuario usuarioLogueado = (Usuario) session.getAttribute("usuario");
+                boolean esPropietario = anuncio.getUsuAnuncio().getIdUsuario().equals(usuarioLogueado.getIdUsuario());
+            %>
+
+            <!-- Solo mostrar el botón si el usuario actual NO es el propietario del anuncio -->
+            <% if (!esPropietario) { %>
+                <button onclick="window.location.href='${pageContext.request.contextPath}/publicarValoracion?anuncioId=<%= anuncio.getIdAnuncio() %>'">
+                    Publicar Nueva Valoración
+                </button>
+            <% } %>
 
         </div>
     </body>
