@@ -117,6 +117,61 @@ public class AnuncioServiceShould {
         assertEquals(anuncioSimulado, anuncio);
     }
 
+    @Test
+    public void calcular_promedio_valoraciones_correctamente() {
+        // Mock del AnuncioDAO
+        AnuncioDAO anuncioDAOMock = mock(AnuncioDAO.class);
+
+        // Crear un anuncio con valoraciones simuladas
+        Anuncio anuncio = new Anuncio();
+        anuncio.setIdAnuncio(1L);
+
+        Valoracion valoracion1 = new Valoracion();
+        valoracion1.setEstrellas(4);
+        Valoracion valoracion2 = new Valoracion();
+        valoracion2.setEstrellas(5);
+        Valoracion valoracion3 = new Valoracion();
+        valoracion3.setEstrellas(3);
+
+        anuncio.setValoraciones(Arrays.asList(valoracion1, valoracion2, valoracion3));
+
+        // Mockear el comportamiento del método findByIdWithValoraciones
+        when(anuncioDAOMock.findByIdWithValoraciones(1L)).thenReturn(anuncio);
+
+        // Reemplazar el anuncioDAO en el servicio con el mock
+        anuncioService.anuncioDAO = anuncioDAOMock;
+
+        // Llamar al método
+        double promedio = anuncioService.calcularPromedioValoraciones(1L);
+
+        // Verificar el cálculo del promedio
+        assertEquals(4.0, promedio, 0.01, "El promedio de valoraciones debería ser 4.0");
+    }
+
+    @Test
+    public void calcular_promedio_valoraciones_sin_valoraciones() {
+        // Mock del AnuncioDAO
+        AnuncioDAO anuncioDAOMock = mock(AnuncioDAO.class);
+
+        // Crear un anuncio sin valoraciones
+        Anuncio anuncio = new Anuncio();
+        anuncio.setIdAnuncio(2L);
+        anuncio.setValoraciones(new ArrayList<>());
+
+        // Mockear el comportamiento del método findByIdWithValoraciones
+        when(anuncioDAOMock.findByIdWithValoraciones(2L)).thenReturn(anuncio);
+
+        // Reemplazar el anuncioDAO en el servicio con el mock
+        anuncioService.anuncioDAO = anuncioDAOMock;
+
+        // Llamar al método
+        double promedio = anuncioService.calcularPromedioValoraciones(2L);
+
+        // Verificar que el promedio es 0.0 cuando no hay valoraciones
+        assertEquals(0.0, promedio, "El promedio debería ser 0.0 cuando no hay valoraciones");
+    }
+
+
     // TEST PARAMETRIZADO PARA findAnunciosByCategoria
     @ParameterizedTest
     @CsvSource({
@@ -173,6 +228,15 @@ public class AnuncioServiceShould {
 
         // Verificar que el anuncio retornado es el correcto
         assertEquals(id, anuncio.getIdAnuncio());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-10", "-5", "-1"})
+    public void lanzar_excepcion_si_precio_es_negativo(String precioStr) {
+        BigDecimal precio = new BigDecimal(precioStr);
+        assertThrows(IllegalArgumentException.class, () -> {
+            anuncioService.crearAnuncio("Producto", "Descripción", "imagen.jpg", "Categoría", precio);
+        }, "Debería lanzar una excepción si el precio es negativo");
     }
 
 }

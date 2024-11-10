@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ValoracionService {
 
-    private ValoracionDAO valoracionDAO;
+    public ValoracionDAO valoracionDAO;
 
     public ValoracionService() {
         this.valoracionDAO = new ValoracionDAO(null, Valoracion.class);
@@ -61,9 +61,11 @@ public class ValoracionService {
         // Llama al DAO para guardar los cambios
         valoracionDAO.updateValoracion(valoracion);
     }
+
     public Valoracion findById(Long id) {
         return valoracionDAO.findById(id);
     }
+
     public List<Valoracion> findValoracionesByUsuario(Long usuarioId) {
         return valoracionDAO.findValoracionesByUsuario(usuarioId);
     }
