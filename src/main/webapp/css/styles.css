@@ -6,6 +6,15 @@ body {
     margin: 0;
 }
 
+.login-page {
+    background-image: url('../images/fondo_inicio.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
 .main-container {
     display: flex;
     height: 100vh;
@@ -97,7 +106,7 @@ input[type="submit"], button {
     max-width: 1000px;
     margin: 30px auto;
     padding: 30px;
-    background-color: #f4f4f4;
+    background-color: rgba(244, 244, 244, 0.6);
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
