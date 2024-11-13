@@ -105,9 +105,10 @@ label {
 input, select, textarea {
     width: 100%;
     padding: 10px;
-    margin: 5px 0 20px 0;
+    margin: 5px 15px 20px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 input[type="submit"], button {
@@ -159,7 +160,7 @@ input[type="submit"], button {
 /* Form and button styles */
 form {
     max-width: 600px;
-    margin: auto;
+    margin: 30px auto;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
@@ -291,8 +292,8 @@ input[type="submit"]:hover {
     border: 1px solid #ddd;
     border-radius: 8px;
 }
-input[type="text"], input[type="password"] {
-    max-width: 80%;
+input[type="text"], input[type="password"], input[type="number"]  {
+    max-width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
