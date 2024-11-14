@@ -59,12 +59,13 @@ public class PublicarAnuncioServlet extends HttpServlet {
             Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
             usuarioService.publicarAnuncio(anuncio, usuario);
             response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
-        } catch (Exception e) {
-            // Maneja el error y lo muestra en la misma página
+        } catch (IOException e) {
+            // Maneja el error de tamaño o tipo de archivo y lo muestra en la misma página
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
         }
     }
+
 
 
 

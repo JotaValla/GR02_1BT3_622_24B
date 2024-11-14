@@ -61,7 +61,7 @@
                 <label for="comentario">Comentario:</label>
                 <textarea id="comentario" name="comentario" required></textarea><br>
 
-                <input type="submit" value="Publicar Valoración">
+                <input type="submit" value="Publicar">
             </form>
             <br>
             <button onclick="window.location.href='${pageContext.request.contextPath}/menu'">Volver al Menú</button>

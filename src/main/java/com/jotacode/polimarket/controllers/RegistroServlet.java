@@ -33,41 +33,47 @@ public class RegistroServlet extends HttpServlet {
         String usernameCuenta = request.getParameter("usernameCuenta");
         String password = request.getParameter("password");
         String nombre = request.getParameter("nombre");
-
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
 
-        // Validaciones
+        // Validaciones con mensajes específicos
         if (!validarPassword(password)) {
             mostrarError(request, response,
-                    "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula y un número");
+                    "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial.");
             return;
         }
 
         if (!validarNombre(nombre)) {
             mostrarError(request, response,
-                    "El nombre debe tener mínimo 3 caracteres y solo contener letras, tildes y espacios");
+                    "El nombre debe tener mínimo 3 caracteres y solo contener letras, tildes y espacios.");
             return;
         }
 
         if (!validarFormatoUsername(usernameCuenta)) {
-            mostrarError(request, response, "El nombre de usuario debe tener entre 3 y 15 caracteres. Solo puede contener letras y números");
+            mostrarError(request, response,
+                    "El nombre de usuario debe tener entre 3 y 15 caracteres. Solo puede contener letras y números.");
             return;
         }
 
         try {
             // Si todas las validaciones pasan, crear cuenta y usuario
             crearCuentaYUsuario(usernameCuenta, password, nombre, telefono, email);
-            response.sendRedirect(request.getContextPath() + "/login");
+            // Establece un mensaje de éxito
+            request.setAttribute("success", "Registro exitoso. Serás redirigido al inicio de sesión.");
+            request.getRequestDispatcher("/WEB-INF/views/registro.jsp").forward(request, response);
         } catch (IllegalArgumentException e) {
+            // Mensaje detallado sin lanzar información sensible
             mostrarError(request, response, e.getMessage());
         }
     }
 
+
     private boolean validarPassword(String password) {
-        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{6,16}$";
+        // Expresión regular para permitir letras mayúsculas, minúsculas, dígitos y caracteres especiales
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,16}$";
         return password.matches(passwordRegex);
     }
+
 
     private boolean validarNombre(String nombre) {
         String nombreRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,}(\\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$";
@@ -85,14 +91,18 @@ public class RegistroServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/registro.jsp").forward(request, response);
     }
 
+
+
     private void crearCuentaYUsuario(String usernameCuenta, String password, String nombre, String telefono,
-            String email) {
+                                     String email) throws IllegalArgumentException {
         try {
             Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
             usuarioService.crearUsuario(nombre, telefono, email, cuenta);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Error al crear la cuenta: " + e.getMessage());
+        } catch (Exception e) {
+            // Lanza una nueva excepción con un mensaje claro
+            throw new IllegalArgumentException("Error en la creación de la cuenta o usuario. Revisa los datos e intenta de nuevo.", e);
         }
     }
+
 
 }

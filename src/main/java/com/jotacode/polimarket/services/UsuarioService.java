@@ -22,7 +22,6 @@ public class UsuarioService {
     }
 
     public void crearUsuario(String nombre, String telefono, String email, Cuenta cuenta) {
-        // Validar todos los campos primero
         if (!validarEmail(email)) {
             throw new IllegalArgumentException("El formato del email no es válido");
         }
