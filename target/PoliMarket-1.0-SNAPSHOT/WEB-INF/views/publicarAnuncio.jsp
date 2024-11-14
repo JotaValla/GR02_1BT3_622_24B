@@ -5,7 +5,7 @@
         <title>Publicar Anuncio</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
-    <body>
+    <body class = "login-page">
         <div class="container">
             <h1>Publicar Anuncio</h1>
 
@@ -31,7 +31,7 @@
                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" required>${param.descripcion}</textarea><br>
 
-                <label for="imagen">Imagen:</label>
+                <label for="imagen">Imagen:  (Recuerda que la imagen no es obligatoria)   </label>
                 <input type="file" id="imagen" name="imagen" accept="image/png, image/jpeg"><br>
 
                 <label for="precio">Precio:</label>

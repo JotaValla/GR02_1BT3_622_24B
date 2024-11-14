@@ -8,7 +8,7 @@
         <title>Ver Anuncios</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
-    <body>
+    <body  class = "login-page" >
         <div class="container">
             <h1>Ver Anuncios</h1>
 
