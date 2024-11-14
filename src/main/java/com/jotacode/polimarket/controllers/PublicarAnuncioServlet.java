@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
+
 @WebServlet("/publicarAnuncio")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -54,10 +55,18 @@ public class PublicarAnuncioServlet extends HttpServlet {
             return;
         }
 
-        Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
-        usuarioService.publicarAnuncio(anuncio, usuario);
-        response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
+        try {
+            Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
+            usuarioService.publicarAnuncio(anuncio, usuario);
+            response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
+        } catch (Exception e) {
+            // Maneja el error y lo muestra en la misma página
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
+        }
     }
+
+
 
     private boolean validarTitulo(String titulo) {
         // Permite letras (incluyendo tildes), números, espacios, comas y puntos
@@ -75,6 +84,18 @@ public class PublicarAnuncioServlet extends HttpServlet {
 
         // Verifica si se ha subido una imagen
         if (imagenPart != null && imagenPart.getSize() > 0) {
+            // Valida el tipo de contenido
+            String contentType = imagenPart.getContentType();
+            if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                throw new IOException("Solo se permiten archivos en formato JPG o PNG.");
+            }
+
+            // Valida el tamaño del archivo
+            long fileSize = imagenPart.getSize();
+            if (fileSize > 10 * 1024 * 1024) { // 10 MB en bytes
+                throw new IOException("El archivo es demasiado grande. El tamaño máximo permitido es de 10 MB.");
+            }
+
             // Genera un nombre único para la imagen
             String imagenNombre = UUID.randomUUID().toString() + "_" + imagenPart.getSubmittedFileName();
 
@@ -98,4 +119,8 @@ public class PublicarAnuncioServlet extends HttpServlet {
         // Crea el anuncio con la imagen cargada o la imagen por defecto
         return anuncioService.crearAnuncio(titulo, descripcion, imagenReferencia, categoria, precio);
     }
+
+
+
+
 }

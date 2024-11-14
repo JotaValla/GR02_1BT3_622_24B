@@ -1,3 +1,4 @@
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\EditarValoracionServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\services\ValoracionService.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\ImageServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\GenericDAO.java
@@ -9,12 +10,17 @@ C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOG
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\ActualizarContrasenaServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\PublicarValoracionServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\CuentaDAO.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\VerEstadisticasServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\ValoracionDAO.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\VerAnuncioCompletoServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\UsuarioDAO.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\VerValoracionesServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\AnuncioDAO.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\VerAnunciosServlet.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\GuardarAnuncioServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\AbstractDAO.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\FavoritosServlet.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\MisValoracionesServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\services\AnuncioService.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\PublicarAnuncioServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\services\CuentaService.java
@@ -22,5 +28,5 @@ C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOG
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\LoginServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\RegistroServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\entity\Valoracion.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\EliminarFavoritoServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\MenuServlet.java
-C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\FiltrarAnunciosServlet.java
