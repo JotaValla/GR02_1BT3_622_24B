@@ -110,5 +110,36 @@ public class UsuarioService {
         Usuario usuario = usuarioDAO.findByCuenta(cuenta); // Primero obtienes el usuario por su cuenta
         return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
     }
+    public void updateUserInfo(Usuario usuario, String newPhone, String newEmail) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo.");
+        }
 
+        boolean isUpdated = false;
+
+        // Validar y actualizar teléfono
+        if (newPhone != null && !newPhone.equals(usuario.getTelefono())) {
+            usuario.setTelefono(newPhone);
+            isUpdated = true;
+        }
+
+        // Validar y actualizar email
+        if (newEmail != null && !newEmail.equals(usuario.getEmail())) {
+            if (!validarEmail(newEmail)) {
+                throw new IllegalArgumentException("El formato del email no es válido");
+            }
+            usuario.setEmail(newEmail);
+            isUpdated = true;
+        }
+
+        if (!isUpdated) {
+            throw new IllegalArgumentException("No se realizaron cambios en la información del usuario.");
+        }
+
+        try {
+            usuarioDAO.edit(usuario); // Guardar la información actualizada
+        } catch (NonexistentEntityException e) {
+            throw new RuntimeException("Error al actualizar la información del usuario.", e);
+        }
+    }
 }
