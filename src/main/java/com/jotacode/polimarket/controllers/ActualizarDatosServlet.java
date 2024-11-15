@@ -34,17 +34,33 @@ public class ActualizarDatosServlet extends HttpServlet {
             return;
         }
 
+        // Obtener parámetros del formulario
+        String newPhone = request.getParameter("telefono");
+        String newEmail = request.getParameter("email");
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
-        String newPhone = request.getParameter("telefono");
-        String newEmail = request.getParameter("email");
 
-        Cuenta cuenta = usuario.getCuenta();
+        // Inicializar servicios
+        UsuarioService usuarioService = new UsuarioService();
+        CuentaService cuentaService = new CuentaService();
 
-        // Password validation and update
+        // Lógica de actualización y manejo de errores
+        boolean infoUpdated = false;
+        boolean passwordUpdated = false;
+
+        // Actualizar información personal
+        try {
+            infoUpdated = usuarioService.updateUserInfo(usuario, newPhone, newEmail);
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
+            return;
+        }
+
+        // Actualizar contraseña
         if (currentPassword != null && !currentPassword.isEmpty()) {
-            if (!cuentaService.validatePassword(cuenta, currentPassword)) {
+            if (!cuentaService.validatePassword(usuario.getCuenta(), currentPassword)) {
                 request.setAttribute("errorMessage", "La contraseña actual es incorrecta.");
                 request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
                 return;
@@ -62,37 +78,22 @@ public class ActualizarDatosServlet extends HttpServlet {
                 return;
             }
 
-            if (newPassword.equals(currentPassword)) {
-                request.setAttribute("errorMessage", "La nueva contraseña no puede ser igual a la anterior.");
-                request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
-                return;
-            }
-
-            // Update password
-            cuentaService.updatePassword(cuenta, newPassword);
+            cuentaService.updatePassword(usuario.getCuenta(), newPassword);
+            passwordUpdated = true;
         }
 
-
-        // Update phone and email
-        boolean updatedInfo = false;
-        try {
-            usuarioService.updateUserInfo(usuario, newPhone, newEmail);
-            updatedInfo = true;
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
-            return;
-        }
-
-        // Set success message based on changes
-        if (updatedInfo) {
+        // Mensajes de éxito
+        if (infoUpdated && passwordUpdated) {
+            request.setAttribute("successMessage", "La información de la cuenta y la contraseña se han actualizado exitosamente.");
+        } else if (infoUpdated) {
             request.setAttribute("successMessage", "La información de la cuenta se ha actualizado exitosamente.");
-        } else if (newPassword != null && !newPassword.isEmpty()) {
+        } else if (passwordUpdated) {
             request.setAttribute("successMessage", "La contraseña se ha actualizado exitosamente.");
         } else {
-            request.setAttribute("successMessage", "No hubo cambios en la información.");
+            request.setAttribute("successMessage", "No se realizaron cambios.");
         }
 
         request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
     }
+
 }

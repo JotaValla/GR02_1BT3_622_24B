@@ -110,7 +110,7 @@ public class UsuarioService {
         Usuario usuario = usuarioDAO.findByCuenta(cuenta); // Primero obtienes el usuario por su cuenta
         return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
     }
-    public void updateUserInfo(Usuario usuario, String newPhone, String newEmail) {
+    public boolean updateUserInfo(Usuario usuario, String newPhone, String newEmail) {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no puede ser nulo.");
         }
@@ -132,14 +132,16 @@ public class UsuarioService {
             isUpdated = true;
         }
 
-        if (!isUpdated) {
-            throw new IllegalArgumentException("No se realizaron cambios en la información del usuario.");
+        // Solo realizar la actualización en la base de datos si hubo cambios
+        if (isUpdated) {
+            try {
+                usuarioDAO.edit(usuario); // Guardar la información actualizada
+            } catch (NonexistentEntityException e) {
+                throw new RuntimeException("Error al actualizar la información del usuario.", e);
+            }
         }
 
-        try {
-            usuarioDAO.edit(usuario); // Guardar la información actualizada
-        } catch (NonexistentEntityException e) {
-            throw new RuntimeException("Error al actualizar la información del usuario.", e);
-        }
+        return isUpdated;
     }
+
 }
