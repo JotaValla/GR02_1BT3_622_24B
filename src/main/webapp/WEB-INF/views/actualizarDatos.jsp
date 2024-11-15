@@ -38,7 +38,7 @@
             <!-- Formulario para Actualizar Información Personal -->
             <div class="info-section">
                 <h2>Actualizar Información Personal</h2>
-                <form action="${pageContext.request.contextPath}/actualizarInformacion" method="post">
+                <form action="${pageContext.request.contextPath}/actualizarDatos" method="post">
                     <label for="telefono">Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono" value="<%= usuario.getTelefono() %>" maxlength="10" pattern="[0-9]*" inputmode="numeric" required><br>
 
@@ -52,7 +52,7 @@
             <!-- Formulario para Cambiar Contraseña -->
             <div class="password-section">
                 <h2>Cambiar Contraseña</h2>
-                <form action="${pageContext.request.contextPath}/actualizarContrasena" method="post">
+                <form action="${pageContext.request.contextPath}/actualizarDatos" method="post">
                     <label for="currentPassword">Contraseña Actual:</label>
                     <input type="password" id="currentPassword" name="currentPassword"><br>
 
