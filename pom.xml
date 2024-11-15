@@ -123,6 +123,8 @@
         </dependency>
 
 
+
+
     </dependencies>
 
     <build>
@@ -140,6 +142,11 @@
                     <forkCount>1</forkCount>
                     <argLine>-Xmx1024m</argLine> <!-- Ajusta la memoria máxima si es necesario -->
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>4.0.0.4121</version>
             </plugin>
         </plugins>
     </build>
