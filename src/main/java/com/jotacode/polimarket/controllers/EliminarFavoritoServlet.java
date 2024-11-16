@@ -4,6 +4,7 @@ import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.AnuncioService;
 import com.jotacode.polimarket.services.UsuarioService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +16,11 @@ import java.io.IOException;
 @WebServlet("/eliminarFavorito")
 public class EliminarFavoritoServlet extends HttpServlet {
 
-    private UsuarioService usuarioService;
-    private AnuncioService anuncioService;
+    private static final String LOGIN_PAGE = "login.jsp";
+    private static final String FAVORITOS_PAGE = "favoritos";
+
+    private final UsuarioService usuarioService;
+    private final AnuncioService anuncioService;
 
     public EliminarFavoritoServlet() {
         this.usuarioService = new UsuarioService();
@@ -25,40 +29,55 @@ public class EliminarFavoritoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
-        if (usuario == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        String anuncioIdParam = request.getParameter("anuncioId");
-        if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
-            response.sendRedirect("favoritos");
-            return;
-        }
-
         try {
-            Long anuncioId = Long.parseLong(anuncioIdParam);
-            Anuncio anuncio = anuncioService.findById(anuncioId);
-
-            if (anuncio != null) {
-                usuarioService.eliminarFavorito(usuario, anuncio);
-
-                // Recargar el usuario actualizado desde la base de datos para reflejar los cambios en favoritos
-                Usuario usuarioActualizado = usuarioService.findById(usuario.getIdUsuario());
-                request.getSession().setAttribute("usuario", usuarioActualizado);
-
-                // Redirige a la página de favoritos con éxito en la eliminación
-                response.sendRedirect("favoritos?deleteStatus=success");
-            } else {
-                // Si el anuncio no existe o no pudo ser encontrado
-                response.sendRedirect("favoritos?deleteStatus=failure");
-            }
+            // Validar usuario autenticado
+            Usuario usuario = obtenerUsuarioDeSesion(request);
+            // Validar y obtener el ID del anuncio
+            Long anuncioId = obtenerAnuncioId(request);
+            // Eliminar el anuncio de favoritos
+            eliminarFavorito(usuario, anuncioId);
+            // Actualizar usuario en sesión
+            actualizarUsuarioEnSesion(request, usuario.getIdUsuario());
+            // Redirigir con éxito
+            response.sendRedirect(FAVORITOS_PAGE + "?deleteStatus=success");
+        } catch (IllegalArgumentException e) {
+            response.sendRedirect(FAVORITOS_PAGE + "?deleteStatus=failure");
         } catch (Exception e) {
             e.printStackTrace();
-
-            response.sendRedirect("favoritos?deleteStatus=failure");
+            response.sendRedirect(FAVORITOS_PAGE + "?deleteStatus=failure");
         }
+    }
+
+    private Usuario obtenerUsuarioDeSesion(HttpServletRequest request) {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no autenticado");
+        }
+        return usuario;
+    }
+
+    private Long obtenerAnuncioId(HttpServletRequest request) {
+        String anuncioIdParam = request.getParameter("anuncioId");
+        if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
+            throw new IllegalArgumentException("ID de anuncio inválido");
+        }
+        try {
+            return Long.parseLong(anuncioIdParam);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("ID de anuncio inválido");
+        }
+    }
+
+    private void eliminarFavorito(Usuario usuario, Long anuncioId) throws Exception {
+        Anuncio anuncio = anuncioService.findById(anuncioId);
+        if (anuncio == null) {
+            throw new IllegalArgumentException("Anuncio no encontrado");
+        }
+        usuarioService.eliminarFavorito(usuario, anuncio);
+    }
+
+    private void actualizarUsuarioEnSesion(HttpServletRequest request, Long userId) {
+        Usuario usuarioActualizado = usuarioService.findById(userId);
+        request.getSession().setAttribute("usuario", usuarioActualizado);
     }
 }

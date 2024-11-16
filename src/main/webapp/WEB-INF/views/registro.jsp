@@ -40,8 +40,7 @@
             <form action="${pageContext.request.contextPath}/registro" method="post">
                 <h2>Información de la Cuenta</h2>
                 <label for="usernameCuenta">Nombre de usuario (Cuenta):</label>
-                <input type="text" id="usernameCuenta" name="usernameCuenta" value="${param.usernameCuenta}"
-                       required><br>
+                <input type="text" id="usernameCuenta" name="usernameCuenta" value="${param.usernameCuenta}" required><br>
 
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password" required><br>

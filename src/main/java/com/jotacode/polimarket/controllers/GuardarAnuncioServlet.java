@@ -1,10 +1,10 @@
 package com.jotacode.polimarket.controllers;
 
-import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.AnuncioService;
 import com.jotacode.polimarket.services.UsuarioService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,58 +27,55 @@ public class GuardarAnuncioServlet extends HttpServlet {
         this.usuarioService = new UsuarioService();
         this.anuncioService = new AnuncioService();
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Usuario usuario = obtenerUsuarioDeSesion(request, response);
-        if (usuario == null) return;
-
-        Long anuncioId = obtenerAnuncioId(request, response);
-        if (anuncioId == null) return;
-
         try {
-            if (!agregarAnuncioAFavoritos(usuario, anuncioId, response)) return;
-        } catch (NonexistentEntityException e) {
-            throw new RuntimeException(e);
-        }
+            Usuario usuario = obtenerUsuarioDeSesion(request);
+            Long anuncioId = obtenerAnuncioId(request);
 
-        actualizarUsuarioEnSesion(request, usuario.getIdUsuario());
-        response.sendRedirect(String.format("%s?anuncioId=%d&success=true", VIEW_ANUNCIO_COMPLETO, anuncioId));
+            // Agregar anuncio a favoritos y manejar la sesión
+            agregarAnuncioAFavoritos(usuario, anuncioId);
+            actualizarUsuarioEnSesion(request, usuario.getIdUsuario());
+
+            // Redirigir con éxito
+            response.sendRedirect(String.format("%s?anuncioId=%d&success=true", VIEW_ANUNCIO_COMPLETO, anuncioId));
+        } catch (IllegalArgumentException e) {
+            response.sendRedirect(VIEW_ANUNCIOS);
+        } catch (Exception e) {
+            throw new RuntimeException("Error procesando la solicitud", e);
+        }
     }
 
-    private Usuario obtenerUsuarioDeSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private Usuario obtenerUsuarioDeSesion(HttpServletRequest request) {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         if (usuario == null) {
-            response.sendRedirect(LOGIN_PAGE);
+            throw new IllegalArgumentException("Usuario no autenticado");
         }
         return usuario;
     }
 
-    private Long obtenerAnuncioId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private Long obtenerAnuncioId(HttpServletRequest request) {
         String anuncioIdParam = request.getParameter("anuncioId");
         if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
-            response.sendRedirect(VIEW_ANUNCIOS);
-            return null;
+            throw new IllegalArgumentException("ID de anuncio inválido");
         }
         try {
             return Long.parseLong(anuncioIdParam);
         } catch (NumberFormatException e) {
-            response.sendRedirect(VIEW_ANUNCIOS);
-            return null;
+            throw new IllegalArgumentException("ID de anuncio inválido");
         }
     }
 
-    private boolean agregarAnuncioAFavoritos(Usuario usuario, Long anuncioId, HttpServletResponse response) throws IOException, NonexistentEntityException {
+    private void agregarAnuncioAFavoritos(Usuario usuario, Long anuncioId) throws Exception {
         Anuncio anuncio = anuncioService.findById(anuncioId);
         if (anuncio == null) {
-            response.sendRedirect(VIEW_ANUNCIOS);
-            return false;
+            throw new IllegalArgumentException("Anuncio no encontrado");
         }
-
         boolean exito = usuarioService.agregarFavorito(usuario, anuncio);
         if (!exito) {
-            response.sendRedirect(String.format("%s?anuncioId=%d&success=false", VIEW_ANUNCIO_COMPLETO, anuncioId));
+            throw new IllegalArgumentException("El anuncio ya está en favoritos");
         }
-        return exito;
     }
 
     private void actualizarUsuarioEnSesion(HttpServletRequest request, Long userId) {

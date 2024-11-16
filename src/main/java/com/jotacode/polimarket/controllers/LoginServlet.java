@@ -52,7 +52,4 @@ public class LoginServlet extends HttpServlet {
         return false;
     }
 
-
-
-
 }

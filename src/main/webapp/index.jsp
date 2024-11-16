@@ -7,7 +7,6 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
     <body>
-    <!-- Contenedor principal para dividir en dos columnas -->
     <div class="main-container">
         <!-- Contenedor para la parte izquierda (logo) -->
         <div class="left-side">

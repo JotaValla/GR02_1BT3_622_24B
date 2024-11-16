@@ -14,21 +14,46 @@ public class UsuarioService {
     public UsuarioDAO usuarioDAO;
     private AnuncioService anuncioService;
     public ValoracionService valoracionService;
+    public CuentaService cuentaService;
 
     public UsuarioService() {
         this.usuarioDAO = new UsuarioDAO(null, Usuario.class);
         this.anuncioService = new AnuncioService();
         this.valoracionService = new ValoracionService();
+        this.cuentaService = new CuentaService();
+    }
+
+    public void validarDatosRegistro(String usernameCuenta, String password, String nombre, String email) {
+        if (!cuentaService.isValidPassword(password)) {
+            throw new IllegalArgumentException(
+                    "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial.");
+        }
+
+        if (!validarNombre(nombre)) {
+            throw new IllegalArgumentException(
+                    "El nombre debe tener mínimo 3 caracteres y solo contener letras, tildes y espacios.");
+        }
+
+        if (!cuentaService.validarFormatoUsername(usernameCuenta)) {
+            throw new IllegalArgumentException(
+                    "El nombre de usuario debe tener entre 3 y 15 caracteres. Solo puede contener letras y números.");
+        }
+
+        if (!validarEmail(email)) {
+            throw new IllegalArgumentException("El email ingresado no tiene un formato válido.");
+        }
+
+        if (cuentaService.existsUsername(usernameCuenta)) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
+        }
+    }
+
+    public void crearUsuarioConCuenta(String usernameCuenta, String password, String nombre, String telefono, String email) {
+        Cuenta cuenta = cuentaService.crearCuenta(usernameCuenta, password);
+        crearUsuario(nombre, telefono, email, cuenta);
     }
 
     public void crearUsuario(String nombre, String telefono, String email, Cuenta cuenta) {
-        if (!validarEmail(email)) {
-            throw new IllegalArgumentException("El formato del email no es válido");
-        }
-        if (!validarNombre(nombre)) {
-            throw new IllegalArgumentException("El formato del nombre no es válido");
-        }
-
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setTelefono(telefono);
@@ -39,22 +64,13 @@ public class UsuarioService {
     }
 
     public boolean validarEmail(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            return false;
-        }
-        // Expresión regular mejorada para email
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-        return email.matches(regex);
+        return email != null && email.matches(regex);
     }
 
-
     public boolean validarNombre(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            return false;
-        }
-        // Expresión regular corregida para nombres con espacios y tildes
         String regex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]{3,}$";
-        return nombre.matches(regex);
+        return nombre != null && nombre.matches(regex);
     }
 
     public void publicarAnuncio(Anuncio anuncio, Usuario usuario) {
@@ -73,11 +89,10 @@ public class UsuarioService {
         return usuarioDAO.findAll();
     }
 
-    public Usuario findByCuenta(Cuenta cuenta) {
-        return usuarioDAO.findByCuenta(cuenta);
-    }
-
     public boolean agregarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
+        if (usuario == null || anuncio == null) {
+            throw new IllegalArgumentException("Usuario o anuncio no pueden ser nulos");
+        }
         Usuario usuarioConFavoritos = usuarioDAO.findByIdWithFavoritos(usuario.getIdUsuario());
 
         // Verifica que el anuncio no esté ya en favoritos para evitar duplicados
@@ -88,6 +103,7 @@ public class UsuarioService {
         }
         return false; // El anuncio ya estaba en favoritos
     }
+
     public void eliminarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
         // Recarga el usuario con la colección de favoritos inicializada
         Usuario usuarioConFavoritos = usuarioDAO.findByIdWithFavoritos(usuario.getIdUsuario());
@@ -110,6 +126,7 @@ public class UsuarioService {
         Usuario usuario = usuarioDAO.findByCuenta(cuenta); // Primero obtienes el usuario por su cuenta
         return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
     }
+
     public boolean updateUserInfo(Usuario usuario, String newPhone, String newEmail) {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no puede ser nulo.");

@@ -67,9 +67,9 @@
         <div class="container cuenta-container">
             <h3>Gestionar Cuenta</h3>
             <div class="account-actions">
-                <button onclick="window.location.href='${pageContext.request.contextPath}/actualizarContrasena'"
+                <button onclick="window.location.href='${pageContext.request.contextPath}/actualizarDatos'"
                         class="btn-secondary">
-                    Actualizar Contraseña
+                    Actualizar Datos
                 </button>
                 <button onclick="window.location.href='${pageContext.request.contextPath}/login'" class="btn-secondary">
                     Cerrar Sesión

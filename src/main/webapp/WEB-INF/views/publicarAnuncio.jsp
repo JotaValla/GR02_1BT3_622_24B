@@ -5,16 +5,6 @@
         <title>Publicar Anuncio</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
         <script type="text/javascript">
-            // Función para ocultar mensajes de error después de 5 segundos
-            window.onload = function () {
-                const errorMessage = document.querySelector(".mensaje-error");
-                if (errorMessage) {
-                    setTimeout(function () {
-                        errorMessage.style.display = "none";
-                    }, 5000);
-                }
-            };
-
             // Validación de tamaño de archivo al seleccionar
             function validarTamañoArchivo() {
                 const archivoInput = document.getElementById("imagen");
@@ -30,9 +20,24 @@
                     if (archivo.size > tamañoMaximo) {
                         // Muestra el mensaje de error y limpia el campo de archivo
                         errorContainer.innerHTML = "El archivo es demasiado grande. No debe exceder los 10 MB.";
-                        archivoInput.value = ""; // Limpia el archivo seleccionado
+                        archivoInput.value = ""; // Limpia el campo de archivo
                     }
                 }
+            }
+
+            // Validación completa antes de enviar el formulario
+            function validarFormulario(event) {
+                const archivoInput = document.getElementById("imagen");
+                const errorContainer = document.getElementById("error-tamaño");
+
+                // Si hay un mensaje de error en el tamaño del archivo, no permitir enviar el formulario
+                if (errorContainer.innerHTML !== "") {
+                    event.preventDefault();
+                    return false;
+                }
+
+                // Valida de nuevo el tamaño del archivo
+                validarTamañoArchivo();
             }
         </script>
     </head>
@@ -58,7 +63,8 @@
             <!-- Contenedor para mensaje de error de tamaño de archivo -->
             <div id="error-tamaño" class="mensaje-error"></div>
 
-            <form action="${pageContext.request.contextPath}/publicarAnuncio" method="post" enctype="multipart/form-data">
+            <form action="${pageContext.request.contextPath}/publicarAnuncio" method="post" enctype="multipart/form-data"
+                  onsubmit="validarFormulario(event)">
                 <label for="titulo">Título:</label>
                 <input type="text" id="titulo" name="titulo" value="${param.titulo}" required><br>
 

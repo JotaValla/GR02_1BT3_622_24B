@@ -7,7 +7,6 @@ C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOG
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\entity\Usuario.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\services\UsuarioService.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\entity\Cuenta.java
-C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\ActualizarContrasenaServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\PublicarValoracionServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\dao\CuentaDAO.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\VerEstadisticasServlet.java
@@ -30,3 +29,4 @@ C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOG
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\models\entity\Valoracion.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\EliminarFavoritoServlet.java
 C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\MenuServlet.java
+C:\Users\djimm\OneDrive - Escuela Politécnica Nacional\VISEMESTREV2.0\METODOLOGIAS\PoliMarket\src\main\java\com\jotacode\polimarket\controllers\ActualizarDatosServlet.java
