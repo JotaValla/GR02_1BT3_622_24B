@@ -43,14 +43,13 @@ public class LoginServlet extends HttpServlet {
     private boolean authenticateUser(HttpServletRequest request, String username, String password) {
         Cuenta cuenta = cuentaService.findByUsernameAndPassword(username, password);
         if (cuenta != null) {
-            Usuario usuario = usuarioService.findByCuenta(cuenta);
+            // Cargar el usuario con anuncios inicializados
+            Usuario usuario = usuarioService.findUsuarioConAnuncios(cuenta);
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             return true;
         }
         return false;
     }
-
-
 
 }

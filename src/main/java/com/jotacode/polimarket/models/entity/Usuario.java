@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,6 @@ public class Usuario {
     private Long idUsuario;
 
     private String nombre;
-    private String foto;
     private String telefono;
     private String email;
 
@@ -40,5 +40,4 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "anuncio_id")
     )
     private List<Anuncio> favoritos;
-
 }

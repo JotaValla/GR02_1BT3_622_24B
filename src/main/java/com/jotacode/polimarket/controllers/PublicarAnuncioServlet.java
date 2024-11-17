@@ -24,11 +24,12 @@ import java.util.UUID;
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 10,      // 10 MB
-        maxRequestSize = 1024 * 1024 * 100   // 100 MB
+        maxRequestSize = 1024 * 1024 * 10    // 10 MB
 )
 public class PublicarAnuncioServlet extends HttpServlet {
 
     private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
+    private static final String DEFAULT_IMAGE_URL = "/uploads/anuncios/defaultAnuncio.jpg"; // URL para la imagen por defecto
     private AnuncioService anuncioService = new AnuncioService();
     private UsuarioService usuarioService = new UsuarioService();
 
@@ -47,9 +48,31 @@ public class PublicarAnuncioServlet extends HttpServlet {
             return;
         }
 
-        Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
-        usuarioService.publicarAnuncio(anuncio, usuario);
-        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+        String titulo = request.getParameter("titulo");
+        if (!validarTitulo(titulo)) {
+            request.setAttribute("errorMessage", "El título solo puede contener letras, números, espacios, comas, puntos y tildes");
+            request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
+            return;
+        }
+
+        try {
+            Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
+            usuarioService.publicarAnuncio(anuncio, usuario);
+            response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
+        } catch (IOException e) {
+            // Maneja el error de tamaño o tipo de archivo y lo muestra en la misma página
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
+        }
+    }
+
+
+
+
+    private boolean validarTitulo(String titulo) {
+        // Permite letras (incluyendo tildes), números, espacios, comas y puntos
+        String tituloRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\\s,\\.]+$";
+        return titulo != null && titulo.matches(tituloRegex);
     }
 
     public Anuncio createAnuncioFromRequest(HttpServletRequest request, Part imagenPart) throws IOException {
@@ -58,29 +81,47 @@ public class PublicarAnuncioServlet extends HttpServlet {
         String categoria = request.getParameter("categoria");
         BigDecimal precio = new BigDecimal(request.getParameter("precio"));
 
-        String imagenReferencia = null; // Inicializar la referencia de imagen como null
+        String imagenReferencia;
 
         // Verifica si se ha subido una imagen
         if (imagenPart != null && imagenPart.getSize() > 0) {
-            // Generar un nombre único para la imagen
+            // Valida el tipo de contenido
+            String contentType = imagenPart.getContentType();
+            if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                throw new IOException("Solo se permiten archivos en formato JPG o PNG.");
+            }
+
+            // Valida el tamaño del archivo
+            long fileSize = imagenPart.getSize();
+            if (fileSize > 10 * 1024 * 1024) { // 10 MB en bytes
+                throw new IOException("El archivo es demasiado grande. El tamaño máximo permitido es de 10 MB.");
+            }
+
+            // Genera un nombre único para la imagen
             String imagenNombre = UUID.randomUUID().toString() + "_" + imagenPart.getSubmittedFileName();
 
-            // Verificar si el directorio de almacenamiento existe y crearlo si no
+            // Crea el directorio si no existe
             File uploadDir = new File(UPLOAD_DIRECTORY);
             if (!uploadDir.exists()) {
                 Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
             }
 
-            // Guardar la imagen en el directorio
+            // Guarda la imagen en el directorio especificado
             String uploadPath = UPLOAD_DIRECTORY + File.separator + imagenNombre;
             imagenPart.write(uploadPath);
 
-            // Guardar solo la referencia de la imagen para almacenar en la base de datos
+            // Guarda solo la ruta relativa en la base de datos
             imagenReferencia = "/uploads/anuncios/" + imagenNombre;
+        } else {
+            // Asigna la URL de la imagen por defecto
+            imagenReferencia = DEFAULT_IMAGE_URL;
         }
 
-        // Crear el anuncio con o sin imagen
+        // Crea el anuncio con la imagen cargada o la imagen por defecto
         return anuncioService.crearAnuncio(titulo, descripcion, imagenReferencia, categoria, precio);
     }
+
+
+
 
 }

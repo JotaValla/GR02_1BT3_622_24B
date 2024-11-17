@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ValoracionService {
 
-    private ValoracionDAO valoracionDAO;
+    public ValoracionDAO valoracionDAO;
 
     public ValoracionService() {
         this.valoracionDAO = new ValoracionDAO(null, Valoracion.class);
@@ -29,8 +29,8 @@ public class ValoracionService {
         if (estrellas == null || comentario == null) {
             throw new IllegalArgumentException("Los parámetros no pueden ser nulos");
         }
-        if (estrellas > 5) {
-            throw new IllegalArgumentException("La calificación no puede ser mayor a 5");
+        if (estrellas < 1 || estrellas > 5) {  // Validación de rango
+            throw new IllegalArgumentException("La calificación debe estar entre 1 y 5");
         }
     }
 
@@ -47,8 +47,35 @@ public class ValoracionService {
             throw new IllegalArgumentException("El anuncio, usuario o valoracion no pueden ser nulos");
         }
     }
+    // Método para actualizar una valoración
+    public void updateValoracion(Long valoracionId, Integer estrellas, String comentario) {
+        Valoracion valoracion = findById(valoracionId);
+        if (valoracion == null) {
+            throw new IllegalArgumentException("La valoración no existe");
+        }
+
+        // Actualiza los campos de la valoración
+        valoracion.setEstrellas(estrellas);
+        valoracion.setComentario(comentario);
+
+        // Llama al DAO para guardar los cambios
+        valoracionDAO.updateValoracion(valoracion);
+    }
+
+    public Valoracion findById(Long id) {
+        return valoracionDAO.findById(id);
+    }
+
+    public List<Valoracion> findValoracionesByUsuario(Long usuarioId) {
+        return valoracionDAO.findValoracionesByUsuario(usuarioId);
+    }
 
     public List<Valoracion> findValoracionesByAnuncio(Long anuncioId) {
         return valoracionDAO.findValoracionesByAnuncio(anuncioId);
     }
+
+    public boolean existeValoracionDeUsuarioParaAnuncio(Long usuarioId, Long anuncioId) {
+        return valoracionDAO.findValoracionByUsuarioAndAnuncio(usuarioId, anuncioId) != null;
+    }
+
 }

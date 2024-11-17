@@ -1,14 +1,73 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     color: #00203E; /* Azul oscuro */
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(244, 244, 244, 0.3);
+}
+
+
+
+
+.login-page {
+    background-image: url('../images/fondo_inicio.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+.main-container {
+    display: flex;
+    height: 100vh;
+    background-image: url('../images/fondo_index.png'); /* Ruta de la imagen */
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center; /* Centra la imagen */
+}
+
+.left-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Elimina el fondo de color aquí */
+}
+
+.right-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.right-side .container {
+    text-align: center;
+    margin-top: 0;
+}
+
+.left-side img {
+    max-width: 80%;
+    height: auto;
+}
+
+
+
+
 h1, h2 {
-    color: #A60000; /* Rojo */
+    color: #00203e;
+    margin: 0;
+}
+
+h2 {
+    margin-top: 10px;
 }
 
 a {
@@ -30,6 +89,8 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: inline-block; /* Asegura que los botones se centren */
+    margin: 5px; /* Espaciado entre botones */
 }
 
 button:hover {
@@ -44,9 +105,10 @@ label {
 input, select, textarea {
     width: 100%;
     padding: 10px;
-    margin: 5px 0 20px 0;
+    margin: 5px 15px 20px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 input[type="submit"], button {
@@ -56,12 +118,15 @@ input[type="submit"], button {
 
 /* Container */
 .container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: rgba(244, 244, 244, 0.6);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Card style for announcements */
@@ -95,7 +160,7 @@ input[type="submit"], button {
 /* Form and button styles */
 form {
     max-width: 600px;
-    margin: auto;
+    margin: 30px auto;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
@@ -169,12 +234,71 @@ input[type="submit"]:hover {
     border-radius: 4px;
 }
 
-.form-group {
+/* Estilo del mensaje de éxito */
+.mensaje-exito {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
+    padding: 15px;
     margin-bottom: 15px;
+    border: 1px solid #c3e6cb; /* Borde verde suave */
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    max-width: 800px;
+    margin: 14px auto;
 }
 
-.error {
-    color: red;
-    font-size: 0.8em;
-    margin-left: 10px;
+/* Icono opcional para el mensaje de éxito */
+.mensaje-exito::before {
+    content: "✔️";
+    font-size: 1.2em;
+    margin-right: 8px;
+    vertical-align: middle;
 }
+
+/* Animación de aparición suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mensaje-exito {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.anuncio img {
+    width: 200px;  /* Ancho fijo */
+    height: 150px; /* Alto fijo */
+    object-fit: cover; /* Ajusta la imagen para que cubra el espacio sin distorsionarse */
+    border-radius: 8px; /* Esquinas redondeadas, opcional */
+    border: 1px solid #ddd; /* Borde alrededor de la imagen, opcional */
+    margin-bottom: 10px;
+}
+
+.imagen-original {
+    max-width: 70% !important;
+    max-height: 600px !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+input[type="text"], input[type="password"], input[type="number"]  {
+    max-width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; }
+
+
+

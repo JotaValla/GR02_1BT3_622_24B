@@ -26,12 +26,24 @@ public class VerAnunciosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String usuarioId = request.getParameter("usuarioId");
+        String usuarioIdParam = request.getParameter("usuarioId");
+        String categoria = request.getParameter("categoria");
+
         List<Anuncio> anuncios;
 
-        if (usuarioId != null && !usuarioId.isEmpty()) {
-            anuncios = anuncioService.findAnunciosByUsuario(Long.parseLong(usuarioId));
+        if ((usuarioIdParam != null && !usuarioIdParam.isEmpty()) && (categoria != null && !categoria.isEmpty())) {
+            // Filtrar por usuario y categoría
+            Long usuarioId = Long.parseLong(usuarioIdParam);
+            anuncios = anuncioService.findAnunciosByUsuarioAndCategoria(usuarioId, categoria);
+        } else if (usuarioIdParam != null && !usuarioIdParam.isEmpty()) {
+            // Filtrar solo por usuario
+            Long usuarioId = Long.parseLong(usuarioIdParam);
+            anuncios = anuncioService.findAnunciosByUsuario(usuarioId);
+        } else if (categoria != null && !categoria.isEmpty()) {
+            // Filtrar solo por categoría
+            anuncios = anuncioService.findAnunciosByCategoria(categoria);
         } else {
+            // Si no hay filtros, mostrar todos los anuncios
             anuncios = usuarioService.verAnuncios();
         }
 

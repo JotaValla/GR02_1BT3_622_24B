@@ -4,6 +4,7 @@ import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
 import com.jotacode.polimarket.services.AnuncioService;
 import com.jotacode.polimarket.services.UsuarioService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +16,12 @@ import java.io.IOException;
 @WebServlet("/guardarAnuncio")
 public class GuardarAnuncioServlet extends HttpServlet {
 
-    private UsuarioService usuarioService;
-    private AnuncioService anuncioService;
+    private static final String LOGIN_PAGE = "login.jsp";
+    private static final String VIEW_ANUNCIOS = "verAnuncios";
+    private static final String VIEW_ANUNCIO_COMPLETO = "verAnuncioCompleto";
+
+    private final UsuarioService usuarioService;
+    private final AnuncioService anuncioService;
 
     public GuardarAnuncioServlet() {
         this.usuarioService = new UsuarioService();
@@ -25,43 +30,56 @@ public class GuardarAnuncioServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtiene el usuario de la sesión
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
-        if (usuario == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        // Obtiene el anuncioId del formulario
-        String anuncioIdParam = request.getParameter("anuncioId");
-        if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
-            response.sendRedirect("verAnuncios");
-            return;
-        }
-
         try {
-            Long anuncioId = Long.parseLong(anuncioIdParam);
-            Anuncio anuncio = anuncioService.findById(anuncioId);
+            Usuario usuario = obtenerUsuarioDeSesion(request);
+            Long anuncioId = obtenerAnuncioId(request);
 
-            if (anuncio == null) {
-                response.sendRedirect("verAnuncios");
-                return;
-            }
+            // Agregar anuncio a favoritos y manejar la sesión
+            agregarAnuncioAFavoritos(usuario, anuncioId);
+            actualizarUsuarioEnSesion(request, usuario.getIdUsuario());
 
-            // Agrega el anuncio a los favoritos del usuario
-            usuarioService.agregarFavorito(usuario, anuncio);
-
-            // Recarga el usuario actualizado desde la base de datos para obtener los cambios en favoritos
-            Usuario usuarioActualizado = usuarioService.findById(usuario.getIdUsuario());
-            request.getSession().setAttribute("usuario", usuarioActualizado);
-
-            // Redirige nuevamente a la página de detalles del anuncio
-            response.sendRedirect("verAnuncioCompleto?anuncioId=" + anuncioId);
+            // Redirigir con éxito
+            response.sendRedirect(String.format("%s?anuncioId=%d&success=true", VIEW_ANUNCIO_COMPLETO, anuncioId));
+        } catch (IllegalArgumentException e) {
+            response.sendRedirect(VIEW_ANUNCIOS);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("verAnuncios");
+            throw new RuntimeException("Error procesando la solicitud", e);
         }
     }
-}
 
+    private Usuario obtenerUsuarioDeSesion(HttpServletRequest request) {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario no autenticado");
+        }
+        return usuario;
+    }
+
+    private Long obtenerAnuncioId(HttpServletRequest request) {
+        String anuncioIdParam = request.getParameter("anuncioId");
+        if (anuncioIdParam == null || anuncioIdParam.isEmpty()) {
+            throw new IllegalArgumentException("ID de anuncio inválido");
+        }
+        try {
+            return Long.parseLong(anuncioIdParam);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("ID de anuncio inválido");
+        }
+    }
+
+    private void agregarAnuncioAFavoritos(Usuario usuario, Long anuncioId) throws Exception {
+        Anuncio anuncio = anuncioService.findById(anuncioId);
+        if (anuncio == null) {
+            throw new IllegalArgumentException("Anuncio no encontrado");
+        }
+        boolean exito = usuarioService.agregarFavorito(usuario, anuncio);
+        if (!exito) {
+            throw new IllegalArgumentException("El anuncio ya está en favoritos");
+        }
+    }
+
+    private void actualizarUsuarioEnSesion(HttpServletRequest request, Long userId) {
+        Usuario usuarioActualizado = usuarioService.findById(userId);
+        request.getSession().setAttribute("usuario", usuarioActualizado);
+    }
+}

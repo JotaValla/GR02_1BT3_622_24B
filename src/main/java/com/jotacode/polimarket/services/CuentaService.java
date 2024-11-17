@@ -13,9 +13,26 @@ public class CuentaService {
         this.cuentaDAO = new CuentaDAO(null, Cuenta.class);
     }
 
+    public boolean existsUsername(String username) {
+        return cuentaDAO.existsUsername(username.trim().toLowerCase());
+    }
+
+    public static boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,16}$";
+        return password.matches(passwordRegex);
+    }
+
+    public boolean validarFormatoUsername(String username) {
+        String usernameRegex = "^[a-zA-Z0-9]{3,15}$";
+        return username != null && username.matches(usernameRegex);
+    }
+
     public Cuenta crearCuenta(String username, String password) {
         validarCamposCuenta(username, password);
-        validarFormatoUsername(username);
+        if (existsUsername(username)) {
+            throw new IllegalArgumentException("El nombre de usuario ya existe.");
+        }
+
         Cuenta cuenta = new Cuenta();
         cuenta.setUsername(username.trim().toLowerCase());
         cuenta.setPassword(password);
@@ -23,29 +40,17 @@ public class CuentaService {
         return cuenta;
     }
 
-    private static void validarCamposCuenta(String username, String password) {
-        if (username == null || password == null) {
-            throw new IllegalArgumentException("Todos los campos deben ser llenados");
+    private void validarCamposCuenta(String username, String password) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de usuario no puede estar vacío.");
         }
-        if (username.trim().isEmpty() || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de usuario y la contraseña no pueden estar vacíos");
-        }
-        if (username.length() < 3 || username.length() > 15) {
-            throw new IllegalArgumentException("El nombre de usuario debe tener entre 3 y 15 caracteres");
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("La contraseña no puede estar vacía.");
         }
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres, una mayúscula y un número");
+            throw new IllegalArgumentException(
+                    "La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial.");
         }
-    }
-
-    private static void validarFormatoUsername(String username) {
-        if (!username.matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("El nombre de usuario debe contener solo caracteres alfanuméricos");
-        }
-    }
-
-    private static boolean isValidPassword(String password) {
-        return password.length() >= 6 && password.matches(".*[A-Z].*") && password.matches(".*\\d.*");
     }
 
     private static void validarCuenta(Cuenta cuenta) {

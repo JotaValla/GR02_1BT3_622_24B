@@ -43,4 +43,27 @@ public class AnuncioDAO extends AbstractDAO<Anuncio> {
         }
     }
 
+    public Anuncio findByIdWithValoraciones(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT a FROM Anuncio a LEFT JOIN FETCH a.valoraciones WHERE a.idAnuncio = :id", Anuncio.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Anuncio> findAnunciosByUsuarioAndCategoria(Long usuarioId, String categoria) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT a FROM Anuncio a WHERE a.usuAnuncio.id = :usuarioId AND LOWER(a.categoria) = LOWER(:categoria)", Anuncio.class)
+                    .setParameter("usuarioId", usuarioId)
+                    .setParameter("categoria", categoria)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
 }

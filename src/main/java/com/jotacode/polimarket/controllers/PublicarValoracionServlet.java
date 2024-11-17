@@ -25,8 +25,27 @@ public class PublicarValoracionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Anuncio> anuncios = anuncioService.findAllAnuncios();
-        request.setAttribute("anuncios", anuncios);
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        String anuncioIdParam = request.getParameter("anuncioId");
+        if (anuncioIdParam != null) {
+            // Si el anuncio ya está seleccionado, solo pasamos el anuncio a la vista
+            Long anuncioId = Long.parseLong(anuncioIdParam);
+            Anuncio anuncio = anuncioService.findById(anuncioId);
+            request.setAttribute("anuncio", anuncio);
+        } else {
+            // Si no, mostramos todos los anuncios excluyendo los del usuario
+            List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+            anuncios.removeIf(anuncio -> anuncio.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario()));
+            request.setAttribute("anuncios", anuncios);
+        }
+
         request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
 
@@ -45,9 +64,29 @@ public class PublicarValoracionServlet extends HttpServlet {
         Long anuncioId = Long.parseLong(request.getParameter("anuncioId"));
         Anuncio anuncio = anuncioService.findById(anuncioId);
 
-        Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
-        usuarioService.publicarValoracion(valoracion, anuncio, usuario);
+        // Verificar si el usuario ya ha valorado este anuncio
+        if (valoracionService.existeValoracionDeUsuarioParaAnuncio(usuario.getIdUsuario(), anuncioId)) {
+            request.setAttribute("errorMessage", "Ya has valorado este anuncio.");
+        } else {
+            try {
+                // Crear la nueva valoración si no existe una anterior
+                Valoracion valoracion = valoracionService.crearValoracion(estrellas, comentario);
+                usuarioService.publicarValoracion(valoracion, anuncio, usuario);
+                request.setAttribute("successMessage", "Valoración publicada correctamente.");
+            } catch (Exception e) {
+                request.setAttribute("errorMessage", "Error al ingresar la valoración.");
+            }
+        }
 
-        response.sendRedirect(request.getContextPath() + "/verAnuncios");
+        // Recargar los datos del anuncio para el formulario
+        List<Anuncio> anuncios = anuncioService.findAllAnuncios();
+        anuncios.removeIf(an -> an.getUsuAnuncio().getIdUsuario().equals(usuario.getIdUsuario())); // Excluir anuncios del usuario
+        request.setAttribute("anuncios", anuncios);
+        request.setAttribute("anuncio", anuncio);
+
+        // Volver a la página de publicar valoración con el mensaje correspondiente
+        request.getRequestDispatcher("/WEB-INF/views/publicarValoracion.jsp").forward(request, response);
     }
+
+
 }

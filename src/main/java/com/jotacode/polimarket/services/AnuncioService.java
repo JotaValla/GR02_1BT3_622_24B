@@ -1,8 +1,10 @@
 package com.jotacode.polimarket.services;
 
 import com.jotacode.polimarket.models.dao.AnuncioDAO;
+import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Anuncio;
 import com.jotacode.polimarket.models.entity.Usuario;
+import com.jotacode.polimarket.models.entity.Valoracion;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,9 +30,13 @@ public class AnuncioService {
 
     private static void validarCamposAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio) {
         if (titulo == null || descripcion == null || categoria == null || precio == null) {
-            throw new IllegalArgumentException("Todo los campos deben ser llenados");
+            throw new IllegalArgumentException("Todos los campos deben ser llenados");
+        }
+        if (precio.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         }
     }
+
 
     public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
         validarAnuncioyUsuario(anuncio, usuario);
@@ -59,4 +65,27 @@ public class AnuncioService {
     public List<Anuncio> findAnunciosByUsuario(long idUsuario) {
         return anuncioDAO.findAnunciosByUsuario(idUsuario);
     }
+
+    public double calcularPromedioValoraciones(Long anuncioId) {
+        Anuncio anuncio = anuncioDAO.findByIdWithValoraciones(anuncioId); // Cargar anuncio con valoraciones
+        List<Valoracion> valoraciones = anuncio.getValoraciones();
+
+        // Si no hay valoraciones, el promedio es 0.0
+        return valoraciones.isEmpty() ? 0.0 :
+                valoraciones.stream()
+                        .mapToDouble(Valoracion::getEstrellas)
+                        .average()
+                        .orElse(0.0); // En caso improbable de error en el cálculo, retorna 0.0
+    }
+
+    public void actualizarAnuncio(Anuncio anuncio) throws NonexistentEntityException {
+        anuncioDAO.edit(anuncio);
+    }
+
+    public List<Anuncio> findAnunciosByUsuarioAndCategoria(Long usuarioId, String categoria) {
+        return anuncioDAO.findAnunciosByUsuarioAndCategoria(usuarioId, categoria);
+    }
+
+
+
 }

@@ -52,4 +52,15 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
             return null;
         }
     }
+
+    public Usuario findByIdWithAnuncios(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u LEFT JOIN FETCH u.anuncios WHERE u.idUsuario = :id", Usuario.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

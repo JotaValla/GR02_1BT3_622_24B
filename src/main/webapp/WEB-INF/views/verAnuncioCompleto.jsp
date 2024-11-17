@@ -9,6 +9,24 @@
     <body>
         <div class="container">
             <%
+                String successParam = request.getParameter("success");
+                boolean success = successParam != null && successParam.equals("true");
+                boolean duplicate = successParam != null && successParam.equals("false");
+            %>
+
+            <div class="container">
+                <% if (success) { %>
+                <div class="mensaje-exito">
+                    ¡Anuncio agregado a favoritos con éxito!
+                </div>
+                <% } else if (duplicate) { %>
+                <div class="mensaje-error">
+                    No se puede añadir el mismo anuncio a tus favoritos dos veces.
+                </div>
+                <% } %>
+            </div>
+
+            <%
                 Anuncio anuncio = (Anuncio) request.getAttribute("anuncio");
                 if (anuncio != null) {
             %>
@@ -17,15 +35,12 @@
                     String imagen = anuncio.getImagen();
                     String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
                 %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>">
-                <h2><%= anuncio.getTitulo() %>
-                </h2>
-                <p>Descripción: <%= anuncio.getDescripcion() %>
-                </p>
-                <p>Precio: $<%= anuncio.getPrecio() %>
-                </p>
-                <p>Publicado por: <%= anuncio.getUsuAnuncio().getNombre() %>
-                </p>
+                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="imagen-original">
+                <h2><%= anuncio.getTitulo() %></h2>
+                <p>Descripción: <%= anuncio.getDescripcion() %></p>
+                <p>Precio: $<%= anuncio.getPrecio() %></p>
+                <p>Categoria: <%= anuncio.getCategoria() %></p>
+                <p>Publicado por: <%= anuncio.getUsuAnuncio().getNombre() %></p>
 
                 <!-- Botones adicionales -->
                 <form action="${pageContext.request.contextPath}/verValoraciones" method="get">
@@ -37,7 +52,6 @@
                     <input type="hidden" name="anuncioId" value="<%= anuncio.getIdAnuncio() %>">
                     <button type="submit">Guardar Anuncio</button>
                 </form>
-
             </div>
             <%
             } else {
@@ -47,8 +61,18 @@
                 }
             %>
             <br>
-            <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios
-            </button>
+            <button onclick="window.location.href='${pageContext.request.contextPath}/verAnuncios'">Volver a Anuncios</button>
         </div>
+
+        <script>
+            window.onload = function () {
+                const successAlert = document.querySelector('.alert-success');
+                if (successAlert) {
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                }
+            };
+        </script>
     </body>
 </html>
