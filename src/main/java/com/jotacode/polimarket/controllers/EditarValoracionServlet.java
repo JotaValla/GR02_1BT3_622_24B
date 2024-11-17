@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @WebServlet("/editarValoracion")
 public class EditarValoracionServlet extends HttpServlet {
-
     private ValoracionService valoracionService = new ValoracionService();
 
     @Override
@@ -30,7 +29,6 @@ public class EditarValoracionServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error.jsp");
             return;
         }
-
         request.setAttribute("valoracion", valoracion);
         request.getRequestDispatcher("/WEB-INF/views/editarValoracion.jsp").forward(request, response);
     }

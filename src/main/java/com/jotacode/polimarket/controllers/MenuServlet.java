@@ -13,11 +13,9 @@ import java.io.IOException;
 
 @WebServlet("/menu")
 public class MenuServlet extends HttpServlet {
-
     private static final String LOGIN_PAGE = "/login";
     private static final String MENU_PAGE = "/WEB-INF/views/menu.jsp";
     private static final String USUARIO_SESSION_ATTRIBUTE = "usuario";
-
     private UsuarioService usuarioService = new UsuarioService();
 
     @Override

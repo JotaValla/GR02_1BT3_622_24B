@@ -17,7 +17,6 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
     private CuentaService cuentaService = new CuentaService();
     private UsuarioService usuarioService = new UsuarioService();
 

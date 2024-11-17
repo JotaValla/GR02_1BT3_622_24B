@@ -17,7 +17,6 @@ import java.util.List;
 
 @WebServlet("/verValoraciones")
 public class VerValoracionesServlet extends HttpServlet {
-
     private ValoracionService valoracionService;
     private AnuncioService anuncioService;
 

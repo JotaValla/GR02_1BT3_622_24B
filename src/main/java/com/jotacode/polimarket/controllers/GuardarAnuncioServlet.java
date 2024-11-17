@@ -15,11 +15,9 @@ import java.io.IOException;
 
 @WebServlet("/guardarAnuncio")
 public class GuardarAnuncioServlet extends HttpServlet {
-
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String VIEW_ANUNCIOS = "verAnuncios";
     private static final String VIEW_ANUNCIO_COMPLETO = "verAnuncioCompleto";
-
     private final UsuarioService usuarioService;
     private final AnuncioService anuncioService;
 
