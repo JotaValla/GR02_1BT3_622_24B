@@ -37,7 +37,6 @@ public class AnuncioService {
         }
     }
 
-
     public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
         validarAnuncioyUsuario(anuncio, usuario);
         anuncio.setUsuAnuncio(usuario);

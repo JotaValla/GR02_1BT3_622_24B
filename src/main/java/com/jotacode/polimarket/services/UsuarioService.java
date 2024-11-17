@@ -157,7 +157,6 @@ public class UsuarioService {
                 throw new RuntimeException("Error al actualizar la información del usuario.", e);
             }
         }
-
         return isUpdated;
     }
 

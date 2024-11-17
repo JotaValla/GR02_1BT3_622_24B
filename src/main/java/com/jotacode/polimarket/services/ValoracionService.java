@@ -18,7 +18,6 @@ public class ValoracionService {
 
     public Valoracion crearValoracion(Integer estrellas, String comentario) {
         validarParametrosValoracion(estrellas, comentario);
-
         Valoracion valoracion = new Valoracion();
         valoracion.setEstrellas(estrellas);
         valoracion.setComentario(comentario);
@@ -36,7 +35,6 @@ public class ValoracionService {
 
     public void vincularValoracion(Valoracion valoracion, Anuncio anuncio, Usuario usuario) {
         validarAnuncioUsuarioValoracion(anuncio, usuario, valoracion);
-
         valoracion.setAnun(anuncio);
         valoracion.setUsuValoracion(usuario);
         valoracionDAO.create(valoracion);
@@ -53,11 +51,9 @@ public class ValoracionService {
         if (valoracion == null) {
             throw new IllegalArgumentException("La valoración no existe");
         }
-
         // Actualiza los campos de la valoración
         valoracion.setEstrellas(estrellas);
         valoracion.setComentario(comentario);
-
         // Llama al DAO para guardar los cambios
         valoracionDAO.updateValoracion(valoracion);
     }
@@ -77,5 +73,4 @@ public class ValoracionService {
     public boolean existeValoracionDeUsuarioParaAnuncio(Long usuarioId, Long anuncioId) {
         return valoracionDAO.findValoracionByUsuarioAndAnuncio(usuarioId, anuncioId) != null;
     }
-
 }
