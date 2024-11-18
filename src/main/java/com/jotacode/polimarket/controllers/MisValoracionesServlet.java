@@ -15,7 +15,6 @@ import java.util.List;
 
 @WebServlet("/misValoraciones")
 public class MisValoracionesServlet extends HttpServlet {
-
     private ValoracionService valoracionService = new ValoracionService();
 
     @Override

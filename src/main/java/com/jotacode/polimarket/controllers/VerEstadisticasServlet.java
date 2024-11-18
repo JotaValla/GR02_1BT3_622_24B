@@ -12,10 +12,8 @@ import java.io.IOException;
 
 @WebServlet("/verEstadisticas")
 public class VerEstadisticasServlet extends HttpServlet {
-
     private static final String MENU_PAGE = "menu";
     private static final String ESTADISTICAS_VIEW = "/WEB-INF/views/verEstadisticas.jsp";
-
     private final AnuncioService anuncioService;
 
     public VerEstadisticasServlet() {

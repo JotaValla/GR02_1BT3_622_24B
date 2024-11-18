@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @WebServlet("/registro")
 public class RegistroServlet extends HttpServlet {
-
     private final UsuarioService usuarioService = new UsuarioService();
 
     @Override

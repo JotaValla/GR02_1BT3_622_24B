@@ -15,7 +15,6 @@ public class Valoracion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_valoracion")
     private Long idValoracion;
-
     private Integer estrellas;
     private String comentario;
 

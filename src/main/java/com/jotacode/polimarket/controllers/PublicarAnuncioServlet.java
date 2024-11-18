@@ -27,7 +27,6 @@ import java.util.UUID;
         maxRequestSize = 1024 * 1024 * 10    // 10 MB
 )
 public class PublicarAnuncioServlet extends HttpServlet {
-
     private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
     private static final String DEFAULT_IMAGE_URL = "/uploads/anuncios/defaultAnuncio.jpg"; // URL para la imagen por defecto
     private AnuncioService anuncioService = new AnuncioService();

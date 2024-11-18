@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @WebServlet("/verAnuncioCompleto")
 public class VerAnuncioCompletoServlet extends HttpServlet {
-
     private AnuncioService anuncioService;
 
     public VerAnuncioCompletoServlet() {

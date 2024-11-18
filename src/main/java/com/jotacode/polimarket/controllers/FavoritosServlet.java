@@ -34,7 +34,6 @@ public class FavoritosServlet extends HttpServlet {
 
         // Obtiene el usuario con la colección favoritos ya cargada
         Usuario usuarioConFavoritos = usuarioService.findById(usuario.getIdUsuario());
-
         List<Anuncio> favoritos = usuarioConFavoritos.getFavoritos();
         request.setAttribute("favoritos", favoritos);
         request.getRequestDispatcher("/WEB-INF/views/verFavoritos.jsp").forward(request, response);

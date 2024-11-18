@@ -15,7 +15,6 @@ import java.io.IOException;
 
 @WebServlet("/actualizarDatos")
 public class ActualizarDatosServlet extends HttpServlet {
-
     private CuentaService cuentaService = new CuentaService();
     private UsuarioService usuarioService = new UsuarioService();
 
@@ -92,7 +91,6 @@ public class ActualizarDatosServlet extends HttpServlet {
         } else {
             request.setAttribute("successMessage", "No se realizaron cambios.");
         }
-
         request.getRequestDispatcher("/WEB-INF/views/actualizarDatos.jsp").forward(request, response);
     }
 

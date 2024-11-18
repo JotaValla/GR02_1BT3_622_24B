@@ -15,10 +15,8 @@ import java.io.IOException;
 
 @WebServlet("/eliminarFavorito")
 public class EliminarFavoritoServlet extends HttpServlet {
-
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String FAVORITOS_PAGE = "favoritos";
-
     private final UsuarioService usuarioService;
     private final AnuncioService anuncioService;
 
