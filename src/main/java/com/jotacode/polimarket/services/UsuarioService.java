@@ -104,6 +104,7 @@ public class UsuarioService {
         return usuarioDAO.findAll();
     }
 
+
     public boolean agregarFavorito(Usuario usuario, Anuncio anuncio) throws NonexistentEntityException {
         if (usuario == null || anuncio == null) {
             throw new IllegalArgumentException("Usuario o anuncio no pueden ser nulos");
@@ -142,6 +143,15 @@ public class UsuarioService {
         return usuarioDAO.findByIdWithAnuncios(usuario.getIdUsuario()); // Luego lo recargas con los anuncios
     }
 
+    /**
+     * Actualiza la información de contacto de un usuario.
+     * @param usuario Usuario a actualizar
+     * @param newPhone Nuevo número de teléfono
+     * @param newEmail Nuevo correo electrónico
+     * @return true si se realizó alguna actualización
+     * @throws IllegalArgumentException si los datos no son válidos
+     * @throws RuntimeException si hay error en la persistencia
+     */
     public boolean updateUserInfo(Usuario usuario, String newPhone, String newEmail) {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no puede ser nulo.");
