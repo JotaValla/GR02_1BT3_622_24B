@@ -11,7 +11,7 @@ import java.nio.file.Files;
 
 @WebServlet("/uploads/*")
 public class ImageServlet extends HttpServlet {
-    private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
+    private static final String UPLOAD_DIRECTORY = System.getenv("UPLOAD_DIRECTORY");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

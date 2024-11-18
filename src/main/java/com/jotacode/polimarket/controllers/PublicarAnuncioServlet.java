@@ -27,8 +27,8 @@ import java.util.UUID;
         maxRequestSize = 1024 * 1024 * 10    // 10 MB
 )
 public class PublicarAnuncioServlet extends HttpServlet {
-    private static final String UPLOAD_DIRECTORY = "C:\\Users\\djimm\\OneDrive - Escuela Politécnica Nacional\\VISEMESTREV2.0\\METODOLOGIAS\\PoliMarket\\uploads\\anuncios";
-    private static final String DEFAULT_IMAGE_URL = "/uploads/anuncios/defaultAnuncio.jpg"; // URL para la imagen por defecto
+    private static final String UPLOAD_DIRECTORY = System.getenv("UPLOAD_DIRECTORY");
+    private static final String DEFAULT_IMAGE_URL = "/uploads/anuncios/defaultAnuncio.jpg";
     private AnuncioService anuncioService = new AnuncioService();
     private UsuarioService usuarioService = new UsuarioService();
 
@@ -55,18 +55,16 @@ public class PublicarAnuncioServlet extends HttpServlet {
         }
 
         try {
+            // Crear y vincular anuncio
             Anuncio anuncio = createAnuncioFromRequest(request, request.getPart("imagen"));
             usuarioService.publicarAnuncio(anuncio, usuario);
+
             response.sendRedirect(request.getContextPath() + "/verAnuncios?status=success");
         } catch (IOException e) {
-            // Maneja el error de tamaño o tipo de archivo y lo muestra en la misma página
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/publicarAnuncio.jsp").forward(request, response);
         }
     }
-
-
-
 
     private boolean validarTitulo(String titulo) {
         // Permite letras (incluyendo tildes), números, espacios, comas y puntos
@@ -90,27 +88,23 @@ public class PublicarAnuncioServlet extends HttpServlet {
                 throw new IOException("Solo se permiten archivos en formato JPG o PNG.");
             }
 
-            // Valida el tamaño del archivo
-            long fileSize = imagenPart.getSize();
-            if (fileSize > 10 * 1024 * 1024) { // 10 MB en bytes
-                throw new IOException("El archivo es demasiado grande. El tamaño máximo permitido es de 10 MB.");
-            }
-
             // Genera un nombre único para la imagen
             String imagenNombre = UUID.randomUUID().toString() + "_" + imagenPart.getSubmittedFileName();
 
-            // Crea el directorio si no existe
+            // Crea el directorio de subida si no existe
             File uploadDir = new File(UPLOAD_DIRECTORY);
             if (!uploadDir.exists()) {
-                Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
+                if (!uploadDir.mkdirs()) {
+                    throw new IOException("No se pudo crear el directorio de subida: " + UPLOAD_DIRECTORY);
+                }
             }
 
             // Guarda la imagen en el directorio especificado
             String uploadPath = UPLOAD_DIRECTORY + File.separator + imagenNombre;
             imagenPart.write(uploadPath);
 
-            // Guarda solo la ruta relativa en la base de datos
-            imagenReferencia = "/uploads/anuncios/" + imagenNombre;
+            // Guarda la ruta relativa en la base de datos
+            imagenReferencia = "/uploads/" + imagenNombre;
         } else {
             // Asigna la URL de la imagen por defecto
             imagenReferencia = DEFAULT_IMAGE_URL;
@@ -119,8 +113,4 @@ public class PublicarAnuncioServlet extends HttpServlet {
         // Crea el anuncio con la imagen cargada o la imagen por defecto
         return anuncioService.crearAnuncio(titulo, descripcion, imagenReferencia, categoria, precio);
     }
-
-
-
-
 }

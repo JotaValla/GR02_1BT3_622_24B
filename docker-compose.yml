@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/usr/local/tomcat/uploads
+    environment:
+      - UPLOAD_DIRECTORY=/usr/local/tomcat/uploads
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_polimarket
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+      MYSQL_DATABASE: polimarket
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

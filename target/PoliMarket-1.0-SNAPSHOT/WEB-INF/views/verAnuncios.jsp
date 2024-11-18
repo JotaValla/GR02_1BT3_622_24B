@@ -8,7 +8,7 @@
         <title>Ver Anuncios</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
-    <body  class = "login-page" >
+    <body class="login-page">
         <div class="container">
             <h1>Ver Anuncios</h1>
 
@@ -62,11 +62,9 @@
                     for (Anuncio anuncio : anuncios) {
             %>
             <div class="anuncio">
-                <%
-                    String imagen = anuncio.getImagen();
-                    String imagenSrc = imagen != null ? request.getContextPath() + "/uploads/" + imagen.substring(imagen.lastIndexOf("/") + 1) : request.getContextPath() + "/uploads/default.jpg";
-                %>
-                <img src="<%= imagenSrc %>" alt="<%= anuncio.getTitulo() %>" class="anuncio-img">
+                <img src="${pageContext.request.contextPath}<%= anuncio.getImagen() %>"
+                     alt="<%= anuncio.getTitulo() %>"
+                     class="anuncio-img">
                 <h2><%= anuncio.getTitulo() %>
                 </h2>
                 <p>Precio: $<%= anuncio.getPrecio() %>
