@@ -9,6 +9,11 @@ import com.jotacode.polimarket.models.entity.Valoracion;
 
 import java.util.List;
 
+/**
+ * Servicio que gestiona las operaciones relacionadas con los usuarios del sistema.
+ * Maneja el registro, actualización y gestión de usuarios, incluyendo sus anuncios,
+ * valoraciones y lista de favoritos.
+ */
 public class UsuarioService {
 
     public UsuarioDAO usuarioDAO;
@@ -63,6 +68,11 @@ public class UsuarioService {
         usuarioDAO.create(usuario);
     }
 
+    /**
+     * Valida el formato de un correo electrónico.
+     * @param email Correo a validar
+     * @return true si el formato es válido
+     */
     public boolean validarEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         return email != null && email.matches(regex);
