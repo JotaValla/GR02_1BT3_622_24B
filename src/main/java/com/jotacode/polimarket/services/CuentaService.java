@@ -44,6 +44,15 @@ public class CuentaService {
         return password.matches(passwordRegex);
     }
 
+    /**
+     * Valida el formato del nombre de usuario.
+     * El username debe:
+     * - Tener entre 3 y 15 caracteres
+     * - Contener solo letras y números
+     *
+     * @param username Nombre de usuario a validar
+     * @return true si el formato es válido
+     */
     public boolean validarFormatoUsername(String username) {
         String usernameRegex = "^[a-zA-Z0-9]{3,15}$";
         return username != null && username.matches(usernameRegex);
