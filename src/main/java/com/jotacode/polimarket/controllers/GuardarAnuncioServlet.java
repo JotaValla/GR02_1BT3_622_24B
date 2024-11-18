@@ -39,7 +39,9 @@ public class GuardarAnuncioServlet extends HttpServlet {
             // Redirigir con éxito
             response.sendRedirect(String.format("%s?anuncioId=%d&success=true", VIEW_ANUNCIO_COMPLETO, anuncioId));
         } catch (IllegalArgumentException e) {
-            response.sendRedirect(VIEW_ANUNCIOS);
+            Usuario usuario = obtenerUsuarioDeSesion(request);
+            Long anuncioId = obtenerAnuncioId(request);
+            response.sendRedirect(String.format("%s?anuncioId=%d&success=false", VIEW_ANUNCIO_COMPLETO, anuncioId));
         } catch (Exception e) {
             throw new RuntimeException("Error procesando la solicitud", e);
         }
