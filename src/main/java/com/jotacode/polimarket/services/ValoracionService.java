@@ -16,6 +16,7 @@ public class ValoracionService {
         this.valoracionDAO = new ValoracionDAO(null, Valoracion.class);
     }
 
+
     public Valoracion crearValoracion(Integer estrellas, String comentario) {
         validarParametrosValoracion(estrellas, comentario);
 
@@ -24,6 +25,13 @@ public class ValoracionService {
         valoracion.setComentario(comentario);
         return valoracion;
     }
+
+    /**
+     * Valida los parámetros de la valoración para asegurarse de que sean correctos.
+     *
+     * @param estrellas Cantidad de estrellas (debe estar entre 1 y 5).
+     * @param comentario Comentario asociado a la valoración.
+     */
 
     private void validarParametrosValoracion(Integer estrellas, String comentario) {
         if (estrellas == null || comentario == null) {
@@ -34,6 +42,13 @@ public class ValoracionService {
         }
     }
 
+    /**
+     * Vincula una valoración con un anuncio y un usuario, y la guarda en la base de datos.
+     *
+     * @param valoracion La valoración a vincular.
+     * @param anuncio El anuncio al que pertenece la valoración.
+     * @param usuario El usuario que realiza la valoración.
+     */
     public void vincularValoracion(Valoracion valoracion, Anuncio anuncio, Usuario usuario) {
         validarAnuncioUsuarioValoracion(anuncio, usuario, valoracion);
 
@@ -41,6 +56,14 @@ public class ValoracionService {
         valoracion.setUsuValoracion(usuario);
         valoracionDAO.create(valoracion);
     }
+
+    /**
+     * Valida que el anuncio, usuario y valoración no sean nulos antes de vincularlos.
+     *
+     * @param anuncio El anuncio a validar.
+     * @param usuario El usuario a validar.
+     * @param valoracion La valoración a validar.
+     */
 
     private void validarAnuncioUsuarioValoracion(Anuncio anuncio, Usuario usuario, Valoracion valoracion) {
         if (anuncio == null || usuario == null || valoracion == null) {
