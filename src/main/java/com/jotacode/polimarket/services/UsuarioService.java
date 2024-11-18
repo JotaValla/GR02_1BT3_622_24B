@@ -78,6 +78,11 @@ public class UsuarioService {
         return email != null && email.matches(regex);
     }
 
+    /**
+     * Valida el formato del nombre del usuario.
+     * @param nombre Nombre a validar
+     * @return true si el formato es válido
+     */
     public boolean validarNombre(String nombre) {
         String regex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]{3,}$";
         return nombre != null && nombre.matches(regex);
