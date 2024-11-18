@@ -27,6 +27,7 @@ CREATE TABLE ANUNCIOS (
                           categoria VARCHAR(50),
                           precio DECIMAL(10, 2),
                           usuario_id INT,
+                          vistas INT,
                           FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id_usuario)
 );
 
@@ -37,6 +38,13 @@ CREATE TABLE VALORACIONES (
                               comentario VARCHAR(255),
                               anuncio_id INT,
                               usuario_id INT,
+                              FOREIGN KEY (anuncio_id) REFERENCES ANUNCIOS(id_anuncio),
+                              FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id_usuario)
+);
+-- Creación de la tabla USUARIO FAVORITO
+CREATE TABLE USUARIO_FAVORITOS (
+                              usuario_id INT,
+                              anuncio_id INT,
                               FOREIGN KEY (anuncio_id) REFERENCES ANUNCIOS(id_anuncio),
                               FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id_usuario)
 );
