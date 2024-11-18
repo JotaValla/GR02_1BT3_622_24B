@@ -5,6 +5,11 @@ import com.jotacode.polimarket.models.dao.exceptions.NonexistentEntityException;
 import com.jotacode.polimarket.models.entity.Cuenta;
 import jakarta.persistence.NoResultException;
 
+/**
+ * Servicio que gestiona las operaciones relacionadas con las cuentas de usuario.
+ * Maneja la creación, validación y actualización de cuentas, incluyendo la gestión
+ * de nombres de usuario y contraseñas.
+ */
 public class CuentaService {
 
     public CuentaDAO cuentaDAO;
@@ -13,10 +18,27 @@ public class CuentaService {
         this.cuentaDAO = new CuentaDAO(null, Cuenta.class);
     }
 
+    /**
+     * Verifica si un nombre de usuario ya existe en el sistema.
+     * @param username Nombre de usuario a verificar
+     * @return true si el username ya existe, false en caso contrario
+     */
     public boolean existsUsername(String username) {
         return cuentaDAO.existsUsername(username.trim().toLowerCase());
     }
 
+    /**
+     * Valida que una contraseña cumpla con los requisitos de seguridad.
+     * La contraseña debe contener:
+     * - Entre 8 y 16 caracteres
+     * - Al menos una letra mayúscula
+     * - Al menos una letra minúscula
+     * - Al menos un número
+     * - Al menos un carácter especial
+     *
+     * @param password Contraseña a validar
+     * @return true si la contraseña cumple con todos los requisitos
+     */
     public static boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,16}$";
         return password.matches(passwordRegex);
