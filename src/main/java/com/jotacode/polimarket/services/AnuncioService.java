@@ -17,6 +17,16 @@ public class AnuncioService {
         this.anuncioDAO = new AnuncioDAO(null, Anuncio.class);
     }
 
+    /**
+     * Crea un nuevo anuncio con los datos proporcionados.
+     * @param titulo Título del anuncio
+     * @param descripcion Descripción detallada del anuncio
+     * @param imagen URL o ruta de la imagen del anuncio
+     * @param categoria Categoría a la que pertenece el anuncio
+     * @param precio Precio del artículo o servicio anunciado
+     * @return Objeto Anuncio creado
+     */
+
     public Anuncio crearAnuncio(String titulo, String descripcion, String imagen, String categoria, BigDecimal precio){
         Anuncio anuncio = new Anuncio();
         validarCamposAnuncio(titulo, descripcion, imagen, categoria, precio);
@@ -37,7 +47,11 @@ public class AnuncioService {
         }
     }
 
-
+    /**
+     * Vincula un anuncio con un usuario y lo persiste en la base de datos.
+     * @param anuncio Anuncio a vincular
+     * @param usuario Usuario que publica el anuncio
+     */
     public void vincularAnuncioConUsuario(Anuncio anuncio, Usuario usuario) throws IllegalArgumentException {
         validarAnuncioyUsuario(anuncio, usuario);
         anuncio.setUsuAnuncio(usuario);
@@ -66,6 +80,11 @@ public class AnuncioService {
         return anuncioDAO.findAnunciosByUsuario(idUsuario);
     }
 
+    /**
+     * Calcula el promedio de las valoraciones de un anuncio.
+     * @param anuncioId ID del anuncio
+     * @return Promedio de valoraciones o 0.0 si no hay valoraciones
+     */
     public double calcularPromedioValoraciones(Long anuncioId) {
         Anuncio anuncio = anuncioDAO.findByIdWithValoraciones(anuncioId); // Cargar anuncio con valoraciones
         List<Valoracion> valoraciones = anuncio.getValoraciones();
