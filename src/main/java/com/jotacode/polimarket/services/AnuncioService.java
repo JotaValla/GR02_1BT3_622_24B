@@ -82,10 +82,13 @@ public class AnuncioService {
         anuncioDAO.edit(anuncio);
     }
 
+    /**
+     * Busca anuncios que coincidan con un usuario y categoría específicos.
+     * @param usuarioId ID del usuario
+     * @param categoria Categoría a filtrar
+     * @return Lista de anuncios que cumplen ambos criterios
+     */
     public List<Anuncio> findAnunciosByUsuarioAndCategoria(Long usuarioId, String categoria) {
         return anuncioDAO.findAnunciosByUsuarioAndCategoria(usuarioId, categoria);
     }
-
-
-
 }
